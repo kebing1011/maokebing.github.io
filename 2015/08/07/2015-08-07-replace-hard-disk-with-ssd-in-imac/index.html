@@ -1,0 +1,525 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="公司的iMac 21.5寸是2012年末的那一款，型号应该MD094，高配版，刚到手的时候，还是比较好用的，也是万元机啊。自带系统是10.7 Lion系统的。一直用着，都还好，后来升级到10.8也没问题，有一段时间，发项很卡，正在保修期内，拿去西单的apple店里，给换了块硬盘。今年初的时候，因为开发环境升级要升到10.10了,明显有点吃力了。一开始也就将就着用，后来因为我用一段时间我的MacBo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="更换SSD开启iMac第二春">
+<meta property="og:url" content="http://devm.cn/2015/08/07/2015-08-07-replace-hard-disk-with-ssd-in-imac/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="公司的iMac 21.5寸是2012年末的那一款，型号应该MD094，高配版，刚到手的时候，还是比较好用的，也是万元机啊。自带系统是10.7 Lion系统的。一直用着，都还好，后来升级到10.8也没问题，有一段时间，发项很卡，正在保修期内，拿去西单的apple店里，给换了块硬盘。今年初的时候，因为开发环境升级要升到10.10了,明显有点吃力了。一开始也就将就着用，后来因为我用一段时间我的MacBo">
+<meta property="og:updated_time" content="2015-08-07T14:00:32.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="更换SSD开启iMac第二春">
+<meta name="twitter:description" content="公司的iMac 21.5寸是2012年末的那一款，型号应该MD094，高配版，刚到手的时候，还是比较好用的，也是万元机啊。自带系统是10.7 Lion系统的。一直用着，都还好，后来升级到10.8也没问题，有一段时间，发项很卡，正在保修期内，拿去西单的apple店里，给换了块硬盘。今年初的时候，因为开发环境升级要升到10.10了,明显有点吃力了。一开始也就将就着用，后来因为我用一段时间我的MacBo">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> 更换SSD开启iMac第二春 | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                更换SSD开启iMac第二春
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-07T21:05:04+08:00" content="2015-08-07">
+              2015-08-07
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/07/2015-08-07-replace-hard-disk-with-ssd-in-imac/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/07/2015-08-07-replace-hard-disk-with-ssd-in-imac/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>公司的iMac 21.5寸是2012年末的那一款，型号应该MD094，高配版，刚到手的时候，还是比较好用的，也是万元机啊。自带系统是10.7 Lion系统的。一直用着，都还好，后来升级到10.8也没问题，有一段时间，发项很卡，正在保修期内，拿去西单的apple店里，给换了块硬盘。今年初的时候，因为开发环境升级要升到10.10了,明显有点吃力了。一开始也就将就着用，后来因为我用一段时间我的MacBookPro之后，再用它，那是相当的不适应啊，完全慢一拍，主要瓶颈就在硬盘I/O上。</p>
+<a id="more"></a>
+<p>###准备工作</p>
+<ul>
+<li>购买SSD，根据我平常使用，一般还会装一个Win虚拟机，加上平常的开发工具，刚好超过128.所以购买240或256G的移动硬盘。对于我们这样的穷人来说，价格600左右，还能接受，刚刚够用。惹您是土豪，那您随意。这款iMac是用SATA接口6G/s，SATAIII的，也就是目前的SSD基本都支持的。因为本人有选择恐惧证加上扣门，最后选择了一款威刚Sp920 256这款。</li>
+<li>螺丝刀，就是那种30多合一，相信你有了它哪里不行拆哪里。</li>
+<li>一个塑料薄片，不能用银行卡太厚，我是用的感冒胶囊的那个，正好，剪成椭圆形，好用。</li>
+<li>一定要5mm双面胶，刚刚好。要用好几层，所有提前买好。</li>
+<li>做一个系统U盘，我有洁癖，新硬盘，当然要装新系统，懒人就算了，备份回来也行。</li>
+</ul>
+<p>###开始动手</p>
+<ul>
+<li><p>关机，拔线这是必须的，咱们不要带电操作，摸一下水管啥的，放放身上静电，这是拆电子产品必须要干的。先用塑料薄片，沿着玻璃缝，慢慢沿着切<br>开，顶部那个摄像头的地方，慢一点，别切。不用风枪，没有那么复杂。相信我，很简单。</p>
+</li>
+<li><p>然后放倒iMac，屏幕向上，从顶部慢慢掀开，角度也就是15度，这时能看到两个排线，一个是用手轻轻的拔下，另一个是有压丝的，它有个小尾巴，轻轻往上拉小尾巴，这个排线就开了。好了，此时就可以拿走屏幕了。</p>
+</li>
+<li><p>准备螺丝刀，开始拆硬盘两边的螺丝，这几个不一样长，建议放的时候，按照方位放在桌上，这样不容易装错。然后，把硬盘一边的电源接口和SATA接口拨开，好了取下来了。</p>
+</li>
+<li><p>SSD装入那个包硬盘的橡胶套，插上电源和SATA线。装好。</p>
+</li>
+<li>再装上屏幕。此时先装屏幕固定一下，要测试一下是否装好SSD,然后再粘屏幕。</li>
+<li>装上系统，速度如飞啊，什么风扇狂转后遗症都没有，一切都是那么简单，别想那么多，完全没必要。</li>
+<li>确定SSD装好了，再把屏幕拆下，清理边上双面胶。然后粘三层，苹果用的是两面有胶中间是棉的有一定的厚度，所以咱们只能来三层了。</li>
+<li>粘好之后，好了，你的iMac第二春来了，飞呀飞呀，好多app都秒开，一个字爽啊。</li>
+</ul>
+<p>这里也有一篇<a href="http://www.macx.cn/thread-2082573-1-1.html" target="_blank" rel="external">文章</a>，可以参考一下.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/01/2015-08-01-talk-about-use-cache-for-ios/" rel="next" title="谈谈NSCache这个类">
+                <i class="fa fa-chevron-left"></i> 谈谈NSCache这个类
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/19/2015-08-19-runloop-01/" rel="prev" title="谈谈iOS中的RunLoop使用">
+                谈谈iOS中的RunLoop使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/08/07/2015-08-07-replace-hard-disk-with-ssd-in-imac/"
+           data-title="更换SSD开启iMac第二春" data-url="http://devm.cn/2015/08/07/2015-08-07-replace-hard-disk-with-ssd-in-imac/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,546 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="NSNotifaction定义NSNotifaction作为消息传递方式之一，可以很方便实现多对多的情况，Notifaction是使用了观查者模式，observer作为Notifacation的接收者，发送者发了Notifacation之后，接收者做出相应的处理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发消息传递之NSNotifaction篇">
+<meta property="og:url" content="http://devm.cn/2015/09/19/2015-09-19-notifaction/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="NSNotifaction定义NSNotifaction作为消息传递方式之一，可以很方便实现多对多的情况，Notifaction是使用了观查者模式，observer作为Notifacation的接收者，发送者发了Notifacation之后，接收者做出相应的处理。">
+<meta property="og:updated_time" content="2016-10-08T14:51:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发消息传递之NSNotifaction篇">
+<meta name="twitter:description" content="NSNotifaction定义NSNotifaction作为消息传递方式之一，可以很方便实现多对多的情况，Notifaction是使用了观查者模式，observer作为Notifacation的接收者，发送者发了Notifacation之后，接收者做出相应的处理。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> iOS开发消息传递之NSNotifaction篇 | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS开发消息传递之NSNotifaction篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-19T12:07:19+08:00" content="2015-09-19">
+              2015-09-19
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/09/19/2015-09-19-notifaction/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/19/2015-09-19-notifaction/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="NSNotifaction定义"><a href="#NSNotifaction定义" class="headerlink" title="NSNotifaction定义"></a>NSNotifaction定义</h3><p>NSNotifaction作为消息传递方式之一，可以很方便实现多对多的情况，Notifaction是使用了观查者模式，observer作为Notifacation的接收者，发送者发了Notifacation之后，接收者做出相应的处理。</p>
+<a id="more"></a>
+<p>查看NSNotifaction的定义，它有三个属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@property (readonly, copy) NSString *name;</div><div class="line">@property (readonly, retain) id object;</div><div class="line">@property (readonly, copy) NSDictionary *userInfo;</div></pre></td></tr></table></figure>
+<p>name就是通知的名子，object它可以指定一个对象，我们可以用这个做为消息传递的对象，userInfo就是信息，也可以用来传递对象，key-value的形式添加要传递的对象，比如健盘出现的通知里，通过这个userInfo按相应的key得到健盘大小，动画属性等内容。</p>
+<p>###添加和移除NSNotifaction<br>使用NSNotifaction进行通信时，一般要用NSNoticationCenter，称为通知中心来负责分发消息，添加观察者接收通知。查看NSNoticationCenter的添加观者的定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">+ (NSNotificationCenter *)defaultCenter;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)addObserver:(id)observer selector:(SEL)aSelector name:(NSString *)aName object:(id)anObject;</div></pre></td></tr></table></figure>
+<p>一般使用NSNotificationCenter时，直接使用defaultCenter来调用这个默认通知中心。</p>
+<ul>
+<li>observer 必须指定，nil则无效。</li>
+<li>接收所有通知，过滤条件为name和object，就是不指定name和object会接收所有的通知，指定name的话，会只接收name的通知，指定object的会接收object的通，二者是都指定的话，只接收name和object的通知。</li>
+<li>是addObserver，理解就是同一个observer可以被add所次，同理通知也会分发多次,调用时要注意了。</li>
+</ul>
+<p>移除观者者：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)removeObserver:(id)observer;</div><div class="line">- (<span class="keyword">void</span>)removeObserver:(id)observer name:(NSString *)aName object:(id)anObject;</div></pre></td></tr></table></figure>
+<ul>
+<li>只调用removeObserver会移除所有这个observer的通知注册。</li>
+<li>指定name或object的会移除相应的通知注册。</li>
+</ul>
+<p>使用规则，在合适的地方添加注册，在不用的情况下要移除注册。</p>
+<p>eg.在ViewController</p>
+<ul>
+<li>ViewController里面 在init里面添加， 在dealloc里面删除注册。eg.数据接口方面</li>
+<li>在viewWillApear里面添加， 在viewDidDisapear里面删除注册。eg.系统健盘相关通知<br>当然也可以随用随加，不用移除。在7.0之前，忘记移除的话，会引发<strong>BAD_ACCESS</strong>的错误，当addObser的时候，SDK应该使用的assign也就是unsage_unretained的类型的。当observer释放后，添加到通知中心的observer指针没有变成nil，导致<code>BAD_ACCESS</code>，arc发展了也很久了，为什么不做成weak的呢，安全又稳定。</li>
+</ul>
+<p>好消来了，我用Xcode6.4在8.4的开发SDK的环境下，在没有移除Observer的情况下，当前对象释放了后，再测试发通知已经不出<code>BAD_ACCESS</code>的错误了，完全正常。苹果已经做出优化了。<br>这并不代表我们可以不写移除的理由，哈哈。</p>
+<h3 id="推送通知"><a href="#推送通知" class="headerlink" title="推送通知"></a>推送通知</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)postNotification:(NSNotification *)notification;</div><div class="line">- (<span class="keyword">void</span>)postNotificationName:(NSString *)aName object:(id)anObject;</div><div class="line">- (<span class="keyword">void</span>)postNotificationName:(NSString *)aName object:(id)anObject userInfo:(NSDictionary *)aUserInfo;</div></pre></td></tr></table></figure>
+<p>第个方法，是发送创建好的一个notification， 第二，第三个会在内部创建一个notification，然后跟第一个方法一样。通知的object跟添加Observer里面的object是对应的。</p>
+<p>一个简单的注册通知，发送通知，删除注册如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//注册</span></div><div class="line">[[NSNotificationCenter defaultCenter] addObserver:self selector:<span class="meta">@selector</span>(receivedNotification:) name:@<span class="string">"TestNotifaction11"</span> object:nil];</div><div class="line"></div><div class="line"><span class="comment">//推送</span></div><div class="line">[[NSNotificationCenter defaultCenter] postNotificationName:@<span class="string">"TestNotifaction"</span> object:nil];</div><div class="line"></div><div class="line"><span class="comment">//处理通知</span></div><div class="line">- (<span class="keyword">void</span>)receivedNotification:(NSNotification *)notifaction &#123;</div><div class="line">	NSString* name = notifaction.name;</div><div class="line">	id object = notifaction.object;</div><div class="line">	NSDictionary* userInfo = notifaction.userInfo;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//移除</span></div><div class="line">[[NSNotificationCenter defaultCenter] removeObserver:self];</div></pre></td></tr></table></figure>
+<p>###多线程中的NSNotification</p>
+<p>通知中心推送通知和接收通是在同一线程的。上码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)postNotificationInThread &#123;</div><div class="line">	dispatch_async(dispatch_get_global_queue(<span class="number">0</span>, <span class="number">0</span>), ^&#123;</div><div class="line">		[self postNotification];</div><div class="line">	&#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)postNotification&#123;</div><div class="line">	NSLog(@<span class="string">"MainThread:%p"</span>, [NSThread mainThread]);</div><div class="line">	NSLog(@<span class="string">"Post InThread:%p"</span>, [NSThread currentThread]);</div><div class="line">	[[NSNotificationCenter defaultCenter] postNotificationName:@<span class="string">"TestNotifaction"</span> object:nil];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)receivedNotification:(MFNotification *)notifaction &#123;</div><div class="line">	NSLog(@<span class="string">"Rev  Notification:%@, inThread:%p"</span>, notifaction, [NSThread currentThread]);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>先调用<code>postNotification</code>输出结果如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">2015</span>-<span class="number">09</span>-<span class="number">19</span> <span class="number">22</span>:<span class="number">01</span>:<span class="number">44.722</span> NotifactionDemo[<span class="number">13282</span>:<span class="number">1242698</span>] MainThread:<span class="number">0x7ffa63427cc0</span></div><div class="line"><span class="number">2015</span>-<span class="number">09</span>-<span class="number">19</span> <span class="number">22</span>:<span class="number">01</span>:<span class="number">44.722</span> NotifactionDemo[<span class="number">13282</span>:<span class="number">1242698</span>] Post InThread:<span class="number">0x7ffa63427cc0</span></div><div class="line"><span class="number">2015</span>-<span class="number">09</span>-<span class="number">19</span> <span class="number">22</span>:<span class="number">01</span>:<span class="number">44.722</span> NotifactionDemo[<span class="number">13282</span>:<span class="number">1242698</span>] Rev  Notification:NSConcreteNotification <span class="number">0x7ffa637089a0</span> &#123;name = TestNotifaction&#125;, inThread:<span class="number">0x7ffa63427cc0</span></div></pre></td></tr></table></figure>
+<p>再调用<code>postNotificationInThread</code>输出结果如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="number">2015</span>-<span class="number">09</span>-<span class="number">19</span> <span class="number">22</span>:<span class="number">02</span>:<span class="number">26.232</span> NotifactionDemo[<span class="number">13312</span>:<span class="number">1244836</span>] MainThread:<span class="number">0x7fcd7bd27f80</span></div><div class="line"><span class="number">2015</span>-<span class="number">09</span>-<span class="number">19</span> <span class="number">22</span>:<span class="number">02</span>:<span class="number">26.233</span> NotifactionDemo[<span class="number">13312</span>:<span class="number">1244836</span>] Post InThread:<span class="number">0x7fcd7be1f330</span></div><div class="line"><span class="number">2015</span>-<span class="number">09</span>-<span class="number">19</span> <span class="number">22</span>:<span class="number">02</span>:<span class="number">26.234</span> NotifactionDemo[<span class="number">13312</span>:<span class="number">1244836</span>] Rev  Notification:NSConcreteNotification <span class="number">0x7fcd7be03e90</span> &#123;name = TestNotifaction&#125;, inThread:<span class="number">0x7fcd7be1f330</span></div></pre></td></tr></table></figure>
+<ul>
+<li>如果我们在UI主线程注册通知处理逻辑层，在不能确定发送者是从主线程还是子线程的发的，可以接收的方法里面，直接切到主线程上处理代码。</li>
+<li>在推送通知的地方，跳到主线程上推送。</li>
+</ul>
+<h3 id="Block注册通知"><a href="#Block注册通知" class="headerlink" title="Block注册通知"></a>Block注册通知</h3><p>NSNotifactionCenter有一方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (id &lt;NSObject&gt;)addObserverForName:(NSString *)name object:(id)obj queue:(NSOperationQueue *)queue usingBlock:(<span class="keyword">void</span> (^)(NSNotification *note))block</div></pre></td></tr></table></figure>
+<p>这个方法可以注册通知指定queue和blcok来处理分发，很好很强大啊，不用担心在哪个线程推送了，反正在这个queue上处理分发，直接用block方式，方便多了。<br>说一些，observer是返回的值，不能指定，这点不好。使用方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//	NSOperationQueue* queue = [[NSOperationQueue alloc] init];</span></div><div class="line">	NSOperationQueue* queue = [NSOperationQueue mainQueue];</div><div class="line">	id observer =  [[NSNotificationCenter defaultCenter] addObserverForName:@<span class="string">"TestNotifaction"</span> object:nil queue:queue usingBlock:^(NSNotification *note) &#123;</div><div class="line">		NSLog(@<span class="string">"Rev  Notification:%@, inThread:%p"</span>, note, [NSThread currentThread]);</div><div class="line">		</div><div class="line">		NSLog(@<span class="string">"observer:%p"</span>, self.observer);</div><div class="line">	&#125;];</div><div class="line">	</div><div class="line">	[[NSNotificationCenter defaultCenter] removeObserver:observer];</div></pre></td></tr></table></figure>
+<p>前面说过，observer已经weak了，如果不需要主动移除注册的话，可以不用去管它喽。真的很方便。</p>
+<p>###实例化NSNotificationCenter<br>如果要注册系统提供的一些通知，一定要用defaultCenter这个，获取默认通知中心，电量，内存警告，app状态等等都是通过它来分发的。一个app启动为使用这一个。<br>如果只注册自定义的通知的话，当然我们也可以实例化一个NSNotificationCenter对象，用法跟上面一样，不再多说。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/05/2015-09-05-osx-usb-disk-make/" rel="next" title="制作OSX Yosemite 10.10安装U盘">
+                <i class="fa fa-chevron-left"></i> 制作OSX Yosemite 10.10安装U盘
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/24/2015-09-24-custom-notifaction/" rel="prev" title="如何自己实现一个NotifactionCenter">
+                如何自己实现一个NotifactionCenter <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/09/19/2015-09-19-notifaction/"
+           data-title="iOS开发消息传递之NSNotifaction篇" data-url="http://devm.cn/2015/09/19/2015-09-19-notifaction/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

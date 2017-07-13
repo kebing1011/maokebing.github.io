@@ -1,0 +1,552 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="一般我们在开发过程中，会用过定时器timer的功能。一般会用以下两程方式:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="防止NSTimer和调用对象之间的循环引用">
+<meta property="og:url" content="http://devm.cn/2015/07/20/2015-07-20-timer-retain-cycle/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="一般我们在开发过程中，会用过定时器timer的功能。一般会用以下两程方式:">
+<meta property="og:updated_time" content="2016-10-08T14:28:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="防止NSTimer和调用对象之间的循环引用">
+<meta name="twitter:description" content="一般我们在开发过程中，会用过定时器timer的功能。一般会用以下两程方式:">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> 防止NSTimer和调用对象之间的循环引用 | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                防止NSTimer和调用对象之间的循环引用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-20T09:47:09+08:00" content="2015-07-20">
+              2015-07-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/20/2015-07-20-timer-retain-cycle/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/20/2015-07-20-timer-retain-cycle/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一般我们在开发过程中，会用过定时器timer的功能。一般会用以下两程方式:</p>
+<a id="more"></a>
+<ul>
+<li><p>NSObject API</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (void)performSelector:(SEL)aSelector withObject:(id)anArgument afterDelay:(NSTimeInterval)delay inModes:(NSArray *)modes;</div><div class="line">- (void)performSelector:(SEL)aSelector withObject:(id)anArgument afterDelay:(NSTimeInterval)delay;</div><div class="line">+ (void)cancelPreviousPerformRequestsWithTarget:(id)aTarget selector:(SEL)aSelector object:(id)anArgument;</div><div class="line">+ (void)cancelPreviousPerformRequestsWithTarget:(id)aTarget;</div></pre></td></tr></table></figure>
+</li>
+<li><p>NSTimer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+ (NSTimer *)timerWithTimeInterval:(NSTimeInterval)ti invocation:(NSInvocation *)invocation repeats:(BOOL)yesOrNo;</div><div class="line">+ (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti invocation:(NSInvocation *)invocation repeats:(BOOL)yesOrNo;</div><div class="line"></div><div class="line">+ (NSTimer *)timerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo;</div><div class="line">+ (NSTimer *)scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(id)userInfo repeats:(BOOL)yesOrNo;</div></pre></td></tr></table></figure>
+<p>如果只用一次，常规是用api去完成，方便快捷。如果是想repeat操作，必然会选timer了.下面是一个测试类TTObject.来使用NSTimer.</p>
+<p>####TTOjbect.h</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#import &lt;Foundation/Foundation.h&gt;</div><div class="line"></div><div class="line">@interface TTObject : NSObject</div><div class="line"></div><div class="line">- (void)startTimer;</div><div class="line">- (void)stopTimer;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p> ####TTObject.m</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">  #import &quot;TTObject.h&quot;</div><div class="line"></div><div class="line">@interface TTObject()</div><div class="line"></div><div class="line">//@property (nonatomic, strong) NSTimer* timer;</div><div class="line">@property (nonatomic, weak) NSTimer* timer;</div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation TTObject</div><div class="line"></div><div class="line"></div><div class="line">-(void)dealloc &#123;</div><div class="line">	[self.timer invalidate];</div><div class="line">	self.timer = nil;</div><div class="line">	</div><div class="line">	NSLog(@&quot;%s&quot;, __func__);</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)startTimer &#123;</div><div class="line">	if (self.timer.isValid) &#123;</div><div class="line">		return;</div><div class="line">	&#125;</div><div class="line">	else &#123;</div><div class="line">		self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTimeFire) userInfo:nil repeats:YES];</div><div class="line">//				__weak TTObject* wkself = self;</div><div class="line">//		self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:wkself selector:@selector(onTimeFire) userInfo:nil repeats:YES];</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)stopTimer &#123;</div><div class="line">	if (self.timer) &#123;</div><div class="line">		[self.timer invalidate];</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)onTimeFire &#123;</div><div class="line">	NSLog(@&quot;%s&quot;, __func__);</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"> @end</div></pre></td></tr></table></figure>
+<p> ####测试代码</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">	TTObject* obj = [[TTObject alloc] init];</div><div class="line">[obj startTimer];</div><div class="line">obj = nil;</div></pre></td></tr></table></figure>
+<p> #####输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">2015-07-20 08:52:40.649 NSTimerDemo[53665:4564166] -[TTObject onTimeFire]</div><div class="line">2015-07-20 08:52:41.649 NSTimerDemo[53665:4564166] -[TTObject onTimeFire]</div><div class="line">2015-07-20 08:52:42.649 NSTimerDemo[53665:4564166] -[TTObject onTimeFire]</div><div class="line">2015-07-20 08:52:43.649 NSTimerDemo[53665:4564166] -[TTObject onTimeFire]</div><div class="line">2015-07-20 08:52:44.649 NSTimerDemo[53665:4564166] -[TTObject onTimeFire]</div><div class="line">2015-07-20 08:52:45.649 NSTimerDemo[53665:4564166] -[TTObject onTimeFire]</div><div class="line">2015-07-20 08:52:46.650 NSTimerDemo[53665:4564166] -[TTObject onTimeFire]</div><div class="line">...</div></pre></td></tr></table></figure>
+<p>我们的初衷是这样的，timer随着TTObject的对象而释放而释放，所以我们在TTObject的dealloc方法里，取消Timer。可结果却是这样，纳尼，timer根本就停不下来，根本就不会走dealloc，也就是Timer不受TTObject的控制。原来TTObject对象对timer引用了。TTObject对像引用Timer，Timer引用对象。引用循环了。</p>
+<p>现在我们改一下，<code>@property (nonatomic, strong) NSTimer* timer;</code>改成<code>@property (nonatomic, weak) NSTimer* timer;</code>的不就行了。这样TTObject不会引用timer是吧。运行一次，<br>我去，还是不走dealloc。</p>
+<p>现在我们再改一下，在调用timer地方我们weak self 一下.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">__weak TTObject* wkself = self;</div><div class="line">self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:wkself selector:@selector(onTimeFire) userInfo:nil repeats:YES];</div></pre></td></tr></table></figure>
+<p>运行一次，我去，还是不走dealloc。我们主动调用一下timer<code>[self.timer invalidate];</code>.<br>这次就timer被干掉了，放开了self. 终于走了dealloc。</p>
+<p>分析一下思路，如果我们知道timer什么时候不用了，我们主动调用invalidate方法，可以避免引用循环的。<br>比如一个计次的timer，当到了指定的次数，自动调用其失效，或者手动失效。如果按照对象自已的生命周期，来取消，好象行不通。</p>
+<p>####解决方案：</p>
+<p>让timer invalidate的，timer不是repeat的，执行完了，就失效了，重复的就得手动取消。</p>
+<p>如果我们拿这个TTOBject给一个类A使用呢，Time是引用的TTOBject，A在使用TTObject的时候，使用Weak block方式回调给A, 那么A也不会被TTOBject引用，那么在A肯定会走dealloc方法的，这时候我们调用TTObject的对象，停止timer。这时TTObject也可以被释放了，有木有？有木有？</p>
+<p>当我想到这个方案时，一搜github已经有这样的例子了，英雄所见略同啊，称其Timer的代理类。</p>
+<ul>
+<li><a href="https://github.com/mindsnacks/MSWeakTimer.git" target="_blank" rel="external">MSWeakTimer</a></li>
+<li><a href="https://github.com/ChatGame/HWWeakTimer" target="_blank" rel="external">HWWeakTimer</a></li>
+</ul>
+<p>感兴趣的可以，可以尝试自已写一个，我这个例子<a href="https://github.com/maokebing/NSTimerDemo" target="_blank" rel="external">github</a>.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/17/2015-07-17-filter-emoji-in-nsstring/" rel="next" title="过滤NSString中的emoji">
+                <i class="fa fa-chevron-left"></i> 过滤NSString中的emoji
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/22/2015-07-22-aes-for-java-ios/" rel="prev" title="AES加解密方案用于Java和Objective-C">
+                AES加解密方案用于Java和Objective-C <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/20/2015-07-20-timer-retain-cycle/"
+           data-title="防止NSTimer和调用对象之间的循环引用" data-url="http://devm.cn/2015/07/20/2015-07-20-timer-retain-cycle/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,548 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="libjpeg的安装和使用安装libjpeg
+最新版是 9b
+在Mac上 可以brew 方式安装  brew install libjpeg
+源码安装: 官网 或 opensource ，安装方式见其内置说明文档。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="libjpeg的安装和使用">
+<meta property="og:url" content="http://devm.cn/2016/10/10/libjpeg-install-use/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="libjpeg的安装和使用安装libjpeg
+最新版是 9b
+在Mac上 可以brew 方式安装  brew install libjpeg
+源码安装: 官网 或 opensource ，安装方式见其内置说明文档。">
+<meta property="og:updated_time" content="2016-10-10T08:14:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="libjpeg的安装和使用">
+<meta name="twitter:description" content="libjpeg的安装和使用安装libjpeg
+最新版是 9b
+在Mac上 可以brew 方式安装  brew install libjpeg
+源码安装: 官网 或 opensource ，安装方式见其内置说明文档。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> libjpeg的安装和使用 | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                libjpeg的安装和使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-10T13:29:24+08:00" content="2016-10-10">
+              2016-10-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/10/10/libjpeg-install-use/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/10/10/libjpeg-install-use/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="libjpeg的安装和使用"><a href="#libjpeg的安装和使用" class="headerlink" title="libjpeg的安装和使用"></a>libjpeg的安装和使用</h2><h3 id="安装libjpeg"><a href="#安装libjpeg" class="headerlink" title="安装libjpeg"></a>安装libjpeg</h3><ul>
+<li>最新版是 9b</li>
+<li>在Mac上 可以brew 方式安装 <strong> brew install libjpeg</strong></li>
+<li>源码安装: <a href="http://www.ijg.org" target="_blank" rel="external">官网</a> 或 <a href="http://libjpeg.sourceforge.net" target="_blank" rel="external">opensource</a> ，安装方式见其内置说明文档。</li>
+</ul>
+<a id="more"></a>
+<p>安装完成</p>
+<p>lib 下面有：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">libjpeg.<span class="number">9</span><span class="selector-class">.dylib</span></div><div class="line">libjpeg<span class="selector-class">.a</span></div><div class="line">libjpeg<span class="selector-class">.dylib</span>          </div><div class="line">libjpeg.la</div></pre></td></tr></table></figure>
+<p>include 下面有:</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">jconfig<span class="selector-class">.h</span></div><div class="line">jerror<span class="selector-class">.h</span></div><div class="line">jmorecfg<span class="selector-class">.h</span></div><div class="line">jpeglib.h</div></pre></td></tr></table></figure>
+<h3 id="使用libjpeg"><a href="#使用libjpeg" class="headerlink" title="使用libjpeg"></a>使用libjpeg</h3><h4 id="读取-jpeg-文件"><a href="#读取-jpeg-文件" class="headerlink" title="读取 jpeg 文件"></a>读取 jpeg 文件</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;jpeglib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;setjmp.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *  jpg error</div><div class="line"> */</div><div class="line"><span class="keyword">struct</span> my_error_mgr &#123;</div><div class="line">	<span class="keyword">struct</span> jpeg_error_mgr pub;	<span class="comment">/* "public" fields */</span></div><div class="line">	</div><div class="line">	jmp_buf setjmp_buffer;	<span class="comment">/* for return to caller */</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span> my_error_mgr * my_error_ptr;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line"> * Here's the routine that will replace the standard error_exit method:</div><div class="line"> */</div><div class="line"></div><div class="line">METHODDEF(<span class="keyword">void</span>)</div><div class="line">my_error_exit (j_common_ptr cinfo)</div><div class="line">&#123;</div><div class="line">	<span class="comment">/* cinfo-&gt;err really points to a my_error_mgr struct, so coerce pointer */</span></div><div class="line">	my_error_ptr myerr = (my_error_ptr) cinfo-&gt;err;</div><div class="line">	</div><div class="line">	<span class="comment">/* Always display the message. */</span></div><div class="line">	<span class="comment">/* We could postpone this until after returning, if we chose. */</span></div><div class="line">	(*cinfo-&gt;err-&gt;output_message) (cinfo);</div><div class="line">	</div><div class="line">	<span class="comment">/* Return control to the setjmp point */</span></div><div class="line"> longjmp(myerr-&gt;setjmp_buffer, <span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *  read jpg file to rgb data</div><div class="line"> *</div><div class="line"> *  @param jpg_file_name input jpg file name</div><div class="line"> *  @param width         output width of rgb</div><div class="line"> *  @param height        output height of rgb</div><div class="line"> *</div><div class="line"> *  @return rgb data or NULL if error.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span>* <span class="title">aspire_mao_jpg_read_file</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* jpg_file_name, <span class="keyword">int</span>* width, <span class="keyword">int</span>* height)</span></span></div><div class="line">&#123;</div><div class="line">	FILE* pFile = fopen(jpg_file_name, <span class="string">"rb"</span>);</div><div class="line">	<span class="keyword">if</span> (pFile == <span class="literal">NULL</span>)</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	</div><div class="line">	<span class="keyword">struct</span> jpeg_decompress_struct cinfo; <span class="comment">//for our jpeg info</span></div><div class="line">	</div><div class="line">	<span class="comment">// 	struct jpeg_error_mgr err; //the error handler</span></div><div class="line">	<span class="comment">// 	info.err = jpeg_std_error(&amp;err);</span></div><div class="line">	<span class="keyword">struct</span> my_error_mgr my_err;</div><div class="line">	</div><div class="line">	cinfo.err = jpeg_std_error(&amp;my_err.pub);</div><div class="line">	my_err.pub.error_exit = my_error_exit;</div><div class="line">	</div><div class="line">	<span class="comment">/* Establish the setjmp return context for my_error_exit to use. */</span></div><div class="line">	<span class="keyword">if</span> (setjmp(my_err.setjmp_buffer)) &#123;</div><div class="line">		<span class="comment">/* If we get here, the JPEG code has signaled an error.</span></div><div class="line">		 * We need to clean up the JPEG object, close the input file, and return.</div><div class="line">		 */</div><div class="line">		jpeg_destroy_decompress(&amp;cinfo);</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	jpeg_create_decompress( &amp;cinfo ); <span class="comment">//fills info structure</span></div><div class="line">	jpeg_stdio_src(&amp;cinfo, pFile);</div><div class="line">	<span class="keyword">int</span> ret_Read_Head = jpeg_read_header( &amp;cinfo, <span class="number">1</span> ); <span class="comment">//int</span></div><div class="line">	</div><div class="line">	<span class="keyword">if</span>(ret_Read_Head != JPEG_HEADER_OK)&#123;</div><div class="line">		jpeg_destroy_decompress(&amp;cinfo);</div><div class="line">		fclose(pFile);</div><div class="line">		</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	boolean bStart = jpeg_start_decompress( &amp;cinfo );</div><div class="line">	<span class="keyword">if</span>(!bStart)&#123;</div><div class="line">		jpeg_destroy_decompress(&amp;cinfo);</div><div class="line">		fclose(pFile);</div><div class="line">		</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">int</span> w = cinfo.output_width;</div><div class="line">	<span class="keyword">int</span> h = cinfo.output_height;</div><div class="line">	<span class="keyword">int</span> row_stride = cinfo.num_components * w;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">long</span> dataSize = row_stride * h;</div><div class="line">	</div><div class="line">	<span class="comment">// read RGB(A) scanlines one at a time into jdata[]</span></div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> *data = (<span class="keyword">unsigned</span> <span class="keyword">char</span> *)<span class="built_in">malloc</span>(dataSize);</div><div class="line">	<span class="keyword">if</span>(data == <span class="literal">NULL</span>) &#123;</div><div class="line">		fclose(pFile);</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span>* rowptr;</div><div class="line">	<span class="keyword">while</span> ( cinfo.output_scanline &lt; h )</div><div class="line">	&#123;</div><div class="line">		rowptr = data + cinfo.output_scanline * row_stride;</div><div class="line">		jpeg_read_scanlines( &amp;cinfo, &amp;rowptr, <span class="number">1</span> );</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//finish</span></div><div class="line">	jpeg_finish_decompress( &amp;cinfo );</div><div class="line">	jpeg_destroy_decompress(&amp;cinfo);</div><div class="line">	</div><div class="line">	<span class="comment">//get width &amp; hegith</span></div><div class="line">	<span class="keyword">if</span> (width)</div><div class="line">		*width = w;</div><div class="line">	<span class="keyword">if</span> (height)</div><div class="line">		*height = h;</div><div class="line">	</div><div class="line">	fclose(pFile);</div><div class="line">	</div><div class="line">	<span class="keyword">return</span> data;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="写入-jpeg-文件"><a href="#写入-jpeg-文件" class="headerlink" title="写入 jpeg 文件"></a>写入 jpeg 文件</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *  write rgb data to jpg file</div><div class="line"> *</div><div class="line"> *  @param jpg_file_name output jpg file name</div><div class="line"> *  @param rgb_data      input rgb buffer</div><div class="line"> *  @param quality       image quality 1~100 advice 75</div><div class="line"> *  @param width         input rgb width</div><div class="line"> *  @param height        input rgb height</div><div class="line"> *</div><div class="line"> *  @return 0 sucess or -1 if faild</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">aspire_mao_jpg_write_file</span> <span class="params">(<span class="keyword">const</span> <span class="keyword">char</span>* jpg_file_name, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span>* rgb_data, <span class="keyword">int</span> width, <span class="keyword">int</span> height, <span class="keyword">int</span> quality)</span></span></div><div class="line">&#123;</div><div class="line">	FILE* pFile = fopen(jpg_file_name, <span class="string">"wb"</span>);</div><div class="line">	<span class="keyword">if</span> (pFile == <span class="literal">NULL</span>)</div><div class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">	</div><div class="line">	<span class="keyword">struct</span> jpeg_compress_struct cinfo;</div><div class="line">	<span class="keyword">struct</span> jpeg_error_mgr jerr;</div><div class="line">	JSAMPROW row_pointer[<span class="number">1</span>];	<span class="comment">/* pointer to JSAMPLE row[s] */</span></div><div class="line">	<span class="keyword">int</span> row_stride;		<span class="comment">/* physical row width in image buffer */</span></div><div class="line">	cinfo.err = jpeg_std_error(&amp;jerr);</div><div class="line">	<span class="comment">/* Now we can initialize the JPEG compression object. */</span></div><div class="line">	jpeg_create_compress(&amp;cinfo);</div><div class="line">	</div><div class="line">	jpeg_stdio_dest(&amp;cinfo, pFile);</div><div class="line">	</div><div class="line">	cinfo.image_width = width; 	<span class="comment">/* image width and height, in pixels */</span></div><div class="line">	cinfo.image_height = height;</div><div class="line">	cinfo.input_components = <span class="number">3</span>; <span class="comment">/* # of color components per pixel */</span></div><div class="line">	cinfo.in_color_space = JCS_RGB; 	<span class="comment">/* colorspace of input image */</span></div><div class="line">	</div><div class="line">	jpeg_set_defaults(&amp;cinfo);</div><div class="line">	jpeg_set_quality(&amp;cinfo, quality, TRUE <span class="comment">/* limit to baseline-JPEG values */</span>);</div><div class="line">	</div><div class="line">	jpeg_start_compress(&amp;cinfo, TRUE);</div><div class="line">	</div><div class="line">	row_stride = width * <span class="number">3</span>;	<span class="comment">/* JSAMPLEs per row in image_buffer */</span></div><div class="line">	</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span>* rgb_ptr = (<span class="keyword">unsigned</span> <span class="keyword">char</span>* )rgb_data;</div><div class="line">	<span class="keyword">while</span> (cinfo.next_scanline &lt; cinfo.image_height) &#123;</div><div class="line">		row_pointer[<span class="number">0</span>] = &amp;rgb_ptr[cinfo.next_scanline * row_stride];</div><div class="line">		(<span class="keyword">void</span>) jpeg_write_scanlines(&amp;cinfo, row_pointer, <span class="number">1</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	jpeg_finish_compress(&amp;cinfo);</div><div class="line">	jpeg_destroy_compress(&amp;cinfo);</div><div class="line">	</div><div class="line">	fclose(pFile);</div><div class="line">	</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="从内存中读取-jpeg-文件"><a href="#从内存中读取-jpeg-文件" class="headerlink" title="从内存中读取 jpeg 文件"></a>从内存中读取 jpeg 文件</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *  read jpg to rgb data</div><div class="line"> *</div><div class="line"> *  @param jpg_data      input jpg data</div><div class="line"> *  @param jpg_data_size size of input jpg data</div><div class="line"> *  @param width         output width of rgb</div><div class="line"> *  @param height        output height of rgb</div><div class="line"> *</div><div class="line"> *  @return rgb data or NULL if error.</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span>* <span class="title">aspire_mao_jpg_read</span><span class="params">(<span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span>* jpg_data, <span class="keyword">unsigned</span> <span class="keyword">int</span> jpg_data_size, <span class="keyword">int</span>* width, <span class="keyword">int</span>* height)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">struct</span> jpeg_decompress_struct cinfo; <span class="comment">//for our jpeg info</span></div><div class="line">	</div><div class="line">	<span class="comment">// 	struct jpeg_error_mgr err; //the error handler</span></div><div class="line">	<span class="comment">// 	info.err = jpeg_std_error(&amp;err);</span></div><div class="line">	<span class="keyword">struct</span> my_error_mgr my_err;</div><div class="line">	</div><div class="line">	cinfo.err = jpeg_std_error(&amp;my_err.pub);</div><div class="line">	my_err.pub.error_exit = my_error_exit;</div><div class="line">	</div><div class="line">	<span class="comment">/* Establish the setjmp return context for my_error_exit to use. */</span></div><div class="line">	<span class="keyword">if</span> (setjmp(my_err.setjmp_buffer)) &#123;</div><div class="line">		<span class="comment">/* If we get here, the JPEG code has signaled an error.</span></div><div class="line">		 * We need to clean up the JPEG object, close the input file, and return.</div><div class="line">		 */</div><div class="line">		jpeg_destroy_decompress(&amp;cinfo);</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	jpeg_create_decompress( &amp;cinfo ); <span class="comment">//fills info structure</span></div><div class="line">	jpeg_mem_src(&amp;cinfo, (<span class="keyword">unsigned</span> <span class="keyword">char</span> *)jpg_data, jpg_data_size);</div><div class="line">	<span class="keyword">int</span> ret_Read_Head = jpeg_read_header( &amp;cinfo, <span class="number">1</span> ); <span class="comment">//int</span></div><div class="line">	</div><div class="line">	<span class="keyword">if</span>(ret_Read_Head != JPEG_HEADER_OK)&#123;</div><div class="line">		jpeg_destroy_decompress(&amp;cinfo);</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	</div><div class="line">	boolean bStart = jpeg_start_decompress( &amp;cinfo );</div><div class="line">	<span class="keyword">if</span>(!bStart)&#123;</div><div class="line">		jpeg_destroy_decompress(&amp;cinfo);</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">int</span> w = cinfo.output_width;</div><div class="line">	<span class="keyword">int</span> h = cinfo.output_height;</div><div class="line">	<span class="keyword">int</span> row_stride = cinfo.num_components * w;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">long</span> dataSize = row_stride * h;</div><div class="line">	</div><div class="line">	<span class="comment">// read RGB(A) scanlines one at a time into jdata[]</span></div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> *data = (<span class="keyword">unsigned</span> <span class="keyword">char</span> *)<span class="built_in">malloc</span>(dataSize);</div><div class="line">	<span class="keyword">if</span>(!data)</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span>* rowptr;</div><div class="line">	<span class="keyword">while</span> ( cinfo.output_scanline &lt; h )</div><div class="line">	&#123;</div><div class="line">		rowptr = data + cinfo.output_scanline * row_stride;</div><div class="line">		jpeg_read_scanlines( &amp;cinfo, &amp;rowptr, <span class="number">1</span> );</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//finish</span></div><div class="line">	jpeg_finish_decompress( &amp;cinfo );</div><div class="line">	jpeg_destroy_decompress(&amp;cinfo);</div><div class="line">	</div><div class="line">	<span class="comment">//get width &amp; hegith</span></div><div class="line">	<span class="keyword">if</span> (width)</div><div class="line">		*width = w;</div><div class="line">	<span class="keyword">if</span> (height)</div><div class="line">		*height = h;</div><div class="line">	</div><div class="line">	<span class="keyword">return</span> data;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="内存中写入-jpeg"><a href="#内存中写入-jpeg" class="headerlink" title="内存中写入 jpeg"></a>内存中写入 jpeg</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *  write rgb data to jpg data</div><div class="line"> *</div><div class="line"> *  @param jpg_data_size output size of jpg data</div><div class="line"> *  @param rgb_data      input rgb buffer</div><div class="line"> *  @param quality       image quality 1~100 advice 75</div><div class="line"> *  @param width         input rgb width</div><div class="line"> *  @param height        input rgb height</div><div class="line"> *</div><div class="line"> *  @return output jpg buffer or NULL if error</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">unsigned</span> <span class="keyword">char</span>* <span class="title">aspire_mao_jpg_write</span> <span class="params">(<span class="keyword">unsigned</span> <span class="keyword">int</span>* jpg_data_size, <span class="keyword">const</span> <span class="keyword">unsigned</span> <span class="keyword">char</span>* rgb_data, <span class="keyword">int</span> width, <span class="keyword">int</span> height, <span class="keyword">int</span> quality)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">struct</span> jpeg_compress_struct cinfo;</div><div class="line">	<span class="keyword">struct</span> jpeg_error_mgr jerr;</div><div class="line">	JSAMPROW row_pointer[<span class="number">1</span>];	<span class="comment">/* pointer to JSAMPLE row[s] */</span></div><div class="line">	<span class="keyword">int</span> row_stride;		<span class="comment">/* physical row width in image buffer */</span></div><div class="line">	cinfo.err = jpeg_std_error(&amp;jerr);</div><div class="line">	<span class="comment">/* Now we can initialize the JPEG compression object. */</span></div><div class="line">	jpeg_create_compress(&amp;cinfo);</div><div class="line">	</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span>* out_buffer = <span class="literal">NULL</span>;</div><div class="line">	jpeg_mem_dest(&amp;cinfo, &amp;out_buffer, (<span class="keyword">unsigned</span> <span class="keyword">long</span>*)jpg_data_size);</div><div class="line">	</div><div class="line">	cinfo.image_width = width; 	<span class="comment">/* image width and height, in pixels */</span></div><div class="line">	cinfo.image_height = height;</div><div class="line">	cinfo.input_components = <span class="number">3</span>; <span class="comment">/* # of color components per pixel */</span></div><div class="line">	cinfo.in_color_space = JCS_RGB; 	<span class="comment">/* colorspace of input image */</span></div><div class="line">	</div><div class="line">	jpeg_set_defaults(&amp;cinfo);</div><div class="line">	jpeg_set_quality(&amp;cinfo, quality, TRUE <span class="comment">/* limit to baseline-JPEG values */</span>);</div><div class="line">	</div><div class="line">	jpeg_start_compress(&amp;cinfo, TRUE);</div><div class="line">	</div><div class="line">	row_stride = width * <span class="number">3</span>;	<span class="comment">/* JSAMPLEs per row in image_buffer */</span></div><div class="line">	</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span>* rgb_ptr = (<span class="keyword">unsigned</span> <span class="keyword">char</span>* )rgb_data;</div><div class="line">	<span class="keyword">while</span> (cinfo.next_scanline &lt; cinfo.image_height) &#123;</div><div class="line">		row_pointer[<span class="number">0</span>] = &amp;rgb_ptr[cinfo.next_scanline * row_stride];</div><div class="line">		(<span class="keyword">void</span>) jpeg_write_scanlines(&amp;cinfo, row_pointer, <span class="number">1</span>);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	jpeg_finish_compress(&amp;cinfo);</div><div class="line">	jpeg_destroy_compress(&amp;cinfo);</div><div class="line">	</div><div class="line">	</div><div class="line">	<span class="keyword">return</span> out_buffer;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="检查-jpeg-文件"><a href="#检查-jpeg-文件" class="headerlink" title="检查 jpeg 文件"></a>检查 jpeg 文件</h4><p>jpeg 数据以 SOI FFD8开头 和以 EOI FFD9 结尾</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *  check is jpg</div><div class="line"> *</div><div class="line"> *  @param file_name image file name</div><div class="line"> *</div><div class="line"> *  @return 1:is 0:not</div><div class="line"> */</div><div class="line">int aspire_mao_image_is_jpg_file(const char* file_name)</div><div class="line">&#123;</div><div class="line">	FILE* pFile = fopen(file_name, <span class="string">"rb"</span>);</div><div class="line">	</div><div class="line">	if (pFile == NULL)</div><div class="line">		return <span class="number">0</span>;</div><div class="line">	</div><div class="line">	<span class="comment">//jpeg SOI FFD8 &amp;&amp; EOI FFD9</span></div><div class="line">	unsigned char buf[<span class="number">4</span>];</div><div class="line">	memset(buf, <span class="number">0</span>, <span class="number">4</span>);</div><div class="line">	</div><div class="line">	size_t readnum = fread(buf, <span class="number">2</span>, <span class="number">1</span>, pFile);<span class="comment">//FFD8</span></div><div class="line">	if (readnum != <span class="number">1</span>)</div><div class="line">	&#123;</div><div class="line">		fclose(pFile);</div><div class="line">		return <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	fseek(pFile, <span class="number">-2</span>, SEEK_END);</div><div class="line">	readnum = fread(buf + <span class="number">2</span>, <span class="number">2</span>, <span class="number">1</span>, pFile);<span class="comment">//FFD9</span></div><div class="line">	if (readnum != <span class="number">1</span>)</div><div class="line">	&#123;</div><div class="line">		fclose(pFile);</div><div class="line">		return <span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	unsigned char jpgsign[<span class="number">4</span>] = &#123;<span class="number">0xFF</span>, <span class="number">0xD8</span>, <span class="number">0xFF</span>, <span class="number">0xD9</span>&#125;;</div><div class="line">	if (memcmp(buf, jpgsign, <span class="number">4</span>) == <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		fclose(pFile);</div><div class="line">		return <span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	fclose(pFile);</div><div class="line">	</div><div class="line">	return <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="检查内存上-jpeg-数据"><a href="#检查内存上-jpeg-数据" class="headerlink" title="检查内存上 jpeg 数据"></a>检查内存上 jpeg 数据</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> *  check is jpg</div><div class="line"> *</div><div class="line"> *  @param img_data img data</div><div class="line"> *  @param img_data_size img data size</div><div class="line"> *</div><div class="line"> *  @return 1:is 0:not</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">aspire_mao_image_is_jpg</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span>* img_data, <span class="keyword">unsigned</span> <span class="keyword">int</span> img_data_size)</span></span></div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span> (img_data == <span class="literal">NULL</span></div><div class="line">		|| img_data_size &lt;= <span class="number">4</span>)</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> buf[<span class="number">4</span>];</div><div class="line">	<span class="comment">//jpeg SOI FFD8 &amp;&amp; EOI FFD9</span></div><div class="line">	<span class="built_in">memset</span>(buf, <span class="number">0</span>, <span class="number">4</span>);</div><div class="line">	<span class="built_in">memcpy</span>(buf, img_data, <span class="number">2</span>);<span class="comment">//FFD8</span></div><div class="line">	<span class="built_in">memcpy</span>(buf + <span class="number">2</span>, img_data + img_data_size - <span class="number">2</span>, <span class="number">2</span>); <span class="comment">//FFD9</span></div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> jpgsign[<span class="number">4</span>] = &#123;<span class="number">0xFF</span>, <span class="number">0xD8</span>, <span class="number">0xFF</span>, <span class="number">0xD9</span>&#125;;</div><div class="line">	<span class="keyword">if</span> (<span class="built_in">memcmp</span>(buf, jpgsign, <span class="number">4</span>) == <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="在内存读写jpeg时注意事项-重要"><a href="#在内存读写jpeg时注意事项-重要" class="headerlink" title="在内存读写jpeg时注意事项(重要)"></a>在内存读写jpeg时注意事项(重要)</h4><blockquote>
+<p>jpeg 数据到 rgb 数据时，注意在此时必须释放读取的数据, 否则在后面调用生成 jpeg 数据时，内部会释放 读取的 jpeg 数据，这时再释放读取的 jpeg 数据 容易导致，二次删除，读写文件不会有这问题。</p>
+</blockquote>
+<h4 id="相关代码见-github"><a href="#相关代码见-github" class="headerlink" title="相关代码见 github"></a>相关代码见 <a href="https://github.com/maokebing/mimageutils" target="_blank" rel="external">github</a></h4>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/02/2016-10-02-umeng-event-to-class/" rel="next" title="Umeng-event-to-class">
+                <i class="fa fa-chevron-left"></i> Umeng-event-to-class
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/10/gen-blog-md-shell/" rel="prev" title="Blog用的md生成shell脚本">
+                Blog用的md生成shell脚本 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/10/10/libjpeg-install-use/"
+           data-title="libjpeg的安装和使用" data-url="http://devm.cn/2016/10/10/libjpeg-install-use/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

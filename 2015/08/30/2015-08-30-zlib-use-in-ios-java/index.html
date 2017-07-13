@@ -1,0 +1,512 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="zlib是提供数据压缩用的函式库，由Jean-loup Gailly与Mark Adler所开发，初版0.9版在1995年5月1日发表，zlib 是通用的压缩库，提供了一套 in-memory 压缩和解压函数，并能检测解压出来的数据的完整性(integrity)。zlib 也支持读写 gzip (.gz) 格式的文件。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈谈ZLib在iOS和Java中的使用">
+<meta property="og:url" content="http://devm.cn/2015/08/30/2015-08-30-zlib-use-in-ios-java/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="zlib是提供数据压缩用的函式库，由Jean-loup Gailly与Mark Adler所开发，初版0.9版在1995年5月1日发表，zlib 是通用的压缩库，提供了一套 in-memory 压缩和解压函数，并能检测解压出来的数据的完整性(integrity)。zlib 也支持读写 gzip (.gz) 格式的文件。">
+<meta property="og:updated_time" content="2015-08-30T12:37:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谈谈ZLib在iOS和Java中的使用">
+<meta name="twitter:description" content="zlib是提供数据压缩用的函式库，由Jean-loup Gailly与Mark Adler所开发，初版0.9版在1995年5月1日发表，zlib 是通用的压缩库，提供了一套 in-memory 压缩和解压函数，并能检测解压出来的数据的完整性(integrity)。zlib 也支持读写 gzip (.gz) 格式的文件。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> 谈谈ZLib在iOS和Java中的使用 | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                谈谈ZLib在iOS和Java中的使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-30T20:01:15+08:00" content="2015-08-30">
+              2015-08-30
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/30/2015-08-30-zlib-use-in-ios-java/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/30/2015-08-30-zlib-use-in-ios-java/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://www.zlib.net" target="_blank" rel="external">zlib</a>是提供数据压缩用的函式库，由Jean-loup Gailly与Mark Adler所开发，初版0.9版在1995年5月1日发表，zlib 是通用的压缩库，提供了一套 in-memory 压缩和解压函数，并能检测解压出来的数据的完整性(integrity)。zlib 也支持读写 gzip (.gz) 格式的文件。</p>
+<a id="more"></a>
+<p>java中原生支持zlib库,压缩和解压都很方便，使用方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** </span></div><div class="line">  *  </div><div class="line">  * <span class="doctag">@param</span> data </div><div class="line">  *     </div><div class="line">  * <span class="doctag">@return</span> byte[] </div><div class="line">  */  </div><div class="line"> <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] compress(<span class="keyword">byte</span>[] data) &#123;  </div><div class="line">     <span class="keyword">byte</span>[] output = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">0</span>];  </div><div class="line">  </div><div class="line">     Deflater compresser = <span class="keyword">new</span> Deflater();  </div><div class="line">  </div><div class="line">     compresser.reset();  </div><div class="line">     compresser.setInput(data);  </div><div class="line">     compresser.finish();  </div><div class="line">     ByteArrayOutputStream bos = <span class="keyword">new</span> ByteArrayOutputStream(data.length);  </div><div class="line">     <span class="keyword">try</span> &#123;  </div><div class="line">         <span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];  </div><div class="line">         <span class="keyword">while</span> (!compresser.finished()) &#123;  </div><div class="line">             <span class="keyword">int</span> i = compresser.deflate(buf);  </div><div class="line">             bos.write(buf, <span class="number">0</span>, i);  </div><div class="line">         &#125;  </div><div class="line">         output = bos.toByteArray();  </div><div class="line">     &#125; <span class="keyword">catch</span> (Exception e) &#123;  </div><div class="line">         output = data;  </div><div class="line">         e.printStackTrace();  </div><div class="line">     &#125; <span class="keyword">finally</span> &#123;  </div><div class="line">         <span class="keyword">try</span> &#123;  </div><div class="line">             bos.close();  </div><div class="line">         &#125; <span class="keyword">catch</span> (IOException e) &#123;  </div><div class="line">             e.printStackTrace();  </div><div class="line">         &#125;  </div><div class="line">     &#125;  </div><div class="line">     compresser.end();  </div><div class="line">     <span class="keyword">return</span> output;  </div><div class="line"> &#125;  </div><div class="line">  </div><div class="line"> <span class="comment">/** </span></div><div class="line">  * 压缩 </div><div class="line">  *  </div><div class="line">  * <span class="doctag">@param</span> data </div><div class="line">  *            待压缩数据 </div><div class="line">  *  </div><div class="line">  * <span class="doctag">@param</span> os </div><div class="line">  *            输出流 </div><div class="line">  */  </div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">compress</span><span class="params">(<span class="keyword">byte</span>[] data, OutputStream os)</span> </span>&#123;  </div><div class="line">     DeflaterOutputStream dos = <span class="keyword">new</span> DeflaterOutputStream(os);  </div><div class="line">  </div><div class="line">     <span class="keyword">try</span> &#123;  </div><div class="line">         dos.write(data, <span class="number">0</span>, data.length);  </div><div class="line">  </div><div class="line">         dos.finish();  </div><div class="line">  </div><div class="line">         dos.flush();  </div><div class="line">     &#125; <span class="keyword">catch</span> (IOException e) &#123;  </div><div class="line">         e.printStackTrace();  </div><div class="line">     &#125;  </div><div class="line"> &#125;  </div><div class="line">  </div><div class="line"> <span class="comment">/** </span></div><div class="line">  * 解压缩 </div><div class="line">  *  </div><div class="line">  * <span class="doctag">@param</span> data </div><div class="line">  *            待压缩的数据 </div><div class="line">  * <span class="doctag">@return</span> byte[] 解压缩后的数据 </div><div class="line">  */  </div><div class="line"> <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] decompress(<span class="keyword">byte</span>[] data) &#123;  </div><div class="line">     <span class="keyword">byte</span>[] output = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">0</span>];  </div><div class="line">  </div><div class="line">     Inflater decompresser = <span class="keyword">new</span> Inflater();  </div><div class="line">     decompresser.reset();  </div><div class="line">     decompresser.setInput(data);  </div><div class="line">  </div><div class="line">     ByteArrayOutputStream o = <span class="keyword">new</span> ByteArrayOutputStream(data.length);  </div><div class="line">     <span class="keyword">try</span> &#123;  </div><div class="line">         <span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];  </div><div class="line">         <span class="keyword">while</span> (!decompresser.finished()) &#123;  </div><div class="line">             <span class="keyword">int</span> i = decompresser.inflate(buf);  </div><div class="line">             o.write(buf, <span class="number">0</span>, i);  </div><div class="line">         &#125;  </div><div class="line">         output = o.toByteArray();  </div><div class="line">     &#125; <span class="keyword">catch</span> (Exception e) &#123;  </div><div class="line">         output = data;  </div><div class="line">         e.printStackTrace();  </div><div class="line">     &#125; <span class="keyword">finally</span> &#123;  </div><div class="line">         <span class="keyword">try</span> &#123;  </div><div class="line">             o.close();  </div><div class="line">         &#125; <span class="keyword">catch</span> (IOException e) &#123;  </div><div class="line">             e.printStackTrace();  </div><div class="line">         &#125;  </div><div class="line">     &#125;  </div><div class="line">  </div><div class="line">     decompresser.end();  </div><div class="line">     <span class="keyword">return</span> output;  </div><div class="line"> &#125;  </div><div class="line">  </div><div class="line"> <span class="comment">/** </span></div><div class="line">  * 解压缩 </div><div class="line">  *  </div><div class="line">  * <span class="doctag">@param</span> is </div><div class="line">  *            输入流 </div><div class="line">  * <span class="doctag">@return</span> byte[] 解压缩后的数据 </div><div class="line">  */  </div><div class="line"> <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] decompress(InputStream is) &#123;  </div><div class="line">     InflaterInputStream iis = <span class="keyword">new</span> InflaterInputStream(is);  </div><div class="line">     ByteArrayOutputStream o = <span class="keyword">new</span> ByteArrayOutputStream(<span class="number">1024</span>);  </div><div class="line">     <span class="keyword">try</span> &#123;  </div><div class="line">         <span class="keyword">int</span> i = <span class="number">1024</span>;  </div><div class="line">         <span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[i];  </div><div class="line">  </div><div class="line">         <span class="keyword">while</span> ((i = iis.read(buf, <span class="number">0</span>, i)) &gt; <span class="number">0</span>) &#123;  </div><div class="line">             o.write(buf, <span class="number">0</span>, i);  </div><div class="line">         &#125;  </div><div class="line">  </div><div class="line">     &#125; <span class="keyword">catch</span> (IOException e) &#123;  </div><div class="line">         e.printStackTrace();  </div><div class="line">     &#125;  </div><div class="line">     <span class="keyword">return</span> o.toByteArray();  </div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>代码来自<a href="http://snowolf.iteye.com/blog/465433" target="_blank" rel="external">snowolf的blog</a></p>
+<p>今天主要来谈谈在iOS上如何使用ZLib, 写这篇文章的主要原因是，我搜了一些资源，只有解压缩的代码，没有压缩的代码，这让我很苦脑。查看ZLib的头文件，里面有这两个方法提供压和解压：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">ZEXTERN int ZEXPORT compress OF((Bytef *dest,   uLongf *destLen,</div><div class="line">                                 const Bytef *source, uLong sourceLen));</div><div class="line">                                 </div><div class="line">ZEXTERN int ZEXPORT compress2 OF((Bytef *dest,   uLongf *destLen,</div><div class="line">                                  const Bytef *source, uLong sourceLen,</div><div class="line">                                  int level));</div><div class="line">                                 </div><div class="line">                                 </div><div class="line">ZEXTERN int ZEXPORT uncompress OF((Bytef *dest,   uLongf *destLen,</div><div class="line">                                   const Bytef *source, uLong sourceLen));                                 </div><div class="line"></div><div class="line">ZEXTERN uLong ZEXPORT compressBound OF((uLong sourceLen));</div></pre></td></tr></table></figure>
+<p>显然是可以直接使用的，对于压缩的那个方法，使用<code>compressBound</code>这个方法可以获取压缩后最大长度，就是说生成的压缩数据，长度不可以超过这个，可以方便我们为目标dest开辟足够的空间。</p>
+<p>但是解压缩就没有那么乐观，你不知道要提拱多大的dest来提供解压后的空间，这就需要压缩的时候记住，原始的大小。要么你只解压小数据，可以提拱一个足够大的来接收解压的数据。怎么才能更自由一些呢？好往下看，这是<strong>zlib</strong>官网的提供的demo代码，它提拱流的方式来解压，我们可以好好利用一下吧！</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">#define CHUNK 16384</div><div class="line"></div><div class="line">/* Compress from file source to file dest until EOF on source.</div><div class="line"> def() returns Z_OK on success, Z_MEM_ERROR if memory could not be</div><div class="line"> allocated for processing, Z_STREAM_ERROR if an invalid compression</div><div class="line"> level is supplied, Z_VERSION_ERROR if the version of zlib.h and the</div><div class="line"> version of the library linked do not match, or Z_ERRNO if there is</div><div class="line"> an error reading or writing the files. */</div><div class="line">int def(FILE *source, FILE *dest, int level)</div><div class="line">&#123;</div><div class="line">	int ret, flush;</div><div class="line">	unsigned have;</div><div class="line">	z_stream strm;</div><div class="line">	unsigned char in[CHUNK];</div><div class="line">	unsigned char out[CHUNK];</div><div class="line">	</div><div class="line">	/* allocate deflate state */</div><div class="line">	strm.zalloc = Z_NULL;</div><div class="line">	strm.zfree = Z_NULL;</div><div class="line">	strm.opaque = Z_NULL;</div><div class="line">	ret = deflateInit(&amp;strm, level);</div><div class="line">	if (ret != Z_OK)</div><div class="line">		return ret;</div><div class="line">	</div><div class="line">	/* compress until end of file */</div><div class="line">	do &#123;</div><div class="line">		strm.avail_in = fread(in, 1, CHUNK, source);</div><div class="line">		if (ferror(source)) &#123;</div><div class="line">			(void)deflateEnd(&amp;strm);</div><div class="line">			return Z_ERRNO;</div><div class="line">		&#125;</div><div class="line">		flush = feof(source) ? Z_FINISH : Z_NO_FLUSH;</div><div class="line">		strm.next_in = in;</div><div class="line">		</div><div class="line">		/* run deflate() on input until output buffer not full, finish</div><div class="line">		 compression if all of source has been read in */</div><div class="line">		do &#123;</div><div class="line">			strm.avail_out = CHUNK;</div><div class="line">			strm.next_out = out;</div><div class="line">			ret = deflate(&amp;strm, flush);    /* no bad return value */</div><div class="line">			assert(ret != Z_STREAM_ERROR);  /* state not clobbered */</div><div class="line">			have = CHUNK - strm.avail_out;</div><div class="line">			if (fwrite(out, 1, have, dest) != have || ferror(dest)) &#123;</div><div class="line">				(void)deflateEnd(&amp;strm);</div><div class="line">				return Z_ERRNO;</div><div class="line">			&#125;</div><div class="line">		&#125; while (strm.avail_out == 0);</div><div class="line">		assert(strm.avail_in == 0);     /* all input will be used */</div><div class="line">		</div><div class="line">		/* done when last data in file processed */</div><div class="line">	&#125; while (flush != Z_FINISH);</div><div class="line">	assert(ret == Z_STREAM_END);        /* stream will be complete */</div><div class="line">	</div><div class="line">	/* clean up and return */</div><div class="line">	(void)deflateEnd(&amp;strm);</div><div class="line">	return Z_OK;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/* Decompress from file source to file dest until stream ends or EOF.</div><div class="line"> inf() returns Z_OK on success, Z_MEM_ERROR if memory could not be</div><div class="line"> allocated for processing, Z_DATA_ERROR if the deflate data is</div><div class="line"> invalid or incomplete, Z_VERSION_ERROR if the version of zlib.h and</div><div class="line"> the version of the library linked do not match, or Z_ERRNO if there</div><div class="line"> is an error reading or writing the files. */</div><div class="line">int inf(FILE *source, FILE *dest)</div><div class="line">&#123;</div><div class="line">	int ret;</div><div class="line">	unsigned have;</div><div class="line">	z_stream strm;</div><div class="line">	unsigned char in[CHUNK];</div><div class="line">	unsigned char out[CHUNK];</div><div class="line">	</div><div class="line">	/* allocate inflate state */</div><div class="line">	strm.zalloc = Z_NULL;</div><div class="line">	strm.zfree = Z_NULL;</div><div class="line">	strm.opaque = Z_NULL;</div><div class="line">	strm.avail_in = 0;</div><div class="line">	strm.next_in = Z_NULL;</div><div class="line">	ret = inflateInit(&amp;strm);</div><div class="line">	if (ret != Z_OK)</div><div class="line">		return ret;</div><div class="line">	</div><div class="line">	/* decompress until deflate stream ends or end of file */</div><div class="line">	do &#123;</div><div class="line">		strm.avail_in = fread(in, 1, CHUNK, source);</div><div class="line">		if (ferror(source)) &#123;</div><div class="line">			(void)inflateEnd(&amp;strm);</div><div class="line">			return Z_ERRNO;</div><div class="line">		&#125;</div><div class="line">		if (strm.avail_in == 0)</div><div class="line">			break;</div><div class="line">		strm.next_in = in;</div><div class="line">		</div><div class="line">		/* run inflate() on input until output buffer not full */</div><div class="line">		do &#123;</div><div class="line">			strm.avail_out = CHUNK;</div><div class="line">			strm.next_out = out;</div><div class="line">			ret = inflate(&amp;strm, Z_NO_FLUSH);</div><div class="line">			assert(ret != Z_STREAM_ERROR);  /* state not clobbered */</div><div class="line">			switch (ret) &#123;</div><div class="line">				case Z_NEED_DICT:</div><div class="line">					ret = Z_DATA_ERROR;     /* and fall through */</div><div class="line">				case Z_DATA_ERROR:</div><div class="line">				case Z_MEM_ERROR:</div><div class="line">					(void)inflateEnd(&amp;strm);</div><div class="line">					return ret;</div><div class="line">			&#125;</div><div class="line">			have = CHUNK - strm.avail_out;</div><div class="line">			if (fwrite(out, 1, have, dest) != have || ferror(dest)) &#123;</div><div class="line">				(void)inflateEnd(&amp;strm);</div><div class="line">				return Z_ERRNO;</div><div class="line">			&#125;</div><div class="line">		&#125; while (strm.avail_out == 0);</div><div class="line">		</div><div class="line">		/* done when inflate() says it's done */</div><div class="line">	&#125; while (ret != Z_STREAM_END);</div><div class="line">	</div><div class="line">	/* clean up and return */</div><div class="line">	(void)inflateEnd(&amp;strm);</div><div class="line">	return ret == Z_STREAM_END ? Z_OK : Z_DATA_ERROR;</div><div class="line">&#125;</div><div class="line"></div><div class="line">/* report a zlib or i/o error */</div><div class="line">void zerr(int ret)</div><div class="line">&#123;</div><div class="line">	fputs("zpipe: ", stderr);</div><div class="line">	switch (ret) &#123;</div><div class="line">		case Z_ERRNO:</div><div class="line">			if (ferror(stdin))</div><div class="line">				fputs("error reading stdin\n", stderr);</div><div class="line">			if (ferror(stdout))</div><div class="line">				fputs("error writing stdout\n", stderr);</div><div class="line">			break;</div><div class="line">		case Z_STREAM_ERROR:</div><div class="line">			fputs("invalid compression level\n", stderr);</div><div class="line">			break;</div><div class="line">		case Z_DATA_ERROR:</div><div class="line">			fputs("invalid or incomplete deflate data\n", stderr);</div><div class="line">			break;</div><div class="line">		case Z_MEM_ERROR:</div><div class="line">			fputs("out of memory\n", stderr);</div><div class="line">			break;</div><div class="line">		case Z_VERSION_ERROR:</div><div class="line">			fputs("zlib version mismatch!\n", stderr);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这是文件到文件的压缩和解压缩，将文件指针改成NSData对象，稍做修改，改成以下代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div></pre></td><td class="code"><pre><div class="line">+ (NSData *)dataUseZLibDecompressWithData:(NSData *)data &#123;</div><div class="line">	<span class="keyword">int</span> ret;</div><div class="line">	unsigned have;</div><div class="line">	z_stream strm;</div><div class="line">	unsigned <span class="keyword">char</span> in[CHUNK];</div><div class="line">	unsigned <span class="keyword">char</span> out[CHUNK];</div><div class="line">	</div><div class="line">	<span class="comment">/* allocate inflate state */</span></div><div class="line">	strm.zalloc = Z_NULL;</div><div class="line">	strm.zfree = Z_NULL;</div><div class="line">	strm.opaque = Z_NULL;</div><div class="line">	strm.avail_in = <span class="number">0</span>;</div><div class="line">	strm.next_in = Z_NULL;</div><div class="line">	ret = inflateInit(&amp;strm);</div><div class="line">	<span class="keyword">if</span> (ret != Z_OK)</div><div class="line">		<span class="keyword">return</span> nil;</div><div class="line">	</div><div class="line">	NSInteger pos = <span class="number">0</span>;</div><div class="line">	NSInteger left = data.length;</div><div class="line">	NSMutableData* outData = [NSMutableData data];</div><div class="line">	</div><div class="line">	</div><div class="line">	<span class="comment">/* decompress until deflate stream ends or end of file */</span></div><div class="line">	do &#123;</div><div class="line">		NSInteger len = left &gt; CHUNK ? CHUNK : left;</div><div class="line">		[data getBytes:in range:NSMakeRange(pos, len)];</div><div class="line">		pos += len;</div><div class="line">		left -= len;</div><div class="line">		</div><div class="line">		strm.avail_in = (uInt)len;</div><div class="line">		<span class="keyword">if</span> (strm.avail_in == <span class="number">0</span>)</div><div class="line">			<span class="keyword">break</span>;</div><div class="line">		strm.next_in = in;</div><div class="line">		</div><div class="line">		<span class="comment">/* run inflate() on input until output buffer not full */</span></div><div class="line">		do &#123;</div><div class="line">			strm.avail_out = CHUNK;</div><div class="line">			strm.next_out = out;</div><div class="line">			ret = inflate(&amp;strm, Z_NO_FLUSH);</div><div class="line">			<span class="keyword">assert</span>(ret != Z_STREAM_ERROR);  <span class="comment">/* state not clobbered */</span></div><div class="line">			<span class="keyword">switch</span> (ret) &#123;</div><div class="line">				<span class="keyword">case</span> Z_NEED_DICT:</div><div class="line">					ret = Z_DATA_ERROR;     <span class="comment">/* and fall through */</span></div><div class="line">				<span class="keyword">case</span> Z_DATA_ERROR:</div><div class="line">				<span class="keyword">case</span> Z_MEM_ERROR:</div><div class="line">					(<span class="keyword">void</span>)inflateEnd(&amp;strm);</div><div class="line">					<span class="keyword">return</span> nil;</div><div class="line">			&#125;</div><div class="line">			have = CHUNK - strm.avail_out;</div><div class="line">			[outData appendBytes:out length:have];</div><div class="line">		&#125; <span class="keyword">while</span> (strm.avail_out == <span class="number">0</span>);</div><div class="line">		</div><div class="line">		<span class="comment">/* done when inflate() says it's done */</span></div><div class="line">	&#125; <span class="keyword">while</span> (ret != Z_STREAM_END);</div><div class="line">	</div><div class="line">	<span class="comment">/* clean up and return */</span></div><div class="line">	(<span class="keyword">void</span>)inflateEnd(&amp;strm);</div><div class="line">	</div><div class="line">	<span class="keyword">if</span> (ret == Z_STREAM_END) &#123;</div><div class="line">		<span class="keyword">return</span> [outData copy];</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">return</span> nil;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">+ (NSData *)dataUseZLibCompressWithData:(NSData *)data &#123;</div><div class="line">	<span class="keyword">int</span> ret, flush;</div><div class="line">	unsigned have;</div><div class="line">	z_stream strm;</div><div class="line">	unsigned <span class="keyword">char</span> in[CHUNK];</div><div class="line">	unsigned <span class="keyword">char</span> out[CHUNK];</div><div class="line">	</div><div class="line">	<span class="comment">/* allocate deflate state */</span></div><div class="line">	strm.zalloc = Z_NULL;</div><div class="line">	strm.zfree = Z_NULL;</div><div class="line">	strm.opaque = Z_NULL;</div><div class="line">	ret = deflateInit(&amp;strm, Z_DEFAULT_COMPRESSION);</div><div class="line">	<span class="keyword">if</span> (ret != Z_OK)</div><div class="line">		<span class="keyword">return</span> nil;</div><div class="line">	</div><div class="line">	NSInteger pos = <span class="number">0</span>;</div><div class="line">	NSInteger left = data.length;</div><div class="line">	</div><div class="line">	<span class="comment">//output</span></div><div class="line">	NSMutableData* outData = [NSMutableData data];</div><div class="line">	</div><div class="line">	<span class="comment">/* compress until end of file */</span></div><div class="line">	do &#123;</div><div class="line">		NSInteger len = left &gt; CHUNK ? CHUNK : left;</div><div class="line">		[data getBytes:in range:NSMakeRange(pos, len)];</div><div class="line">		pos += len;</div><div class="line">		left -= len;</div><div class="line">		</div><div class="line">		strm.avail_in = (uInt)len;</div><div class="line">		flush = left == <span class="number">0</span> ? Z_FINISH : Z_NO_FLUSH;</div><div class="line">		strm.next_in = in;</div><div class="line">		</div><div class="line">		<span class="comment">/* run deflate() on input until output buffer not full, finish</span></div><div class="line">		 compression if all of source has been read in */</div><div class="line">		do &#123;</div><div class="line">			strm.avail_out = CHUNK;</div><div class="line">			strm.next_out = out;</div><div class="line">			ret = deflate(&amp;strm, flush);    <span class="comment">/* no bad return value */</span></div><div class="line">			<span class="keyword">assert</span>(ret != Z_STREAM_ERROR);  <span class="comment">/* state not clobbered */</span></div><div class="line">			have = CHUNK - strm.avail_out;</div><div class="line">			</div><div class="line">			[outData appendBytes:out length:have];</div><div class="line">		&#125; <span class="keyword">while</span> (strm.avail_out == <span class="number">0</span>);</div><div class="line">		<span class="keyword">assert</span>(strm.avail_in == <span class="number">0</span>);     <span class="comment">/* all input will be used */</span></div><div class="line">		</div><div class="line">		<span class="comment">/* done when last data in file processed */</span></div><div class="line">	&#125; <span class="keyword">while</span> (flush != Z_FINISH);</div><div class="line">	<span class="keyword">assert</span>(ret == Z_STREAM_END);        <span class="comment">/* stream will be complete */</span></div><div class="line">	</div><div class="line">	<span class="comment">/* clean up and return */</span></div><div class="line">	(<span class="keyword">void</span>)deflateEnd(&amp;strm);</div><div class="line">	</div><div class="line">	<span class="keyword">return</span> [outData copy];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码已上放到github上了，<a href="https://github.com/maokebing/MFZLibUtils" target="_blank" rel="external">MFZLibUtils</a>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/25/2015-08-25-base64-java-ios/" rel="next" title="谈谈Base64编码iOS和Java开发过程中遇到的坑">
+                <i class="fa fa-chevron-left"></i> 谈谈Base64编码iOS和Java开发过程中遇到的坑
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/05/2015-09-05-osx-usb-disk-make/" rel="prev" title="制作OSX Yosemite 10.10安装U盘">
+                制作OSX Yosemite 10.10安装U盘 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/08/30/2015-08-30-zlib-use-in-ios-java/"
+           data-title="谈谈ZLib在iOS和Java中的使用" data-url="http://devm.cn/2015/08/30/2015-08-30-zlib-use-in-ios-java/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

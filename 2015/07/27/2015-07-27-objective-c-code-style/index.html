@@ -1,0 +1,607 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="说到代码规范，网上有一些资料，但是很少会遵循代码规范的。当别人看我们完成某些功能时，如果自己感觉代码，不忍直视的时候，想想别人看到时候的感受吧。遵守好的代码规范会带来很多好处：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈谈Objective-C编码规范">
+<meta property="og:url" content="http://devm.cn/2015/07/27/2015-07-27-objective-c-code-style/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="说到代码规范，网上有一些资料，但是很少会遵循代码规范的。当别人看我们完成某些功能时，如果自己感觉代码，不忍直视的时候，想想别人看到时候的感受吧。遵守好的代码规范会带来很多好处：">
+<meta property="og:updated_time" content="2015-07-27T14:32:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谈谈Objective-C编码规范">
+<meta name="twitter:description" content="说到代码规范，网上有一些资料，但是很少会遵循代码规范的。当别人看我们完成某些功能时，如果自己感觉代码，不忍直视的时候，想想别人看到时候的感受吧。遵守好的代码规范会带来很多好处：">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> 谈谈Objective-C编码规范 | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                谈谈Objective-C编码规范
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-27T20:51:55+08:00" content="2015-07-27">
+              2015-07-27
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/27/2015-07-27-objective-c-code-style/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/27/2015-07-27-objective-c-code-style/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>说到代码规范，网上有一些资料，但是很少会遵循代码规范的。当别人看我们完成某些功能时，如果自己感觉代码，不忍直视的时候，想想别人看到时候的感受吧。遵守好的代码规范会带来很多好处：</p>
+<a id="more"></a>
+<ul>
+<li>促进团队合作 </li>
+<li>减少bug处理 </li>
+<li>降低维护成本 </li>
+<li>方便代码审查 </li>
+<li>便于开发人员自身的成长</li>
+</ul>
+<p>今天咱们来谈谈objective-C的编码规范</p>
+<p>###一般方法定义:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)insertObject:(id)object atIndex:(NSInteger)index; <span class="comment">//Good.</span></div><div class="line">- (<span class="keyword">void</span>)removeObjectAtIndex:(NSInteger)index; <span class="comment">//Good.</span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)insert:(id)object at:(NSInteger)index; <span class="comment">//Not clear.</span></div><div class="line">- (<span class="keyword">void</span>)removeObject:(NSInteger)index; <span class="comment">//Bad.</span></div><div class="line">- (<span class="keyword">void</span>)remove:(NSInteger)index; <span class="comment">//Not clear; what is being removed?</span></div></pre></td></tr></table></figure>
+<p>###Target &amp; Action<br>执行动作时前面要动词</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">- (void)invokeWithTarget:(id)target;</div><div class="line">- (void)openUserPage;</div></pre></td></tr></table></figure>
+<p>###Accessor Methods //common</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (UIView *)viewWithTag:(NSInteger)tag;</div><div class="line">- (MISMessage *)messageWithID:(int64_t)aID;</div><div class="line">- (NSString *)name; //Good!</div><div class="line">- (void)setName:(NSString *)aName;</div></pre></td></tr></table></figure>
+<p>###BOOL</p>
+<p>如果属性是个形容词<br>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">- (BOOL)isEditable;</div><div class="line">- (void)setEditable:(BOOL)flag;</div></pre></td></tr></table></figure>
+<p>如果是个动词 eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (BOOL)showsAlpha;</div><div class="line">- (void)setShowsAlpha:(BOOL)flag;</div><div class="line">- (void)setAcceptsGlyphInfo:(BOOL)flag; //Right. </div><div class="line">- (BOOL)acceptsGlyphInfo; //Right.</div><div class="line">- (void)setGlyphInfoAccepted:(BOOL)flag; //Wrong. </div><div class="line">- (BOOL)glyphInfoAccepted; //Wrong.</div></pre></td></tr></table></figure>
+<p>可以使用情态动词 (can, should, will 等等)不要用 do 和 does</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">- (void)setCanHide:(BOOL)flag;//Right.</div><div class="line">- (BOOL)canHide;//Right.</div><div class="line">- (void)setShouldCloseDocument:(BOOL)flag; //Right.</div><div class="line">- (BOOL)shouldCloseDocument;//Right.</div><div class="line">- (void)setDoesAcceptGlyphInfo:(BOOL)flag; //Wrong.</div><div class="line">- (BOOL)doesAcceptGlyphInfo;//Wrong.</div></pre></td></tr></table></figure>
+<p>只有从参数中获取返回值时,也就是说不能直接返回,<br>eg.要多个参数要返回时,前要 get 前缀</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (void)getWidth:(CGFloat *)width height:(CGFloat *)height;</div></pre></td></tr></table></figure>
+<p>###代理方法定义<br>要以发送这个消息的对象开始,方便区分调用者。</p>
+<p>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">- (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename; </div><div class="line">- (BOOL)applicationOpenUntitledFile:(NSApplication *)sender;</div></pre></td></tr></table></figure>
+<p>你可以使用 will 或 did 做一些操作之前或之后,不要用 should。<br>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath;</div><div class="line">- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;</div></pre></td></tr></table></figure>
+<p>###Collection Methods:</p>
+<p>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (void)addLayoutManager:(NSLayoutManager *)obj;</div><div class="line">- (void)removeLayoutManager:(NSLayoutManager *)obj; </div><div class="line">- (NSArray *)layoutManagers;</div></pre></td></tr></table></figure>
+<p>###外部方法,全局方法<br>大写字母开头.</p>
+<p>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">BOOL NSDecimalIsNotANumber(const NSDecimal *decimal) </div><div class="line">NSData *UIImageJPEGRepresentation(UIImage *image, CGFloat compressionQuality);</div></pre></td></tr></table></figure>
+<p>###定义属性和变量</p>
+<p>如果动词和名词</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@property (strong) NSString *title;</div><div class="line">@property (assign) BOOL showsAlpha;</div></pre></td></tr></table></figure>
+<p>如果是形容词,前缀不加 is 但是在 Getter 方法要有 is </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@property (assign, getter=isEditable) BOOL editable;</div></pre></td></tr></table></figure>
+<p>不用@property 定义变量时,要用_作前缀 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">@implementation MyClass &#123;</div><div class="line">   BOOL _showsTitle; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>###枚举变量 枚举变量元素要有名子作前缀<br>//互斥的情况<br>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">typedef NS_ENUM(NSInteger, UIViewAnimationCurve) &#123;</div><div class="line">UIViewAnimationCurveEaseInOut,</div><div class="line">UIViewAnimationCurveEaseIn, </div><div class="line">UIViewAnimationCurveEaseOut, </div><div class="line">UIViewAnimationCurveLinear</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>//可复合的情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">typedef NS_OPTIONS(NSUInteger, UIViewAutoresizing)</div><div class="line">UIViewAutoresizingNone = 0,</div><div class="line">UIViewAutoresizingFlexibleLeftMargin =1&lt;&lt;0,</div><div class="line">UIViewAutoresizingFlexibleWidth  =1&lt;&lt;1,</div><div class="line">UIViewAutoresizingFlexibleRightMargin = 1 &lt;&lt;2,</div><div class="line">UIViewAutoresizingFlexibleTopMargin =1&lt;&lt;3,</div><div class="line">UIViewAutoresizingFlexibleHeight = 1&lt;&lt;4,</div><div class="line">UIViewAutoresizingFlexibleBottomMargin = 1&lt;&lt;5</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>###常量<br>能用枚举的地方,优先用枚举,用常量的地方。<br>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//基本类型</div><div class="line">const CGFloat GLViewHeight = 50.0f;</div><div class="line"></div><div class="line">//字符串</div><div class="line">NSString * const ContactNameKey = @&quot;NameKey&quot;;</div></pre></td></tr></table></figure>
+<p>最后才考虑用宏.</p>
+<p>###Notifications 通知的定义方式</p>
+<p><strong>[Name of associated class] + [Did | Will] + [UniquePartOfName] + Notification</strong></p>
+<p>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NSString * const UIApplicationDidBecomeActiveNotification; </div><div class="line">NSString * const UITextViewDidChangeSelectionNotification;</div></pre></td></tr></table></figure>
+<p>###异常定义</p>
+<p><strong>[Prefix] + [UniquePartOfName] + Exception</strong></p>
+<p>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">NSException* NSColorListIOException; </div><div class="line">NSException* NSColorListNotEditableException;</div></pre></td></tr></table></figure>
+<p>###常用一些缩写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">alloc -&gt; Allocate.</div><div class="line">alt -&gt; Alternate.</div><div class="line">app -&gt; Application. For example, NSApp the global application object. However, “application” is spelled out in delegate methods, notifications, and so on.</div><div class="line">calc -&gt; Calculate.</div><div class="line">dealloc -&gt;Deallocate.</div><div class="line">func -&gt; Function.</div><div class="line">horiz -&gt; Horizontal.</div><div class="line">info -&gt; Information.</div><div class="line">init -&gt; Initialize (for methods that initialize new objects).</div><div class="line">int -&gt; Integer (in the context of a C int—for an NSInteger value, use integer).</div><div class="line">max -&gt; Maximum.</div><div class="line">min -&gt; Minimum.</div><div class="line">msg -&gt; Message.</div><div class="line">nib -&gt; Interface Builder archive.</div><div class="line">pboard -&gt; Pasteboard (but only in constants).</div><div class="line">rect -&gt; Rectangle.</div><div class="line">Rep -&gt; Representation (used in class name such as NSBitmapImageRep).</div><div class="line">temp -&gt;Temporary.</div><div class="line">vert -&gt; Vertical.</div></pre></td></tr></table></figure>
+<p>//通用缩写</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ASCII PDF XML HTML URL RTF HTTP </div><div class="line">TIFF JPG PNG GIF LZW ROM </div><div class="line">RGB CMYK MIDI FTP</div></pre></td></tr></table></figure>
+<p>###初始化方法的写法</p>
+<p>以 init 为前缀</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (id)init; //默认初始化.</div></pre></td></tr></table></figure>
+<p>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">- (id)initWithName:(NSString *)aName;//自定义初始化</div></pre></td></tr></table></figure>
+<p>注意:其它方法不能用 init 前缀。 </p>
+<p>###类</p>
+<p>前缀必须要有,一般以项目缩写.<br>eg. <strong>XH</strong>, <strong>MIS</strong></p>
+<p>后缀根据继承的类确定。<br>eg. </p>
+<ul>
+<li>XHTopicCell</li>
+<li>XHClassHeaderView</li>
+<li>XHHomeViewController</li>
+</ul>
+<p>类名可以定义为 <strong>前缀</strong>+<strong>模块名</strong>+<strong>后缀</strong> 如果不合理,尽快重构-refactor-rename</p>
+<p>####头文件<br>系统的头文件使用#import&lt;&gt;,自定义的类,在头文件里去<strong>@class</strong>声明,在源文件里import “class.h”, 除了要共开的属性和公有方法,其它一律放在.m 里面声明和使用。 复杂的操作方法,一定要加注释。<br>方法定义规则⻅见前面内容。<br>注意空格。<br>@property 成员,对象的*要跟着变量。<br>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">@property (nonatomic, copy) NSString *name; // *靠近 name 扩号两边要有一个空格。</div></pre></td></tr></table></figure>
+<p>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">#import &lt;UIKit/UIKit.h&gt;</div><div class="line"></div><div class="line">@class MISChatMessage;</div><div class="line"></div><div class="line">@protocol MISChatCellDelegate &lt;NSObject&gt; @optional</div><div class="line"></div><div class="line">- (void)didSelectLinkWithURL:(NSString *)url; </div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@interface MISChatCell : UITableViewCell</div><div class="line"></div><div class="line">@property (nonatomic, weak) id &lt;MISChatCellDelegate&gt; delegate;</div><div class="line"></div><div class="line">//布局 Cell</div><div class="line">- (CGFloat)layoutCellWithObj:(id)obj;</div><div class="line"></div><div class="line">//布局高度</div><div class="line">+ (CGFloat)heightForCellWithObj:(id)obj;</div><div class="line"></div><div class="line">//复用标识</div><div class="line">+ (NSString *)reuseIdentifier;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>####源文件<br>非公开的方法和变量都放在这里。注意空格。</p>
+<p><strong>#pragma mark - Life Cycle 这种⻛风格。</strong></p>
+<p>eg.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line">#import &quot;MISChatCell.h&quot; </div><div class="line">#import &quot;MISMessageLable.h&quot;</div><div class="line"></div><div class="line">@interface MISChatCell() &lt;MISMessageLableDelegate&gt; //这里,如果超过两个,请换行写。</div><div class="line">//空一行</div><div class="line">@property (nonatomic, strong) UILabel *titleLabel;//行对⻬齐。</div><div class="line">@property (nonatomic, strong) MISMessageLable* contentLabel;</div><div class="line">//空一行</div><div class="line">@end</div><div class="line">//空一行</div><div class="line">@implementation MISChatCell</div><div class="line">//代理一般写在 //标题,注释下内容</div><div class="line"></div><div class="line">#pragma mark - Life Cycle</div><div class="line">//空一行</div><div class="line">- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier &#123;</div><div class="line">	self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]; </div><div class="line">	if (self) &#123;</div><div class="line">		//TODO: </div><div class="line">	&#125;</div><div class="line">	return self; </div><div class="line">&#125;</div><div class="line"></div><div class="line">- (void)dealloc &#123; //生命周期,init 后面要跟 dealloc</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - Public Methods //Public 方法要注明</div><div class="line"></div><div class="line">//布局 Cell</div><div class="line">- (CGFloat)layoutCellWithObj:(id)obj &#123;</div><div class="line">    return 0; </div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - Class Methods //类方法</div><div class="line"></div><div class="line">//布局高度</div><div class="line">+ (CGFloat)heightForCellWithObj:(id)obj &#123;</div><div class="line">	return 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//复用标识</div><div class="line">+ (NSString *)reuseIdentifier &#123;</div><div class="line">	return nil; </div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - Pivate Methods</div><div class="line">- (void)doSomething &#123; </div><div class="line">  //TODO:</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - Event //按钮-手势-等事件 //私有方法,头文件里不要出现</div><div class="line"></div><div class="line">- (void)tapName:(id)sender &#123; </div><div class="line">	//TODO:</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragma mark - MISMessageLableDelegate</div><div class="line">- (void)didLongPressLabel:(MISMessageLable *)label &#123;</div><div class="line">&#125;</div><div class="line"></div><div class="line">#pragmamark - Getter&amp;Setter //属性的Getter和Setter 这个最好放最后面。</div><div class="line"></div><div class="line">- (UILabel *)titleLabel &#123;</div><div class="line">	if (!_titleLabel) &#123;</div><div class="line">		_titleLabel = [[UILabel alloc] init];</div><div class="line">		//...</div><div class="line"> &#125;</div><div class="line">	return _titleLabel;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@end</div></pre></td></tr></table></figure>
+<p>###代码行缩进</p>
+<ul>
+<li>严格缩进 4 个空格</li>
+<li>可以设置 Xcode Settings-&gt;Prefer indent using:Tabs 4 spaces Tab key:indents always</li>
+<li>大扩号第一行开始，最后一行结束.保持 apple 的 style<br>注意空格{前面有一个.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">- (UILabel *)titleLabel &#123; </div><div class="line">  if (!_titleLabel) &#123;</div><div class="line">	_titleLabel = [[UILabel alloc] init];</div><div class="line">	//... </div><div class="line">  &#125;</div><div class="line">	return _titleLabel; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>//条件语句,注意空格</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if (condition1) &#123;</div><div class="line">   &#125; else if (condition2) &#123;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>//循环</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for (NSInteger i = 0; i &lt; 20; ++i) &#123;</div><div class="line"> &#125;</div><div class="line"> </div><div class="line">for (NSString* string in strings) &#123; </div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>//swith 语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">switch (tag) &#123; </div><div class="line">case 0://多条语句,一定要加&#123;&#125;</div><div class="line">&#123;</div><div class="line">&#125;</div><div class="line">     break;</div><div class="line">   default:</div><div class="line">     break;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>方法中换行情况,相同逻辑放一起,不同的要换一次行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">- (void)doSomething &#123;</div><div class="line">   逻辑1 </div><div class="line">   逻辑1</div><div class="line">   逻辑2 </div><div class="line"></div><div class="line">   逻辑3</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<p>###参考资料:</p>
+<ul>
+<li><p><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/Codi ngGuidelines/CodingGuidelines.pdf" target="_blank" rel="external">Apple CodingGuidelines</a></p>
+</li>
+<li><p><a href="https://github.com/oa414/objc-zen-book-cn" target="_blank" rel="external">禅与 Objective-C 编程艺术(Zen and the Art of the Objective-C Craftsmanship</a></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/25/2015-07-25-app-optimize-for-dateformater/" rel="next" title="提高App性能之NSDateFormater使用优化">
+                <i class="fa fa-chevron-left"></i> 提高App性能之NSDateFormater使用优化
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/28/2015-07-28-share-time-refresh-lable/" rel="prev" title="写一个易用的DateTimeLabel">
+                写一个易用的DateTimeLabel <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/27/2015-07-27-objective-c-code-style/"
+           data-title="谈谈Objective-C编码规范" data-url="http://devm.cn/2015/07/27/2015-07-27-objective-c-code-style/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

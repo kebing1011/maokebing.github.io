@@ -1,0 +1,545 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="###前言开发过程中，有时候同时维护多个项目，相同的模块可以提炼出来复用，如果只是copy来copy去，着实比较繁琐，这时候我们一般会考虑把不受项目影响的模块抽出来作成静态库，在ios8.0之前，还不支持动态库，所以这里不讨论动态库。什么模块适合做成库呢。根据我的经验以下这些可以：
+
+通用网络引擎
+加密解密工具
+提供第三方的SDK接入。
+通用数据存储。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈谈iOS静态库制作过程">
+<meta property="og:url" content="http://devm.cn/2015/12/09/2015-12-09-ios-make-framework copy/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="###前言开发过程中，有时候同时维护多个项目，相同的模块可以提炼出来复用，如果只是copy来copy去，着实比较繁琐，这时候我们一般会考虑把不受项目影响的模块抽出来作成静态库，在ios8.0之前，还不支持动态库，所以这里不讨论动态库。什么模块适合做成库呢。根据我的经验以下这些可以：
+
+通用网络引擎
+加密解密工具
+提供第三方的SDK接入。
+通用数据存储。">
+<meta property="og:updated_time" content="2016-10-08T14:53:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谈谈iOS静态库制作过程">
+<meta name="twitter:description" content="###前言开发过程中，有时候同时维护多个项目，相同的模块可以提炼出来复用，如果只是copy来copy去，着实比较繁琐，这时候我们一般会考虑把不受项目影响的模块抽出来作成静态库，在ios8.0之前，还不支持动态库，所以这里不讨论动态库。什么模块适合做成库呢。根据我的经验以下这些可以：
+
+通用网络引擎
+加密解密工具
+提供第三方的SDK接入。
+通用数据存储。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> 谈谈iOS静态库制作过程 | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                谈谈iOS静态库制作过程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-09T20:07:19+08:00" content="2015-12-09">
+              2015-12-09
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/09/2015-12-09-ios-make-framework copy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/09/2015-12-09-ios-make-framework copy/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>###前言<br>开发过程中，有时候同时维护多个项目，相同的模块可以提炼出来复用，如果只是copy来copy去，着实比较繁琐，这时候我们一般会考虑把不受项目影响的模块抽出来作成静态库，在ios8.0之前，还不支持动态库，所以这里不讨论动态库。什么模块适合做成库呢。根据我的经验以下这些可以：</p>
+<ul>
+<li>通用网络引擎</li>
+<li>加密解密工具</li>
+<li>提供第三方的SDK接入。</li>
+<li>通用数据存储。</li>
+</ul>
+<a id="more"></a>
+<p>这些都一个特点是，有足够的接口方使用它，使用者不用关心实现方式，或者给第三方用，又不方便开放源码，做成静态库呢，是最好的选择。</p>
+<p>###制作.a文件的静态库</p>
+<p>这种方式是Xcode推荐的方式，直接新建工程<code>-Framework&amp;Library-&gt;Cocoa Touch Static Libray</code>，选择静态库。图就不上了，把要制作的头文件和源文件考进来，设定好，最低支持的版本，架构，为了更好的兼容，最好向下兼容一些，支持6.0以上，支持armv7, armv7s, arm64, i386, x86_64 全架构，build对应的模拟器，从target里会生成i386, x86_64这种.a文件，切换成真机会生成armv7 arm64的架构。从Xcode6 之后，它建议的是<code>$(ARCHS_STANDARD)</code>这个是armv7,arm64, 我们需要手动改成armv7,arm64,armv7s,当然如果是你不改，自己用也无所谓，如果提拱给第三方，还是最好也支持armv7s的。<br>build时，注意修改scheme里面，改Build为release，这样生成的就是release版本了，编真机生成的.a文件，和编模拟器生成的.a不在一个目录下，我们可以分开来使用，也可合并一起.</p>
+<ul>
+<li>合并</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$lipo -create <span class="number">1</span>.a <span class="number">2</span>.a <span class="number">3</span>.a -output xx.a</div></pre></td></tr></table></figure>
+<ul>
+<li>查看</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$lipo -info libTestProject.a</div><div class="line">Architectures in the fat file: libTestProject.a are: armv7 arm64</div></pre></td></tr></table></figure>
+<ul>
+<li>详细用法-包插合并-拆分-提取-移除等等</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">lipo [input_file] ... </div><div class="line">[-arch &lt;arch_type&gt; input_file] ... </div><div class="line">[-info] </div><div class="line">[-detailed_info] </div><div class="line">[-output output_file] </div><div class="line">[-create] </div><div class="line">[-arch_blank &lt;arch_type&gt;] </div><div class="line">[-thin &lt;arch_type&gt;] </div><div class="line">[-remove &lt;arch_type&gt;] ... </div><div class="line">[-extract &lt;arch_type&gt;] ... </div><div class="line">[-extract_family &lt;arch_type&gt;] ... </div><div class="line">[-verify_arch &lt;arch_type&gt; ...] </div><div class="line">[-replace &lt;arch_type&gt; &lt;file_name&gt;] ...</div></pre></td></tr></table></figure>
+<p>生成的.a的静态库要配合.h头文件进行使用，当然如果经常打包静态的话，建议使用<code>命令打包</code>然后合并，自动化生成。</p>
+<p>这种方式生成的是一堆头文件加一个lib静态库文件的，毕竟有些分散，如果头文件就一两个还好。</p>
+<p>###制作Framework方式的静态库</p>
+<p>上面的方式生成静态库，还不是很理想，大家在使用UIKit的动态库时，极为方便，引入库，引入主头文件&lt;&gt;方式import进来，所有的都有了，真的是很强大。有没有这种方式的静态库呢，答案是肯定的。像支付宝，百度地图等都采取这种方式了，一个boundle而且，全部集成。<br>好，let’s do it.<br>Xcode新建工程-&gt;选择OSX<code>-Framework&amp;Library-&gt;Bundle</code>建一个Boudle，不是说了做静态库吗？别急，请往下看。支持最低版本，架构前面提过了，一样处理。要修改Build Settings一些地方。为了方便制作，我做了一个模版–点此<a href="https://github.com/maokebing/FrameWork" target="_blank" rel="external">Framework</a>下载.<br>复制一个模版Target，修改对应的地方，scheme,名称，info等地方，然后导入你的代码，添加一个通用头文件一般与Framework名子相同，像苹果的动态库那样命名。把要公开的头文件都包含到这个通用头文件里面。在Build Phases里面设定要Public和Private以及Project的头文件。</p>
+<p>编译并生成，我们使用新建一个Aggregate来完成这个过程，不用关心它的各种参数，我们要是它来Run Script来编译指定的target，用命令来完成编译打包制作framework。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line"># Sets the target folders and the final framework product.</div><div class="line">FMK_NAME=&quot;MyCore&quot;</div><div class="line">FMK_VERSION=&quot;A&quot;</div><div class="line"></div><div class="line"># Install dir will be the final output to the framework.</div><div class="line"># The following line create it in the root folder of the current project.</div><div class="line">INSTALL_DIR=$&#123;SRCROOT&#125;/Products/$&#123;FMK_NAME&#125;.framework</div><div class="line"></div><div class="line"># Working dir will be deleted after the framework creation.</div><div class="line">WRK_DIR=build</div><div class="line">DEVICE_DIR=$&#123;WRK_DIR&#125;/Release-iphoneos/$&#123;FMK_NAME&#125;.framework</div><div class="line">SIMULATOR_DIR=$&#123;WRK_DIR&#125;/Release-iphonesimulator/$&#123;FMK_NAME&#125;.framework</div><div class="line"></div><div class="line"># Building both architectures.</div><div class="line">xcodebuild -configuration &quot;Release&quot; -target &quot;$&#123;FMK_NAME&#125;&quot; -sdk iphoneos</div><div class="line">xcodebuild -configuration &quot;Release&quot; -target &quot;$&#123;FMK_NAME&#125;&quot; -sdk iphonesimulator</div><div class="line"></div><div class="line"># Cleaning the oldest.</div><div class="line">if [ -d &quot;$&#123;INSTALL_DIR&#125;&quot; ]</div><div class="line">then</div><div class="line">rm -rf &quot;$&#123;INSTALL_DIR&#125;&quot;</div><div class="line">fi</div><div class="line"></div><div class="line"># Creates and renews the final product folder.</div><div class="line">mkdir -p &quot;$&#123;INSTALL_DIR&#125;&quot;</div><div class="line">mkdir -p &quot;$&#123;INSTALL_DIR&#125;/Versions&quot;</div><div class="line">mkdir -p &quot;$&#123;INSTALL_DIR&#125;/Versions/$&#123;FMK_VERSION&#125;&quot;</div><div class="line">mkdir -p &quot;$&#123;INSTALL_DIR&#125;/Versions/$&#123;FMK_VERSION&#125;/Resources&quot;</div><div class="line">mkdir -p &quot;$&#123;INSTALL_DIR&#125;/Versions/$&#123;FMK_VERSION&#125;/Headers&quot;</div><div class="line"></div><div class="line"># Creates the internal links.</div><div class="line"># It MUST uses relative path, otherwise will not work when the folder is copied/moved.</div><div class="line">ln -s &quot;$&#123;FMK_VERSION&#125;&quot; &quot;$&#123;INSTALL_DIR&#125;/Versions/Current&quot;</div><div class="line">ln -s &quot;Versions/Current/Headers&quot; &quot;$&#123;INSTALL_DIR&#125;/Headers&quot;</div><div class="line">ln -s &quot;Versions/Current/Resources&quot; &quot;$&#123;INSTALL_DIR&#125;/Resources&quot;</div><div class="line">ln -s &quot;Versions/Current/$&#123;FMK_NAME&#125;&quot; &quot;$&#123;INSTALL_DIR&#125;/$&#123;FMK_NAME&#125;&quot;</div><div class="line"></div><div class="line"># Copies the headers and resources files to the final product folder.</div><div class="line">cp -R &quot;$&#123;DEVICE_DIR&#125;/Headers/&quot; &quot;$&#123;INSTALL_DIR&#125;/Versions/$&#123;FMK_VERSION&#125;/Headers/&quot;</div><div class="line">cp -R &quot;$&#123;DEVICE_DIR&#125;/&quot; &quot;$&#123;INSTALL_DIR&#125;/Versions/$&#123;FMK_VERSION&#125;/Resources/&quot;</div><div class="line"></div><div class="line"># Removes the binary and header from the resources folder.</div><div class="line">rm -r &quot;$&#123;INSTALL_DIR&#125;/Versions/$&#123;FMK_VERSION&#125;/Resources/Headers&quot; &quot;$&#123;INSTALL_DIR&#125;/Versions/$&#123;FMK_VERSION&#125;/Resources/$&#123;FMK_NAME&#125;&quot;</div><div class="line"></div><div class="line"># Uses the Lipo Tool to merge both binary files (i386 + armv6/armv7) into one Universal final product.</div><div class="line">lipo -create &quot;$&#123;DEVICE_DIR&#125;/$&#123;FMK_NAME&#125;&quot; &quot;$&#123;SIMULATOR_DIR&#125;/$&#123;FMK_NAME&#125;&quot; -output &quot;$&#123;INSTALL_DIR&#125;/Versions/$&#123;FMK_VERSION&#125;/$&#123;FMK_NAME&#125;&quot;</div><div class="line"></div><div class="line">rm -r &quot;$&#123;WRK_DIR&#125;&quot;</div></pre></td></tr></table></figure>
+<p>生成的frameworkd在工程目录下Products下面。上面过程，完成了编译打包lipo合并，生成的跟.a是一样，只不过把头文件都放到了指定位置，整体放到了一个bundle里面，够强大，好用。</p>
+<p>###关于静态库引用资源<br>我们建一个文件夹，然加一个扩展名.Bundle，确认后，就会变成bundle的样子，右建显示内容，然后将图片等资源放进去，在静态库代码里面调用时，注意加文件目录引用，或指定bundle来调用。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/06/2015-12-06-ios-use-webp/" rel="next" title="说说webp图片在iOS上的使用">
+                <i class="fa fa-chevron-left"></i> 说说webp图片在iOS上的使用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/11/2015-12-11-auto-curl-upload/" rel="prev" title="自动化编译打包并发布到蒲公英平台">
+                自动化编译打包并发布到蒲公英平台 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/12/09/2015-12-09-ios-make-framework copy/"
+           data-title="谈谈iOS静态库制作过程" data-url="http://devm.cn/2015/12/09/2015-12-09-ios-make-framework copy/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

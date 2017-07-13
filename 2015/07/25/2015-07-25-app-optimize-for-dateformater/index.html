@@ -1,0 +1,526 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="相信小伙伴对NSDateFormater这个类不陌生吧，在做UI界面很多时候都用显示时间，系统给我们提供的时间类NSDate，然后配合NSDateFormater这个类来显示不同格式的时间字符串，也可以由字符串和相应的格式再转成NSDate对象，方便在别处使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="提高App性能之NSDateFormater使用优化">
+<meta property="og:url" content="http://devm.cn/2015/07/25/2015-07-25-app-optimize-for-dateformater/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="相信小伙伴对NSDateFormater这个类不陌生吧，在做UI界面很多时候都用显示时间，系统给我们提供的时间类NSDate，然后配合NSDateFormater这个类来显示不同格式的时间字符串，也可以由字符串和相应的格式再转成NSDate对象，方便在别处使用。">
+<meta property="og:updated_time" content="2015-07-25T14:41:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="提高App性能之NSDateFormater使用优化">
+<meta name="twitter:description" content="相信小伙伴对NSDateFormater这个类不陌生吧，在做UI界面很多时候都用显示时间，系统给我们提供的时间类NSDate，然后配合NSDateFormater这个类来显示不同格式的时间字符串，也可以由字符串和相应的格式再转成NSDate对象，方便在别处使用。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> 提高App性能之NSDateFormater使用优化 | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                提高App性能之NSDateFormater使用优化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-25T22:00:32+08:00" content="2015-07-25">
+              2015-07-25
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/25/2015-07-25-app-optimize-for-dateformater/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/25/2015-07-25-app-optimize-for-dateformater/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>相信小伙伴对<code>NSDateFormater</code>这个类不陌生吧，在做UI界面很多时候都用显示时间，系统给我们提供的时间类NSDate，然后配合NSDateFormater这个类来显示不同格式的时间字符串，也可以由字符串和相应的格式再转成NSDate对象，方便在别处使用。</p>
+<a id="more"></a>
+<p>通用做法是写一个工具类，来将NSDate格式化成字符串，以及将格式的字符串转成NSDate对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">+ (NSString *)stringFromDate:(NSDate *)date withFmt:(NSString *)fmt &#123;</div><div class="line">	if (!date) &#123;</div><div class="line">		return @&quot;&quot;;</div><div class="line">	&#125;</div><div class="line">	NSDateFormatter* format = [[NSDateFormatter alloc] init];</div><div class="line">	[format setDateFormat:fmt];</div><div class="line">	return [format stringFromDate:date];</div><div class="line">&#125;</div><div class="line"></div><div class="line">+ (NSDate *)dateFromString:(NSString *)str withFmt:(NSString *)fmt &#123;</div><div class="line">	if (str.length == 0) &#123;</div><div class="line">		return nil;</div><div class="line">	&#125;</div><div class="line">	NSDateFormatter* format = [[NSDateFormatter alloc] init];</div><div class="line">	[format setDateFormat:fmt];</div><div class="line">	return [format dateFromString:str];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样我们可以在任何地方来使用，在tableview的Cell上也这样使用，一开始也没有感觉有什么不妥，滑动有一点点卡顿，于是各种优化。当看到一篇文章说，NSDateFormatter这个类在创建的时候，比较耗CPU资源。</p>
+<p>咱们来试一下看看。<br>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">NSString* fm1 = @&quot;yyyy&quot;;</div><div class="line">	NSString* fm2 = @&quot;yyyy-MM-dd&quot;;</div><div class="line">	NSString* fm3 = @&quot;yyyy/MM/dd&quot;;</div><div class="line">	NSString* fm4 = @&quot;hh:mm:ss&quot;;</div><div class="line">	</div><div class="line">	[MFRunDurationUtils calcWithBlock:^&#123;</div><div class="line">		@autoreleasepool &#123;</div><div class="line">			int i = 10000;</div><div class="line">			while (i--) &#123;</div><div class="line">				NSDateFormatter* fm = [[NSDateFormatter alloc] init];</div><div class="line">				int ch = i % 4;</div><div class="line">				if (ch == 0) &#123;</div><div class="line">					fm.dateFormat = fm1;</div><div class="line">				&#125;else if(ch == 1) &#123;</div><div class="line">					fm.dateFormat = fm2;</div><div class="line">				&#125;else if(ch == 2) &#123;</div><div class="line">					fm.dateFormat = fm3;</div><div class="line">				&#125;else &#123;</div><div class="line">					fm.dateFormat = fm4;</div><div class="line">				&#125;</div><div class="line">				</div><div class="line">				[fm stringFromDate:[NSDate date]];</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;];</div></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Run Now!</div><div class="line">Run Finish!</div><div class="line">Duration: 1.863098s</div></pre></td></tr></table></figure>
+<p><code>MFRunDurationUtils</code>这个类是用来测试运行时间，见上一篇文章。<br>这个代码，就可以模仿那个工具的方法使用情况，看这个时间是有点长，但是长多少呢，好吧，空口无凭，咱们只创建一次，使用的时候设置dataforma。代码改为下面再试：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">[MFRunDurationUtils calcWithBlock:^&#123;</div><div class="line">		NSDateFormatter* fm = [[NSDateFormatter alloc] init];</div><div class="line">		@autoreleasepool &#123;</div><div class="line">			int i = 10000;</div><div class="line">			while (i--) &#123;</div><div class="line">				int ch = i % 4;</div><div class="line">				if (ch == 0) &#123;</div><div class="line">					fm.dateFormat = fm1;</div><div class="line">				&#125;else if(ch == 1) &#123;</div><div class="line">					fm.dateFormat = fm2;</div><div class="line">				&#125;else if(ch == 2) &#123;</div><div class="line">					fm.dateFormat = fm3;</div><div class="line">				&#125;else &#123;</div><div class="line">					fm.dateFormat = fm4;</div><div class="line">				&#125;</div><div class="line">				</div><div class="line">				[fm stringFromDate:[NSDate date]];</div><div class="line"></div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;];</div></pre></td></tr></table></figure>
+<p>运行结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Run Now!</div><div class="line">Run Finish!</div><div class="line">Duration: 0.023548s</div></pre></td></tr></table></figure>
+<p>再改一下，咱们缓存DateFormater对象，再来试试。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">[MFRunDurationUtils calcWithBlock:^&#123;</div><div class="line">		NSCache* dateFormatCache = [[NSCache alloc] init];</div><div class="line">		</div><div class="line">		NSDateFormatter* df1 = [[NSDateFormatter alloc] init];</div><div class="line">		NSDateFormatter* df2 = [[NSDateFormatter alloc] init];</div><div class="line">		NSDateFormatter* df3 = [[NSDateFormatter alloc] init];</div><div class="line">		NSDateFormatter* df4 = [[NSDateFormatter alloc] init];</div><div class="line">		df1.dateFormat = fm1;</div><div class="line">		df2.dateFormat = fm2;</div><div class="line">		df3.dateFormat = fm3;</div><div class="line">		df4.dateFormat = fm4;</div><div class="line">		</div><div class="line">		[dateFormatCache setObject:df1 forKey:fm1];</div><div class="line">		[dateFormatCache setObject:df2 forKey:fm2];</div><div class="line">		[dateFormatCache setObject:df3 forKey:fm3];</div><div class="line">		[dateFormatCache setObject:df4 forKey:fm4];</div><div class="line"></div><div class="line">		</div><div class="line">		@autoreleasepool &#123;</div><div class="line">			int i = 10000;</div><div class="line">			while (i--) &#123;</div><div class="line">				NSDateFormatter* df = nil;</div><div class="line">				int ch = i % 4;</div><div class="line">				if (ch == 0) &#123;</div><div class="line">					df = [dateFormatCache objectForKey:fm1];</div><div class="line">				&#125;else if(ch == 1) &#123;</div><div class="line">					df = [dateFormatCache objectForKey:fm2];</div><div class="line">				&#125;else if(ch == 2) &#123;</div><div class="line">					df = [dateFormatCache objectForKey:fm3];</div><div class="line">				&#125;else &#123;</div><div class="line">					df = [dateFormatCache objectForKey:fm4];</div><div class="line">				&#125;</div><div class="line">				</div><div class="line">				[df stringFromDate:[NSDate date]];</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;];</div></pre></td></tr></table></figure>
+<p>结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Run Now!</div><div class="line">Run Finish!</div><div class="line">Duration: 0.023317s</div></pre></td></tr></table></figure>
+<p>三种代码一起运行一下再看结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Run Now!</div><div class="line">Run Finish!</div><div class="line">Duration: 1.863098s</div><div class="line">Run Now!</div><div class="line">Run Finish!</div><div class="line">Duration: 0.023548s</div><div class="line">Run Now!</div><div class="line">Run Finish!</div><div class="line">Duration: 0.023317s</div></pre></td></tr></table></figure>
+<p>我了个神啊，这创建费了好多资源啊，慢了近90倍，后面两种方式差别不大，相信看到这里，你可能已经有优化的办法了。</p>
+<p>###优化方案:</p>
+<ul>
+<li><p>全局中共用一个DateFormater对象， 单例也行，然后用的时候，设置其format，然后使 用它。这里要注意的地方是，DateFormater这个类不是线程安全的，如果多线程使用的时候，注意设置dateFormat跟使用格式Date要线程同步。否责，你懂得，出现崩溃或格式出错。</p>
+</li>
+<li><p>使用<strong>NSCache</strong>(不要用<strong>*NSMutableDictionary</strong>线程不安全）来缓存DateFormater对象，拿dateFormat的string来当健值，如果格式少可以一次性创建后塞到里面，也可以在用的时候，懒创建。NSCache是线程安全，这种方案不用担心多性程的情况了。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/23/2015-07-23-calc-code-run-timeinterval/" rel="next" title="测试一段iOS代码运行时间的方法">
+                <i class="fa fa-chevron-left"></i> 测试一段iOS代码运行时间的方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/27/2015-07-27-objective-c-code-style/" rel="prev" title="谈谈Objective-C编码规范">
+                谈谈Objective-C编码规范 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/25/2015-07-25-app-optimize-for-dateformater/"
+           data-title="提高App性能之NSDateFormater使用优化" data-url="http://devm.cn/2015/07/25/2015-07-25-app-optimize-for-dateformater/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

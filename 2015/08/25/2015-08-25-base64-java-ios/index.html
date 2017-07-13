@@ -1,0 +1,524 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Base64是网络上最常见的用于传输8Bit字节代码的编码方式之一，大家可以查看RFC2045～RFC2049，上面有MIME的详细规范。Base64编码可用于在HTTP环境下传递较长的标识信息。今天来说说Base64在iOS和Java使用过程中，要统一编码所遇到的一些坑，方便这方面的快速绕过它们。
+在java中，如如Android开发已经提供了或者第三方的类，编码和解码时，会用到这几种模式：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈谈Base64编码iOS和Java开发过程中遇到的坑">
+<meta property="og:url" content="http://devm.cn/2015/08/25/2015-08-25-base64-java-ios/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="Base64是网络上最常见的用于传输8Bit字节代码的编码方式之一，大家可以查看RFC2045～RFC2049，上面有MIME的详细规范。Base64编码可用于在HTTP环境下传递较长的标识信息。今天来说说Base64在iOS和Java使用过程中，要统一编码所遇到的一些坑，方便这方面的快速绕过它们。
+在java中，如如Android开发已经提供了或者第三方的类，编码和解码时，会用到这几种模式：">
+<meta property="og:updated_time" content="2015-08-25T13:20:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谈谈Base64编码iOS和Java开发过程中遇到的坑">
+<meta name="twitter:description" content="Base64是网络上最常见的用于传输8Bit字节代码的编码方式之一，大家可以查看RFC2045～RFC2049，上面有MIME的详细规范。Base64编码可用于在HTTP环境下传递较长的标识信息。今天来说说Base64在iOS和Java使用过程中，要统一编码所遇到的一些坑，方便这方面的快速绕过它们。
+在java中，如如Android开发已经提供了或者第三方的类，编码和解码时，会用到这几种模式：">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> 谈谈Base64编码iOS和Java开发过程中遇到的坑 | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                谈谈Base64编码iOS和Java开发过程中遇到的坑
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-25T20:29:28+08:00" content="2015-08-25">
+              2015-08-25
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/25/2015-08-25-base64-java-ios/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/25/2015-08-25-base64-java-ios/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Base64是网络上最常见的用于传输8Bit字节代码的编码方式之一，大家可以查看RFC2045～RFC2049，上面有MIME的详细规范。Base64编码可用于在HTTP环境下传递较长的标识信息。<br>今天来说说Base64在iOS和Java使用过程中，要统一编码所遇到的一些坑，方便这方面的快速绕过它们。</p>
+<p>在java中，如如Android开发已经提供了或者第三方的类，编码和解码时，会用到这几种模式：</p>
+<ul>
+<li><strong>CRLF</strong> 这个参数看起来比较眼熟，它就是Win风格的换行符，意思就是使用CR LF这一对作为一行的结尾而不是Unix风格的LF</li>
+<li><strong>DEFAULT</strong> 这个参数是默认，使用默认的方法来加密</li>
+<li><strong>NO_PADDING</strong> 这个参数是略去加密字符串最后的”=”</li>
+<li><strong>NO_WRAP</strong> 这个参数意思是略去所有的换行符（设置后CRLF就没用了）</li>
+<li><strong>URL_SAFE</strong> 这个参数意思是加密时不使用对URL和文件名有特殊意义的字符来作为加密字符，具体就是以-和_取代+和/</li>
+</ul>
+<a id="more"></a>
+<p>这个几种模式可以叠加使用，比如用 NO_PADDING | NO_WRAP 这种方式，满足两种模式。</p>
+<p>在iOS开发时，系统没有提供这方面的API，所以大家可能找到很多类似的源码，提一个比较常用的就是google的开源<code>GTMBase64</code>，它在使用的时候，方法里有一个Padded设定，实际上，使用padding的话，相当于末尾可能有=。不用的话，相当于上面java的NO_PADDING，而它编码是不换行的，也就是说是NO_WRAP的。还一些网页上，别人写的一些base64的工具方法，直接拿来用可以，一定注意都是NO_WRAP和有padding的。</p>
+<p>相信小伙伴们有时候，做加解密，如AES， DES等，加解密生成的都是byte[], 一般会在中间过程用到Base64编码，用于读取或HTTP请求参数等等。</p>
+<ul>
+<li><strong>坑一</strong>:由于测试的字段较短，Base64生成的结果一样，就以为大功告成了，当字符长了， NO_PADDING的和有PADDING的在加解密过程完全不一样，问题来了。</li>
+<li><strong>坑二</strong>: 由于iOS这边用的是NO_WRAP的加了密，Java那边能解出来，而有一天，他们那边要传给iOS这边客户端，却解不出来了，于是争论来了，以前能用，可是，可是，尤其是已经上线很久了。</li>
+</ul>
+<p>这是我通过GTMBase和Java Base64编码了一个图片文件后结果到对应的文件中，这是其MD5值比较是否相等:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//======iOS---GTMBase64=======</span></div><div class="line">MD5 (/Users/Mao/Desktop/ios)                              = <span class="number">427027786</span><span class="function">ebcf206e2e0677962550702</span></div><div class="line"><span class="title">MD5</span> <span class="params">(/Users/Mao/Desktop/ios_NO_PADDING)</span>                   = <span class="function">e318b262bd526e686ff6e7a6f6eaad14</span></div><div class="line"><span class="title">MD5</span> <span class="params">(/Users/Mao/Desktop/ios_URL_SAFE_NO_PADDING)</span>          = <span class="number">4</span><span class="function">b17c05e5bca2a83b808eb17b64653d3</span></div><div class="line"><span class="title">MD5</span> <span class="params">(/Users/Mao/Desktop/ios_URL_SAFE)</span>                     = <span class="number">3</span>ccd8825cf30d2c095d192935ea188d9</div><div class="line"></div><div class="line"><span class="comment">//======java---Base64==========</span></div><div class="line">MD5 (/Users/Mao/Desktop/java_NO_WRAP_NO_PADDING)          = <span class="function">e318b262bd526e686ff6e7a6f6eaad14</span></div><div class="line"><span class="title">MD5</span> <span class="params">(/Users/Mao/Desktop/java_NO_PADDING)</span>                  = <span class="number">8291228f</span><span class="function">ddea1be192ae0119c383343f</span></div><div class="line"><span class="title">MD5</span> <span class="params">(/Users/Mao/Desktop/java_NO_WRAP)</span>                     = <span class="number">427027786</span><span class="function">ebcf206e2e0677962550702</span></div><div class="line"><span class="title">MD5</span> <span class="params">(/Users/Mao/Desktop/java_URL_SAFE_NO_PADDING_NO_WRAP)</span> = <span class="number">4</span><span class="function">b17c05e5bca2a83b808eb17b64653d3</span></div><div class="line"><span class="title">MD5</span> <span class="params">(/Users/Mao/Desktop/java_URL_SAFE_NO_PADDING)</span>         = <span class="number">0e5824</span><span class="function">b88582732080910150c1cbbd0d</span></div><div class="line"><span class="title">MD5</span> <span class="params">(/Users/Mao/Desktop/java_URL_SAFE_NO_WRAP)</span>            = <span class="number">3</span><span class="function">ccd8825cf30d2c095d192935ea188d9</span></div><div class="line"><span class="title">MD5</span> <span class="params">(/Users/Mao/Desktop/java_URL_SAFE)</span>                    = d7406663bd02bc02844b0b5630a7361d</div></pre></td></tr></table></figure>
+<p>代码就不贴上来了，可以自行测试，为了两个平台完全兼容，使用总结如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">GTMBase64  Padded YES         !=  Java  DEFAULT</div><div class="line">GTMBase64  Padded NO          ==  Java  NO_PADDING | NO_WRAP</div><div class="line">GTMBase64  Padded YES         ==  Java  NO_WRAP</div><div class="line">GTMBase64  websafe Padded NO  ==  java  NO_PADDING | NO_WRAP | URL_SAFE</div><div class="line">GTMBase64  websafe Padded YES ==  java NO_WRAP | URL_SAFE</div></pre></td></tr></table></figure>
+<p>大家在使用过程中，要加密长数据，来比较其是否相同，不能疏忽而测试一个段数据，而确定就用了。前面人踩过的雷，后面的人就不要再好奇了。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/23/2015-08-23-yfaudio/" rel="next" title="轻量级的语音录制下载播放引擎-YFAudio">
+                <i class="fa fa-chevron-left"></i> 轻量级的语音录制下载播放引擎-YFAudio
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/30/2015-08-30-zlib-use-in-ios-java/" rel="prev" title="谈谈ZLib在iOS和Java中的使用">
+                谈谈ZLib在iOS和Java中的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/08/25/2015-08-25-base64-java-ios/"
+           data-title="谈谈Base64编码iOS和Java开发过程中遇到的坑" data-url="http://devm.cn/2015/08/25/2015-08-25-base64-java-ios/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

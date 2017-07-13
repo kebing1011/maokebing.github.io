@@ -1,0 +1,534 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="自动化编译不会偷懒的程序员，不是好程序员，做程序为了什么，用电脑强大的cpu来帮我们做重复的事，如批处理，或把一些按照过程连起来做完，我们简单的敲一个命令或动动鼠标，电脑就吭哧吭哧的为我们来工作了，做完可以友好的通知我们，可以放一段音乐，可以响铃，这些是你说了算的，这个过程中，我们可以优雅得喝点茶，运筹帷幄，决胜千里之外，人生从来没有如此的惬意。一不留神说多了，现在进入我们的主题自动化编译。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动化编译打包并发布到蒲公英平台">
+<meta property="og:url" content="http://devm.cn/2015/12/11/2015-12-11-auto-curl-upload/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="自动化编译不会偷懒的程序员，不是好程序员，做程序为了什么，用电脑强大的cpu来帮我们做重复的事，如批处理，或把一些按照过程连起来做完，我们简单的敲一个命令或动动鼠标，电脑就吭哧吭哧的为我们来工作了，做完可以友好的通知我们，可以放一段音乐，可以响铃，这些是你说了算的，这个过程中，我们可以优雅得喝点茶，运筹帷幄，决胜千里之外，人生从来没有如此的惬意。一不留神说多了，现在进入我们的主题自动化编译。">
+<meta property="og:updated_time" content="2016-10-08T14:54:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自动化编译打包并发布到蒲公英平台">
+<meta name="twitter:description" content="自动化编译不会偷懒的程序员，不是好程序员，做程序为了什么，用电脑强大的cpu来帮我们做重复的事，如批处理，或把一些按照过程连起来做完，我们简单的敲一个命令或动动鼠标，电脑就吭哧吭哧的为我们来工作了，做完可以友好的通知我们，可以放一段音乐，可以响铃，这些是你说了算的，这个过程中，我们可以优雅得喝点茶，运筹帷幄，决胜千里之外，人生从来没有如此的惬意。一不留神说多了，现在进入我们的主题自动化编译。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> 自动化编译打包并发布到蒲公英平台 | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                自动化编译打包并发布到蒲公英平台
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-11T20:07:19+08:00" content="2015-12-11">
+              2015-12-11
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/11/2015-12-11-auto-curl-upload/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/11/2015-12-11-auto-curl-upload/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="自动化编译"><a href="#自动化编译" class="headerlink" title="自动化编译"></a>自动化编译</h3><p>不会偷懒的程序员，不是好程序员，做程序为了什么，用电脑强大的cpu来帮我们做重复的事，如批处理，或把一些按照过程连起来做完，我们简单的敲一个命令或动动鼠标，电脑就吭哧吭哧的为我们来工作了，做完可以友好的通知我们，可以放一段音乐，可以响铃，这些是你说了算的，这个过程中，我们可以优雅得喝点茶，运筹帷幄，决胜千里之外，人生从来没有如此的惬意。一不留神说多了，现在进入我们的主题自动化编译。</p>
+<a id="more"></a>
+<p>咱们先说说iOS平台，Xcode是个好东东啊，可以手动用Xcode来Build,来archive。今天的主角是它提供的命令行工具，安装Xcode时候就悄无声息的装上了，其实界面编译打包也是调用的command-line，看看build settings就知道了，试想一下，如果我们写编译文件，光指定Setting这些参就够用整个半天的。所以在建新工程的时候，它就给你预先配置好了。<br>下面我们来说说用<code>xcodebuild</code>, 先说说<code>xcode-select</code></p>
+<h4 id="xcode-select"><a href="#xcode-select" class="headerlink" title="xcode-select"></a>xcode-select</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">-h, --help                  print <span class="keyword">this</span> help message and exit</div><div class="line">-p, --print-path            print the path of the active developer directory</div><div class="line">-s &lt;path&gt;, --<span class="keyword">switch</span> &lt;path&gt;  set the path <span class="keyword">for</span> the active developer directory</div><div class="line">--install                   open a dialog <span class="keyword">for</span> installation of the command line developer tools</div><div class="line">-v, --version               print the xcode-select version</div><div class="line">-r, --reset                 reset to the <span class="keyword">default</span> command line tools path</div></pre></td></tr></table></figure>
+<p>可以查看当前xcodebuild要使用的xcode版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$xcode-select -p</div><div class="line"></div><div class="line">/Applications/Xcode.app/Contents/Developer</div></pre></td></tr></table></figure>
+<p>如果我们有多个Xcode我们在调用xcode-build的时候，可以切换xcode</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xcode-select -s  /Applications/Xcode.app/Contents/Developer</div></pre></td></tr></table></figure>
+<p>也可以启动Xode的preference里面，Locations-&gt;Command Line Tools: 切换你的xcode版本</p>
+<h4 id="xcodebuild"><a href="#xcodebuild" class="headerlink" title="xcodebuild"></a>xcodebuild</h4><p>它的调用要使用Xcode他建的工程文件 xx.xcodeproj。在这个文件所在目录下，执行这个命令就可以编译了，它会以你的当前选中的target, 当前build settings的这些设定的参数来进行。执行后，会在这个目录下生成一个build目录。</p>
+<p>我们可以指定很多参数：覆盖当前的setting。自行<code>`$xcodebuild --help</code>去查看，太多了，我们常用的如下：</p>
+<ul>
+<li>-configuration “Release” or “Debug” 以relase或debug</li>
+<li>-sdk iphoneos  是build 真机 还是 模拟器</li>
+<li>-target xxx 指定哪个target或 -alltargets 所有的</li>
+<li>clean 加上这个build时会先clean一下</li>
+</ul>
+<h4 id="xcrun"><a href="#xcrun" class="headerlink" title="xcrun"></a>xcrun</h4><p>使用xcodebuild完成之后，会生成xx.app的app我们发布的时候，一般会用ipa或zip文件，我们上传提交app store审核时。用三种办法：</p>
+<ul>
+<li>Xcode archive方式.</li>
+<li>Xcode build relase版之后，将.app文件，放到一个Payload文件夹，然后zip一下，生成的xx.zip提交。或者把.zip改成.ipa也一样，仅仅是个名子而已。</li>
+<li>xcrun方式生成.ipa，其实跟zip方式差不多。都是放到Payload压缩一下。</li>
+</ul>
+<p>xcrun使用如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$xcrun -sdk iphoneos PackageApplication  xx.app -o xx.ipa</div></pre></td></tr></table></figure>
+<h3 id="curl上传至蒲公英"><a href="#curl上传至蒲公英" class="headerlink" title="curl上传至蒲公英"></a>curl上传至蒲公英</h3><p><code>curl</code>这个命令好强大！！绝对是一大利器，OSX上自带了，它也支持其它操作系统，下载到官网<a href="http://curl.haxx.se" target="_blank" rel="external">curl</a>,怎么使用，资料很多，不多说了。咱们只用它进行上传，上传方式，蒲公英提供了方法，所以shell脚本如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">u_key=你的u_key</div><div class="line">api_key=你的api_key</div><div class="line">url=http://www.pgyer.com/apiv1/app/upload</div><div class="line"></div><div class="line">response=`curl -F &quot;file=@你的ipa文件&quot; -F &quot;uKey=$&#123;u_key&#125;&quot; -F &quot;_api_key=$&#123;api_key&#125;&quot; -F &quot;publishRange=2&quot; $&#123;url&#125;`</div></pre></td></tr></table></figure>
+<h3 id="合并过程，打包并上传"><a href="#合并过程，打包并上传" class="headerlink" title="合并过程，打包并上传"></a>合并过程，打包并上传</h3><p>将上面的build和打包及上传过程合并一下，做好shell脚本，悠哉啊。<br>直接上码:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line"></div><div class="line">#上传至pgyer</div><div class="line">function upload()</div><div class="line">&#123;</div><div class="line">	u_key=你的key</div><div class="line">	api_key=你的api_key</div><div class="line">	url=http://www.pgyer.com/apiv1/app/upload</div><div class="line"></div><div class="line">	response=`curl -F &quot;file=@$1&quot; -F &quot;uKey=$&#123;u_key&#125;&quot; -F &quot;_api_key=$&#123;api_key&#125;&quot; -F &quot;publishRange=2&quot; $&#123;url&#125;`</div><div class="line">	</div><div class="line">	echo $&#123;response&#125;</div><div class="line"></div><div class="line">	return 0;	</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">function echo_green()</div><div class="line"> &#123;</div><div class="line"> 	echo -e &quot;\033[32m $1 \033[0m&quot;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> function echo_red() </div><div class="line"> &#123;</div><div class="line"> 	echo -e &quot;\033[31m $1 \033[0m&quot;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> function echo_blue()</div><div class="line"> &#123;</div><div class="line"> 	echo -e &quot;\033[36m $1 \033[0m&quot; </div><div class="line"> &#125;</div><div class="line"></div><div class="line">#检查是否安装了jq</div><div class="line">function check_jq()</div><div class="line">&#123;</div><div class="line">	var=`which jq`</div><div class="line">	if [[ &quot;$var&quot; =  &quot;&quot; ]]; then</div><div class="line">		echo_red &apos;没有安装jq! 输入 &quot;brew install jq&quot; 来安装&apos;</div><div class="line">		# echo 请输入brew install jq 来安装</div><div class="line">	fi</div><div class="line">&#125;</div><div class="line"></div><div class="line">#解析第一层</div><div class="line"> function parse_str1()</div><div class="line"> &#123;</div><div class="line"> 	 str=`jq .$1 $2`</div><div class="line">     str1=$&#123;str#*&apos;&quot;&apos;&#125;</div><div class="line">     str2=$&#123;str1%&apos;&quot;&apos;*&#125;</div><div class="line">     echo $&#123;str2&#125;	</div><div class="line">     return 0;</div><div class="line"> &#125;</div><div class="line"></div><div class="line">#解析第二层</div><div class="line"> function parse_str2()</div><div class="line"> &#123;</div><div class="line"> 	 str=`jq .&apos;data&apos;.$1 $2`</div><div class="line">     str1=$&#123;str#*&apos;&quot;&apos;&#125;</div><div class="line">     str2=$&#123;str1%&apos;&quot;&apos;*&#125;</div><div class="line">     echo $&#123;str2&#125;	</div><div class="line">     return 0;</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> </div><div class="line">#解析返回信息</div><div class="line">function parse_response_info()</div><div class="line">&#123;</div><div class="line">	#检查jq-没有直接跳过</div><div class="line">	check_jq_str=`check_jq`</div><div class="line">	if [[ &quot;$check_jq_str&quot; != &quot;&quot; ]]; then</div><div class="line">		echo $&#123;check_jq_str&#125;;</div><div class="line">		return 0;</div><div class="line">	fi</div><div class="line"></div><div class="line">	#解析主要字段</div><div class="line">	err_code=`parse_str1 code $1`</div><div class="line">	err_msg=`parse_str1 message $1`</div><div class="line"></div><div class="line"></div><div class="line">	#得到App摘要</div><div class="line">	if [[ &quot;$&#123;err_code&#125;&quot; = &quot;0&quot; ]]; then</div><div class="line">		#解析子子段</div><div class="line">		pgyer_url=&apos;http://www.pgyer.com/&apos;</div><div class="line">		app_name=`parse_str2 appName $1`</div><div class="line">	    app_version=`parse_str2 appVersion $1`</div><div class="line">		app_build_version=`parse_str2 appBuildVersion $1`</div><div class="line">		app_shortcut_url=`parse_str2 appShortcutUrl $1`</div><div class="line">		download_url=$&#123;pgyer_url&#125;`parse_str2 appShortcutUrl $1`</div><div class="line"></div><div class="line">		echo_blue  &quot;$&#123;app_name&#125; $2 Beta V$&#123;app_version&#125; build $&#123;app_build_version&#125;&quot;</div><div class="line">		echo_blue  &quot;下载地址: $&#123;download_url&#125;&quot;</div><div class="line">	else</div><div class="line">		echo_red $&#123;err_msg&#125;</div><div class="line">	fi</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">function clean_project()</div><div class="line">&#123;</div><div class="line">	xcodebuild -configuration &quot;Release&quot; -alltargets -sdk iphoneos clean</div><div class="line">&#125;</div><div class="line"></div><div class="line">function build_project()</div><div class="line">&#123;</div><div class="line">	xcodebuild -configuration &quot;Release&quot; -alltargets -sdk iphoneos</div><div class="line">&#125;</div><div class="line"></div><div class="line">function package_app()</div><div class="line">&#123;</div><div class="line">	APP_PATH=build/Release-iphoneos</div><div class="line">	TARGET=$1</div><div class="line">	APP_VERSION=`/usr/libexec/PlistBuddy -c &quot;Print:CFBundleShortVersionString&quot; $&#123;APP_PATH&#125;/$&#123;TARGET&#125;.app/Info.plist`</div><div class="line">	IPA_FILE=$&#123;TARGET&#125;-ios-beta-$&#123;APP_VERSION&#125;-`date +&quot;%Y%m%d-%H%M%S&quot;`.ipa</div><div class="line">	IPA_PATH=~/Desktop/$&#123;IPA_FILE&#125;</div><div class="line">	xcrun -sdk iphoneos PackageApplication  $&#123;APP_PATH&#125;/$&#123;TARGET&#125;.app -o $&#123;IPA_PATH&#125;</div><div class="line">	echo $&#123;IPA_PATH&#125;</div><div class="line">	return 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">#</div><div class="line">#流程从这里开始！！！</div><div class="line">#</div><div class="line"></div><div class="line"></div><div class="line">#清理工程</div><div class="line">clean_project</div><div class="line"></div><div class="line">#编译工程</div><div class="line">build_project</div><div class="line"></div><div class="line">#打包成ipa文件</div><div class="line">edua_path=`package_app 你的app名子`</div><div class="line"></div><div class="line">#清空build</div><div class="line">if [[ -d &quot;build&quot; ]]; then</div><div class="line">	rm -rf build</div><div class="line">fi</div><div class="line"></div><div class="line">if [[ ! -f &quot;$edua_path&quot; ]]; then</div><div class="line">	echo &quot;出错了 $edua_path 不存在&quot;</div><div class="line">	exit;</div><div class="line">fi</div><div class="line"></div><div class="line"></div><div class="line">echo_green &quot;** 打包成功 **&quot;</div><div class="line">echo_blue $edua_path</div><div class="line"></div><div class="line">#带参数就不上传</div><div class="line">if [[ -z &quot;$1&quot; ]]; then</div><div class="line">	</div><div class="line">	echo_green &quot;开始上传...&quot;</div><div class="line"></div><div class="line">	#上传 返回信息写入json 文件</div><div class="line">	upload $&#123;edua_path&#125; &gt; edua.json</div><div class="line"></div><div class="line">    #解析返回数据</div><div class="line"></div><div class="line">	echo_green &quot;** 上传成功! **&quot;</div><div class="line">	echo_green &quot;===========================================================&quot;</div><div class="line">	parse_response_info edua.json</div><div class="line">	echo_green &quot;===========================================================&quot;</div><div class="line"></div><div class="line">	rm edua.json</div><div class="line">fi</div></pre></td></tr></table></figure>
+<p>上传成功后，返回的json数据，为了友好显示出来，我们利了jp这个解析json，显示到命令行里。没有安装的直接<code>$brew install jp</code>，多说无益，看返回结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"> ** 打包成功 **</div><div class="line"> /Users/Mao/Desktop/xxx-ios-beta-1.0.0-20151211-120808.ipa</div><div class="line"> 开始上传...</div><div class="line">  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</div><div class="line">                                 Dload  Upload   Total   Spent    Left  Speed</div><div class="line">100 8663k  100   520  100 8662k     12   205k  0:00:43  0:00:42  0:00:01     0</div><div class="line"> ** 上传成功! **</div><div class="line"> ===========================================================</div><div class="line"> 应用名子  Beta V1.0.0 build 36</div><div class="line"> 下载地址: http://www.pgyer.com/短连接</div><div class="line"> ===========================================================</div></pre></td></tr></table></figure>
+<p>好友好的交互吧。哈哈。</p>
+<p>####Windows上传apk自动上传蒲公英</p>
+<p>用windows开发andorid的同事，也想使用，安装<code>curl</code>，直接下载编译的好的版本，为了懒的设定环境变量，就一个很小<code>curl.exe</code>，直接复制粘贴到<code>C:\Windows\System32</code>下面，在这个PATH下，就不用设定，可以直接在cmd里面用了，这里是写好的upload.bat批处理文件，双击就可以用了,里面的apk，改成你自己的，这个同进上传两个，你可去掉一个。<br>返回的结果，跟上面的那个几乎是一样的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">@echo off</div><div class="line"></div><div class="line">::指定apk文件</div><div class="line">set parent_file=你的apk1</div><div class="line">set teacher_file=你的apk2</div><div class="line"></div><div class="line">::指定上传参数</div><div class="line">set u_key=你的u_key</div><div class="line">set api_key=你的api_key</div><div class="line">set url=http://www.pgyer.com/apiv1/app/upload</div><div class="line"></div><div class="line"></div><div class="line">::检查apk文件是否存在</div><div class="line"></div><div class="line">if not exist %parent_file% (</div><div class="line">echo 找不到%parent_file%</div><div class="line">pause</div><div class="line">exit</div><div class="line">)</div><div class="line"></div><div class="line">if not exist %teacher_file% (</div><div class="line">echo 找不到%teacher_file%</div><div class="line">pause</div><div class="line">exit</div><div class="line">)</div><div class="line"></div><div class="line">::开始上传 结果输出到json</div><div class="line">@echo off</div><div class="line"></div><div class="line">echo ** 开始上传 **</div><div class="line">echo.</div><div class="line">curl -F &quot;file=@%parent_file%&quot; -F &quot;uKey=%u_key%&quot; -F &quot;_api_key=%api_key%&quot; -F &quot;publishRange=2&quot; %url% -o parent.json</div><div class="line">curl -F &quot;file=@%teacher_file%&quot; -F &quot;uKey=%u_key%&quot; -F &quot;_api_key=%api_key%&quot; -F &quot;publishRange=2&quot; %url% -o teacher.json</div><div class="line"></div><div class="line">::解析result</div><div class="line">call :G_parsejson  parent.json &gt; parent.txt</div><div class="line">call :G_parsejson  teacher.json &gt; teacher.txt</div><div class="line"></div><div class="line">@echo off</div><div class="line"></div><div class="line">::输出信息</div><div class="line">call :G_echoinfo</div><div class="line"></div><div class="line"></div><div class="line">@echo off</div><div class="line"></div><div class="line">::删除不用文件</div><div class="line">del parent.txt</div><div class="line">del teacher.txt</div><div class="line">del parent.json</div><div class="line">del teacher.json</div><div class="line"></div><div class="line">pause</div><div class="line">exit</div><div class="line"></div><div class="line"></div><div class="line">::方法定义</div><div class="line"></div><div class="line">:G_echoinfo</div><div class="line"></div><div class="line">echo.</div><div class="line">echo  ** 上传成功! **</div><div class="line">echo  ===========================================================</div><div class="line">call :G_parseinfo parent.txt apk名子1</div><div class="line">call :G_parseinfo teacher.txt apk名子2</div><div class="line">echo  ===========================================================</div><div class="line">echo.</div><div class="line"></div><div class="line">goto :eof</div><div class="line"></div><div class="line"> </div><div class="line">:G_parseinfo</div><div class="line"></div><div class="line">setlocal Enabledelayedexpansion </div><div class="line">call :G_getrowstr 10 %1  BuildVersion</div><div class="line">call :G_getrowstr 13 %1 ShortUrl</div><div class="line">call :G_getrowstr 8 %1 appVersion</div><div class="line"></div><div class="line">set build=%BuildVersion:~30,5%</div><div class="line">set url=%ShortUrl:~-5%</div><div class="line">set version=%appVersion:~-6%</div><div class="line"></div><div class="line">echo    云南人人通%2 Beta V%version% build %build%</div><div class="line">echo    下载地址: http://www.pgyer.com/%url%</div><div class="line"></div><div class="line">goto :eof</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">:G_getrowstr </div><div class="line">set %3= </div><div class="line">set /A G_skiprows=%1-1 </div><div class="line">if &quot;%G_skiprows%&quot;==&quot;0&quot; goto :G_getrowstrz </div><div class="line">for /f &quot;skip=%G_skiprows% delims=&quot; %%i in (&apos;findstr /n .* %2&apos;) do (  </div><div class="line">for /f &quot;tokens=2* delims=:&quot; %%j in (&quot;%%i&quot;) do set %3=%%j </div><div class="line">::if &quot;%%i&quot;==&quot;%1:&quot; set %3=空白行 </div><div class="line">goto :eof </div><div class="line">) </div><div class="line"></div><div class="line">:G_getrowstrz </div><div class="line">for /f &quot;delims=&quot; %%i in (&apos;findstr /n .* %2&apos;) do ( </div><div class="line">for /f &quot;tokens=2* delims=:&quot; %%j in (&quot;%%i&quot;) do set %3=%%j </div><div class="line">goto :eof </div><div class="line">)</div><div class="line"></div><div class="line">:G_parsejson</div><div class="line">@echo off&amp;setlocal ENABLEDELAYEDEXPANSION</div><div class="line">for /f &quot;delims=&quot; %%a in (%1) do set #json=!#json!%%a</div><div class="line">set #json=!#json: =!</div><div class="line">set #json=!#json:&quot;=!</div><div class="line">set #json=!#json:&#123;= &#123; !</div><div class="line">set #json=!#json:&#125;= &#125; !</div><div class="line">set #json=!#json:[= [ !</div><div class="line">set #json=!#json:]= ] !</div><div class="line">set &quot;#prefix#=&quot;</div><div class="line">set /a #arr=-1,#lv=0</div><div class="line">for %%a in (!#json!) do (</div><div class="line">	for /f &quot;tokens=1 delims=&#123;&#125;[]&quot; %%K in (&quot;%%~a&quot;) do (</div><div class="line">		for /f &quot;tokens=1,2 delims=:&quot; %%A in (&quot;%%~a&quot;) do (</div><div class="line">			if &quot;%%~A&quot;==&quot;%%~a&quot; (</div><div class="line">				if defined arr_!#lv! set /a #arr+=1&amp;echo,!#prefix#![!#arr!]=%%A</div><div class="line">			)</div><div class="line">			if &quot;%%~A:&quot;==&quot;%%~a&quot; set #prefix#=!#prefix#!.%%A</div><div class="line">			if not &quot;%%~A&quot;==&quot;%%~a&quot; if not &quot;%%~A:&quot;==&quot;%%~a&quot; echo,!#prefix#!.%%A=%%B</div><div class="line">		)</div><div class="line">	)</div><div class="line">	if &quot;%%~a&quot;==&quot;&#123;&quot; (</div><div class="line">		if defined arr_!#lv! set /a #arr+=1</div><div class="line">		setlocal</div><div class="line">		if defined arr_!#lv! set #prefix#=!#prefix#![!#arr!]</div><div class="line">		set /a #lv+=1</div><div class="line">	)</div><div class="line">	if &quot;%%~a&quot;==&quot;&#125;&quot; (</div><div class="line">		endlocal</div><div class="line">	)</div><div class="line">	if	&quot;%%~a&quot;==&quot;]&quot; (</div><div class="line">		endlocal</div><div class="line">	)</div><div class="line">	if &quot;%%~a&quot;==&quot;[&quot; (</div><div class="line">		setlocal</div><div class="line">		set /a #lv+=1,#arr=-1</div><div class="line">		set arr_!#lv!= +</div><div class="line">	)</div><div class="line">)</div><div class="line"></div><div class="line">goto:eof</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/09/2015-12-09-ios-make-framework copy/" rel="next" title="谈谈iOS静态库制作过程">
+                <i class="fa fa-chevron-left"></i> 谈谈iOS静态库制作过程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/16/2015-12-16-utf8/" rel="prev" title="谈谈UTF-8编码">
+                谈谈UTF-8编码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/12/11/2015-12-11-auto-curl-upload/"
+           data-title="自动化编译打包并发布到蒲公英平台" data-url="http://devm.cn/2015/12/11/2015-12-11-auto-curl-upload/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

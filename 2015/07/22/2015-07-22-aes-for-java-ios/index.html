@@ -1,0 +1,519 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="高级加密标准（英语：Advanced Encryption Standard，缩写：AES），在密码学中又称Rijndael加密法，是美国联邦政府采用的一种区块加密标准。这个标准用来替代原先的DES，已经被多方分析且广为全世界所使用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AES加解密方案用于Java和Objective-C">
+<meta property="og:url" content="http://devm.cn/2015/07/22/2015-07-22-aes-for-java-ios/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="高级加密标准（英语：Advanced Encryption Standard，缩写：AES），在密码学中又称Rijndael加密法，是美国联邦政府采用的一种区块加密标准。这个标准用来替代原先的DES，已经被多方分析且广为全世界所使用。">
+<meta property="og:updated_time" content="2015-07-22T13:23:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AES加解密方案用于Java和Objective-C">
+<meta name="twitter:description" content="高级加密标准（英语：Advanced Encryption Standard，缩写：AES），在密码学中又称Rijndael加密法，是美国联邦政府采用的一种区块加密标准。这个标准用来替代原先的DES，已经被多方分析且广为全世界所使用。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> AES加解密方案用于Java和Objective-C | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                AES加解密方案用于Java和Objective-C
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-22T21:12:29+08:00" content="2015-07-22">
+              2015-07-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/07/22/2015-07-22-aes-for-java-ios/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/22/2015-07-22-aes-for-java-ios/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>高级加密标准（英语：Advanced Encryption Standard，缩写：AES），在密码学中又称Rijndael加密法，是美国联邦政府采用的一种区块加密标准。这个标准用来替代原先的DES，已经被多方分析且广为全世界所使用。</p>
+<a id="more"></a>
+<p>平时开发过程中，肯定要和服务器端交互数据，加密协议是写api要定好的。比如服务断用java开发，客户端有android和iOS两个平台。<br>今天我们来说说，使用AES加解密，它至少一个参数密钥key和加密向量（可理解成维度）iv(可以不设定)。</p>
+<p>不同的AES的key和iv长度不同， 咱们以<code>AES128</code>加解密为例，以此类推。<code>AES128</code> key和iv和长度要求是16Bytes.一般是拿一个字符串，md5之后，再pading成16Bytes的长度做为key.iv也是相同的做法。<br>为了方便起见，直接使用byte[]来定义了。</p>
+<p>用<strong>Java</strong>实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//AES128 key iv 是16长度</span></div><div class="line"><span class="keyword">byte</span> iv[] = &#123;<span class="number">0x00</span>, <span class="number">0x01</span>, <span class="number">0x02</span>, <span class="number">0x03</span>, <span class="number">0x04</span>, <span class="number">0x05</span>, <span class="number">0x06</span>, <span class="number">0x07</span>, <span class="number">0x08</span>, <span class="number">0x09</span>, <span class="number">0x0a</span>, <span class="number">0x0b</span>, <span class="number">0x0c</span>, <span class="number">0x0d</span>, <span class="number">0x0e</span>, <span class="number">0x0f</span>&#125;;</div><div class="line"><span class="keyword">byte</span> key[] = &#123;<span class="number">0x00</span>, <span class="number">0x01</span>, <span class="number">0x02</span>, <span class="number">0x03</span>, <span class="number">0x04</span>, <span class="number">0x05</span>, <span class="number">0x06</span>, <span class="number">0x07</span>, <span class="number">0x08</span>, <span class="number">0x09</span>, <span class="number">0x0a</span>, <span class="number">0x0b</span>, <span class="number">0x0c</span>, <span class="number">0x0d</span>, <span class="number">0x0e</span>, <span class="number">0x0f</span>&#125;;</div><div class="line"></div><div class="line">System.out.println(<span class="string">"key length:"</span> + key.length);</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; key.length; ++i) &#123;</div><div class="line">    System.out.printf(<span class="string">"02%x"</span>, key[i]);</div><div class="line">&#125;</div><div class="line">System.out.println();</div><div class="line"></div><div class="line">System.out.println(<span class="string">"iv length:"</span> + iv.length);</div><div class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; iv.length; ++i) &#123;</div><div class="line">    System.out.printf(<span class="string">"02%x"</span>, iv[i]);</div><div class="line">&#125;</div><div class="line"></div><div class="line">System.out.println();</div><div class="line"></div><div class="line">IvParameterSpec ivSpec = <span class="keyword">new</span> IvParameterSpec(iv);</div><div class="line">SecretKeySpec keySpec = <span class="keyword">new</span> SecretKeySpec(key, <span class="string">"AES"</span>);</div><div class="line"></div><div class="line"><span class="comment">//加密</span></div><div class="line">String text = <span class="string">"123456abcdef"</span>;</div><div class="line">System.out.println(<span class="string">"原文 text"</span>);</div><div class="line">System.out.println(text);</div><div class="line"></div><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">    System.out.println(<span class="string">"加密操作---&gt;"</span>);</div><div class="line"></div><div class="line">    Cipher cipher = Cipher.getInstance(<span class="string">"AES/CBC/PKCS5Padding"</span>);</div><div class="line">    <span class="keyword">byte</span>[] content = text.getBytes(<span class="string">"utf-8"</span>);</div><div class="line">    cipher.init(cipher.ENCRYPT_MODE, keySpec, ivSpec);</div><div class="line">    <span class="keyword">byte</span>[] encrptByte = cipher.doFinal(content);</div><div class="line">    System.out.println(<span class="string">"密文 byte[]"</span>);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; encrptByte.length; ++i) &#123;</div><div class="line">        System.out.printf(<span class="string">"%02x"</span>, encrptByte[i]);</div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    System.out.println();</div><div class="line">    System.out.println(<span class="string">"解密操作---&gt;"</span>);</div><div class="line">    cipher.init(cipher.DECRYPT_MODE, keySpec, ivSpec);</div><div class="line">    <span class="keyword">byte</span>[] decrptByte = cipher.doFinal(encrptByte);</div><div class="line">    System.out.println(<span class="string">"原文 byte[]"</span>);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; decrptByte.length; ++i) &#123;</div><div class="line">        System.out.printf(<span class="string">"%02x"</span>, decrptByte[i]);</div><div class="line">    &#125;</div><div class="line">    System.out.println();</div><div class="line">    System.out.println(<span class="string">"原文 text"</span>);</div><div class="line">    String planText = <span class="keyword">new</span> String(decrptByte, <span class="string">"utf-8"</span>);</div><div class="line">    System.out.println(text);</div><div class="line">&#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">    e.printStackTrace();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>控制台输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">key length:16</div><div class="line">02002102202302402502602702802902a02b02c02d02e02f</div><div class="line">iv length:16</div><div class="line">02002102202302402502602702802902a02b02c02d02e02f</div><div class="line">原文 text</div><div class="line">123456abcdef</div><div class="line">加密操作---&gt;</div><div class="line">密文 byte[]</div><div class="line">08e5e20a325cd7a9ec47ab56fbd1e16a</div><div class="line">解密操作---&gt;</div><div class="line">原文 byte[]</div><div class="line">313233343536616263646566</div><div class="line">原文 text</div><div class="line">123456abcdef</div></pre></td></tr></table></figure>
+<p>用<strong>Objective-C</strong>实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">NSString* text = @&quot;123456abcdef&quot;;</div><div class="line"></div><div class="line">NSLog(@&quot;原文:%@&quot;, text);</div><div class="line">	</div><div class="line">uint8_t iv[] = &#123;0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f&#125;;</div><div class="line">uint8_t key[] = &#123;0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f&#125;;</div><div class="line">	</div><div class="line">	</div><div class="line">NSLog(@&quot;加密操作--&gt;&quot;);</div><div class="line">NSData* data = [text dataUsingEncoding:NSUTF8StringEncoding];</div><div class="line">	</div><div class="line">size_t encryptBufferSize = data.length + kCCBlockSizeAES128;</div><div class="line">void *encryptBuffer = malloc(encryptBufferSize);</div><div class="line">	</div><div class="line">size_t numBytesEncrypted = 0;</div><div class="line">CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding,</div><div class="line">									  key, kCCKeySizeAES128,</div><div class="line">									  iv ,/* initialization vector (optional) */</div><div class="line">									  [data bytes], data.length, /* input */</div><div class="line">									  encryptBuffer, encryptBufferSize, /* output */</div><div class="line">									  &amp;numBytesEncrypted);</div><div class="line">NSData *encryptData = nil;</div><div class="line">if (cryptStatus == kCCSuccess) &#123;</div><div class="line">	encryptData = [NSData dataWithBytes:encryptBuffer length:numBytesEncrypted];</div><div class="line">	</div><div class="line">	NSLog(@&quot;密文 byte[]&quot;);</div><div class="line">	NSLog(@&quot;%@&quot;, encryptData);</div><div class="line">&#125;</div><div class="line">	</div><div class="line">free(encryptBuffer); //free the buffer;</div><div class="line"></div><div class="line">NSLog(@&quot;解密操作--&gt;&quot;);</div><div class="line">	</div><div class="line">size_t decryptBufferSize = encryptData.length + kCCBlockSizeAES128;</div><div class="line">void *decryptBuffer = malloc(decryptBufferSize);</div><div class="line">	</div><div class="line">size_t numBytesDecrypted = 0;</div><div class="line">cryptStatus = CCCrypt(kCCDecrypt, kCCAlgorithmAES128, kCCOptionPKCS7Padding,</div><div class="line">									  key, kCCKeySizeAES128,</div><div class="line">									  iv ,/* initialization vector (optional) */</div><div class="line">									  [encryptData bytes], encryptData.length, /* input */</div><div class="line">									  decryptBuffer, decryptBufferSize, /* output */</div><div class="line">									  &amp;numBytesDecrypted);</div><div class="line">	</div><div class="line">NSData *newSrcData = nil;</div><div class="line">if (cryptStatus == kCCSuccess) &#123;</div><div class="line">	newSrcData = [NSData dataWithBytes:decryptBuffer length:numBytesDecrypted];</div><div class="line">	</div><div class="line">	NSLog(@&quot;原文 byte[]&quot;);</div><div class="line">	NSLog(@&quot;%@&quot;, newSrcData);</div><div class="line">	NSString* decodeText = [[NSString alloc] initWithData:newSrcData encoding:NSUTF8StringEncoding];</div><div class="line">	NSLog(@&quot;原文 text:%@&quot;, decodeText);</div><div class="line">&#125;</div><div class="line">	</div><div class="line">free(decryptBuffer); //free the buffer;</div></pre></td></tr></table></figure>
+<p>控制台输出:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">2015-07-22 11:07:24.604 TTTTT[82794:9571579] 原文:123456abcdef</div><div class="line">2015-07-22 11:07:24.604 TTTTT[82794:9571579] 加密操作--&gt;</div><div class="line">2015-07-22 11:07:24.604 TTTTT[82794:9571579] 密文 byte[]</div><div class="line">2015-07-22 11:07:24.605 TTTTT[82794:9571579] &lt;08e5e20a 325cd7a9 ec47ab56 fbd1e16a&gt;</div><div class="line">2015-07-22 11:07:24.605 TTTTT[82794:9571579] 解密操作--&gt;</div><div class="line">2015-07-22 11:07:24.605 TTTTT[82794:9571579] 原文 byte[]</div><div class="line">2015-07-22 11:07:24.605 TTTTT[82794:9571579] &lt;31323334 35366162 63646566&gt;</div><div class="line">2015-07-22 11:07:24.606 TTTTT[82794:9571579] 原文 text:123456abcdef</div></pre></td></tr></table></figure>
+<p>总结一下，一般用于HTTP请求时，参数的加解密，一般使用方案:</p>
+<ul>
+<li><p><code>字符串</code>-&gt;<code>以utf-8方式写成byte[]或 NSData</code>-&gt;<strong>加密操作</strong> -&gt; <code>byte[]或NSData</code> -&gt;<code>Base64编码成字符串密文</code> </p>
+</li>
+<li><p><code>密文</code>-&gt;<code>Base64解码成</code>-&gt;<code>byte[]或NSData</code>-&gt;<strong>解密操作</strong>-&gt;<code>byte[]或NSData</code>-&gt;<code>按utf-8生成字符串</code></p>
+</li>
+</ul>
+<p>当然还可以中间的byte[]环节，插入一件随机字符来混淆，增加难度。<br>平时使用加解密的时候，可以写成静态工具类，确保线程安全，方便可以随意使用它。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/20/2015-07-20-timer-retain-cycle/" rel="next" title="防止NSTimer和调用对象之间的循环引用">
+                <i class="fa fa-chevron-left"></i> 防止NSTimer和调用对象之间的循环引用
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/23/2015-07-23-calc-code-run-timeinterval/" rel="prev" title="测试一段iOS代码运行时间的方法">
+                测试一段iOS代码运行时间的方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/22/2015-07-22-aes-for-java-ios/"
+           data-title="AES加解密方案用于Java和Objective-C" data-url="http://devm.cn/2015/07/22/2015-07-22-aes-for-java-ios/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

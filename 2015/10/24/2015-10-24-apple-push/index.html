@@ -1,0 +1,549 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="iOS的APNS是iOS和OSX系统特有一种功能，它通过Apple一个强大的高效率的服务器，通过加密SSL连接方式，推送消息到指定apple设备终端。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈谈iOS上的APNS">
+<meta property="og:url" content="http://devm.cn/2015/10/24/2015-10-24-apple-push/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="iOS的APNS是iOS和OSX系统特有一种功能，它通过Apple一个强大的高效率的服务器，通过加密SSL连接方式，推送消息到指定apple设备终端。">
+<meta property="og:image" content="https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Art/aps_provider_binary_2x.png">
+<meta property="og:image" content="https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Art/aps_binary_provider_2_2x.png">
+<meta property="og:image" content="https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Art/aps_binary_provider_3_2x.png">
+<meta property="og:updated_time" content="2016-10-08T14:52:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谈谈iOS上的APNS">
+<meta name="twitter:description" content="iOS的APNS是iOS和OSX系统特有一种功能，它通过Apple一个强大的高效率的服务器，通过加密SSL连接方式，推送消息到指定apple设备终端。">
+<meta name="twitter:image" content="https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Art/aps_provider_binary_2x.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> 谈谈iOS上的APNS | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                谈谈iOS上的APNS
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-10-24T20:07:19+08:00" content="2015-10-24">
+              2015-10-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/10/24/2015-10-24-apple-push/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/24/2015-10-24-apple-push/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>iOS的APNS是iOS和OSX系统特有一种功能，它通过Apple一个强大的高效率的服务器，通过加密SSL连接方式，推送消息到指定apple设备终端。</p>
+<a id="more"></a>
+<h3 id="APNS原理"><a href="#APNS原理" class="headerlink" title="APNS原理"></a>APNS原理</h3><p>服务器通过SSL与APNS服务器连接后，推送一个载体，上面携带一个指定设备终端和App的deviceToken，APNS服务器(只要设备接入互联网，与APNS服务器保持长连接)收到之后，找到对应的设备和APP，推送出去，这样设备就收到了Push消息。</p>
+<h3 id="iOS端的工作"><a href="#iOS端的工作" class="headerlink" title="iOS端的工作"></a>iOS端的工作</h3><p>开发环境分为测试环境和生产环境，要做以下准备：</p>
+<ul>
+<li>测试环境证书。</li>
+<li>当前App的描述文件专用的，一定不能用通用那种。</li>
+<li>当前App的推送证书测试和正式的两份。</li>
+</ul>
+<p>运行到真机上，在这里打个log获取一下token:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken</div><div class="line">&#123;</div><div class="line">	MISLog(@<span class="string">"deviceToken:%@"</span>, deviceToken);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以得到一个deviceToken是一个长度为32byte的Data.它是当前设备当前app的标识，这个标识要传给它的服务器（provider），推消息的带着它。</p>
+<h3 id="服务器端的工作"><a href="#服务器端的工作" class="headerlink" title="服务器端的工作"></a>服务器端的工作</h3><p>服务器端要跟APNS服务器用SSL方式连接，使用的证书就是上面生成推送证书，Java要用.p12的证书，这个很容易，用钥匙串导出一个就可以，指定一个密码，如果服务器端要php开发的，那么要用到.pem格式的证书，生成过程如下：<br>打开“终端”，敲入命令即可转换。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">openssl pkcs12 -clcerts -nokeys -out magic_cert.pem -in magic_cert.p12</div><div class="line"></div><div class="line">openssl pkcs12 -nocerts -out magic_key.pem-in magic_key.p12</div></pre></td></tr></table></figure>
+<p>注意会让你输入前面你在钥匙串导出证书时的导出密码。<br>注：如果最终的pem在服务端系统使用时不需要密码，则可以执行命令去除密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl rsa -in magic_key.pem -outmagic_key_nopwd.pem</div></pre></td></tr></table></figure>
+<p>最后会生成两个pem文件，如：<code>magic_cert.pem</code>、<code>magic_key.pem</code>或者<br><code>magic_key_nopwd.pem</code>。<br>将两个pem文件合并成服务端系统需要的一个pem文件。依然是命令行执行即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cat magic_cert.pem magic_key.pem &gt;magic-dev.pem</div></pre></td></tr></table></figure>
+<p>对应连接和推送的代码，每种语言相关的网上有很多，这里不多说了。</p>
+<h3 id="详解推送数据"><a href="#详解推送数据" class="headerlink" title="详解推送数据"></a>详解推送数据</h3><p>Simple Notification Format:<br><img src="https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Art/aps_provider_binary_2x.png" alt="Simple"></p>
+<p>Enhanced Notification Format:<br><img src="https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Art/aps_binary_provider_2_2x.png" alt="Enhanced"></p>
+<p>The Binary Interface and Notification Format:<br><img src="https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Art/aps_binary_provider_3_2x.png" alt="no"></p>
+<p>很明显，第三种是现在在用的，也是功能比较全的，这是推送时要写入的data部分，字节序为网络序。如果发送成功了，是不会有返回的。出错的话回返回。<br>返回结果：<br>！<a href="https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Art/aps_binary_error_2x.png" target="_blank" rel="external"></a></p>
+<p>Status code:</p>
+<ul>
+<li>0 No errors encountered</li>
+<li>1 Processing error</li>
+<li>2 Missing device token</li>
+<li>3 Missing topic</li>
+<li>4 Missing payload</li>
+<li>5 Invalid token size</li>
+<li>6 Invalid topic size</li>
+<li>7 Invalid payload size</li>
+<li>8 Invalid token</li>
+<li>10 Shutdown</li>
+<li>255 None (unknown)</li>
+</ul>
+<p>这些条件都考虑到后，对服务器端来说，可以做到稳定推送，确保准确。多个连接并发推送。效率可以大大提高。</p>
+<p>为了方便本地测试推送，这方面的代码有很多比如<a href="https://github.com/stefanhafeneger/PushMeBaby" target="_blank" rel="external">PushMeBaby</a>.<br>苹果规定，payload部分的长度不能超过255byte,可是看上面的format都是用的2byte的unsigned short来标识的，明显可以做到short的最大，出于这个好奇心自己写了一个YFPush参考的PushMeBaby部分代码，这里表示感谢，试了一个很长的文本也是可以发出去的，apple也许是为了稳定和高效尽量的小巧，快速，再说了，内容太长了，在通知栏里也显示不全。个人测试了一下发现有以下问题：</p>
+<ul>
+<li>连接上APNS这后，指定一个token循环push几次，会有一些收不到。改进的办法是推送一次，延时后再推下一次，能保证次次收到。</li>
+<li>内容超过255后，也照样能收到。</li>
+<li>可以建立多个连接，并发推送，效率较高。</li>
+</ul>
+<p><a href="https://github.com/maokebing/YFPush" target="_blank" rel="external">YFPush</a>已放到github有兴趣的可以测试一下。</p>
+<p>参才资料：<br><a href="https://developer.apple.com/library/mac/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html" target="_blank" rel="external">Apple APNS</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/24/2015-09-24-custom-notifaction/" rel="next" title="如何自己实现一个NotifactionCenter">
+                <i class="fa fa-chevron-left"></i> 如何自己实现一个NotifactionCenter
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/02/2015-12-02-ios-imagepicker-plus/" rel="prev" title="集成iOS照片选择器-MISImagePicker">
+                集成iOS照片选择器-MISImagePicker <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/10/24/2015-10-24-apple-push/"
+           data-title="谈谈iOS上的APNS" data-url="http://devm.cn/2015/10/24/2015-10-24-apple-push/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

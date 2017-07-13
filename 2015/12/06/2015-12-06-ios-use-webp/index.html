@@ -1,0 +1,573 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="位图位图图像（bitmap）, 亦称为点阵图像或绘制图像，是由称作像素（图片元素）的单个点组成的。这些点可以进行不同的排列和染色以构成图样。当放大位图时，可以看见赖以构成整个图像的无数单个方块。扩大位图尺寸的效果是增大单个像素，从而使线条和形状显得参差不齐。然而，如果从稍远的位置观看它，位图图像的颜色和形状又显得是连续的。
+###RGB颜色位图颜色的一种编码方法，用红、绿、蓝三原色的光学强度来表示">
+<meta property="og:type" content="article">
+<meta property="og:title" content="说说webp图片在iOS上的使用">
+<meta property="og:url" content="http://devm.cn/2015/12/06/2015-12-06-ios-use-webp/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="位图位图图像（bitmap）, 亦称为点阵图像或绘制图像，是由称作像素（图片元素）的单个点组成的。这些点可以进行不同的排列和染色以构成图样。当放大位图时，可以看见赖以构成整个图像的无数单个方块。扩大位图尺寸的效果是增大单个像素，从而使线条和形状显得参差不齐。然而，如果从稍远的位置观看它，位图图像的颜色和形状又显得是连续的。
+###RGB颜色位图颜色的一种编码方法，用红、绿、蓝三原色的光学强度来表示">
+<meta property="og:updated_time" content="2016-10-08T14:53:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="说说webp图片在iOS上的使用">
+<meta name="twitter:description" content="位图位图图像（bitmap）, 亦称为点阵图像或绘制图像，是由称作像素（图片元素）的单个点组成的。这些点可以进行不同的排列和染色以构成图样。当放大位图时，可以看见赖以构成整个图像的无数单个方块。扩大位图尺寸的效果是增大单个像素，从而使线条和形状显得参差不齐。然而，如果从稍远的位置观看它，位图图像的颜色和形状又显得是连续的。
+###RGB颜色位图颜色的一种编码方法，用红、绿、蓝三原色的光学强度来表示">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> 说说webp图片在iOS上的使用 | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                说说webp图片在iOS上的使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-06T20:07:19+08:00" content="2015-12-06">
+              2015-12-06
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/06/2015-12-06-ios-use-webp/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/06/2015-12-06-ios-use-webp/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="位图"><a href="#位图" class="headerlink" title="位图"></a>位图</h3><p>位图图像（bitmap）, 亦称为点阵图像或绘制图像，是由称作像素（图片元素）的单个点组成的。这些点可以进行不同的排列和染色以构成图样。当放大位图时，可以看见赖以构成整个图像的无数单个方块。扩大位图尺寸的效果是增大单个像素，从而使线条和形状显得参差不齐。然而，如果从稍远的位置观看它，位图图像的颜色和形状又显得是连续的。</p>
+<p>###RGB颜色<br>位图颜色的一种编码方法，用红、绿、蓝三原色的光学强度来表示一种颜色。这是最常见的位图编码方法，可以直接用于屏幕显示。</p>
+<a id="more"></a>
+<h3 id="Alpha通道"><a href="#Alpha通道" class="headerlink" title="Alpha通道"></a>Alpha通道</h3><p>在原有的图片编码方法基础上，增加像素的透明度信息。图形处理中，通常把RGB三种颜色信息称为红通道、绿通道和蓝通道，相应的把透明度称为Alpha通道。多数使用颜色表的位图格式都支持Alpha通道。</p>
+<p>###色彩深度<br>色彩深度又叫色彩位数，即位图中要用多少个二进制位来表示每个点的颜色，是分辨率的一个重要指标。常用有1位（单色），2位（4色，CGA），4位（16色，VGA），8位（256色），16位（增强色），24位（真彩色）和32位等。色深16位以上的位图还可以根据其中分别表示RGB三原色或CMYK四原色（有的还包括Alpha通道）的位数进一步分类，如16位位图图片还可分为R5G6B5，R5G5B5X1（有1位不携带信息），R5G5B5A1，R4G4B4A4等等。</p>
+<p>###iOS常使用的颜色<br>开发过程中，大家对UIColor这个类肯定很熟悉了，创建颜色可以使用标准颜色，如黑色，白色，等等。一般用16进制表示为0xFFFFFF 即24位真彩色或0xFFFFFFFF 32位，比24位多了一个Alpha. 从左到右 红（R）绿（G）蓝（B）Alpha(A) 即 RGBA颜色值，比如0xFF0000表示红色 有32位表示为0xFF0000FF，即alpha为不透明的，FF不透明 00透明。</p>
+<p>###位图显示<br>iOS显示图时，不管是JPEG/JPG 或 PNG 格式，webp格式的都要经过相应的库转换成颜色矩阵，即 R-G-B-A-R-G-B-A …来显示。一张位图可以看成一个宽 * 高 的像素点色点，每个点是一个RGBA值，把每个像素点的颜色one-by-one 显示出来，就是一张图。</p>
+<p>###webp图片<br>WebP格式，谷歌（google）开发的一种旨在加快图片加载速度的图片格式。图片压缩体积大约只有JPEG的2/3，并能节省大量的服务器带宽资源和数据空间。Facebook Ebay等知名网站已经开始测试并使用WebP格式。但WebP是一种有损压缩。相较编码JPEG文件，编码同样质量的WebP文件需要占用更多的计算资源。<br>听说已经被大量App使用，如：QQ，微信等使用。这里有大神<a href="http://blog.ibireme.com" target="_blank" rel="external">ibireme</a>一篇文章<a href="http://blog.ibireme.com/2015/11/02/mobile_image_benchmark/" target="_blank" rel="external">移动端图片格式调研</a>非常很详细。我就不啰嗦了。</p>
+<p>###在OSX上使用cwebp&amp;dwebp</p>
+<ul>
+<li>安装webp到OSX, <code>brew install webp</code>,会安装依赖的libpng, lipjpg库</li>
+<li>cwebp命令 用于webp编码</li>
+<li>dwebp命令 用于Webp解码</li>
+</ul>
+<p>###在iOS上使用</p>
+<ul>
+<li>FrameWork方式引入 <a href="https://github.com/maokebing/MFWebpDemo" target="_blank" rel="external">MFWebpDemo</a>这是我刚写完的demo,库为最新的libwebp生成的，支持bitcode方式，直接拿来用即可。</li>
+</ul>
+<p>作者提供了一个<code>UIImage+WebP.h</code>这个扩展类方便使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@interface</span> UIImage (WebP)</div><div class="line"></div><div class="line">+ (UIImage*)imageWithWebPData:(NSData*)imgData;</div><div class="line"></div><div class="line">+ (UIImage*)imageWithWebP:(NSString*)filePath;</div><div class="line"></div><div class="line">+ (NSData*)imageToWebP:(UIImage*)image quality:(CGFloat)quality;</div><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)imageToWebP:(UIImage*)image</div><div class="line">            quality:(CGFloat)quality</div><div class="line">              alpha:(CGFloat)alpha</div><div class="line">             preset:(WebPPreset)preset</div><div class="line">    completionBlock:(<span class="keyword">void</span> (^)(NSData* result))completionBlock</div><div class="line">       failureBlock:(<span class="keyword">void</span> (^)(NSError* error))failureBlock;</div><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)imageToWebP:(UIImage*)image</div><div class="line">            quality:(CGFloat)quality</div><div class="line">              alpha:(CGFloat)alpha</div><div class="line">             preset:(WebPPreset)preset</div><div class="line">        configBlock:(<span class="keyword">void</span> (^)(WebPConfig* config))configBlock</div><div class="line">    completionBlock:(<span class="keyword">void</span> (^)(NSData* result))completionBlock</div><div class="line">       failureBlock:(<span class="keyword">void</span> (^)(NSError* error))failureBlock;</div><div class="line"></div><div class="line">+ (<span class="keyword">void</span>)imageWithWebP:(NSString*)filePath</div><div class="line">      completionBlock:(<span class="keyword">void</span> (^)(UIImage* result))completionBlock</div><div class="line">         failureBlock:(<span class="keyword">void</span> (^)(NSError* error))failureBlock;</div><div class="line"></div><div class="line">- (UIImage*)imageByApplyingAlpha:(CGFloat)alpha;</div></pre></td></tr></table></figure>
+<p>###用后感+排雷<br>把iOS-Webp这个项目clone下来之后，运行其demo，完全没有问题。于是乎直接放到了我们的开发项目中，用于图片的转码。一开始是拿资源的图片即文件-&gt;NSData-&gt;UIImage-&gt;WebP文件，一切都很正常。项目中，功能是这样的，从相册或者拍照取图片-&gt;UIImage-&gt;WebP文件。<br>好问题来了，转码后的webp图片有的显示正常，有的颜色跟原图明显不用，甚至有的根本就是一些斜纹，什么鬼啊？当时急于完成任务，所以解决办法如下：</p>
+<ul>
+<li>UIImage-&gt;通过UIImagePNGRepresentation或UIImageJPEGRepresentation压缩成NSData-&gt;再读取成UIImage-&gt;webp格式，通过。</li>
+</ul>
+<p>不过每次都要转一次，未免啰嗦了，为什么从文件读取的UIImage可以成功转成webp呢，于是哥断定，二者的中间数据不一样。带着这个疑问我们来看。<br>为了方便我们生成一张1px * 1px的小图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">- (UIImage *)image &#123;</div><div class="line">	CGRect rect = CGRectMake(0.0f, 0.0f, 1, 1);</div><div class="line">	UIGraphicsBeginImageContext(rect.size);</div><div class="line">	CGContextRef context = UIGraphicsGetCurrentContext();</div><div class="line">	</div><div class="line">	CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);</div><div class="line">	CGContextFillRect(context, rect);</div><div class="line">	</div><div class="line">	UIImage *outImage = UIGraphicsGetImageFromCurrentImageContext();</div><div class="line">	UIGraphicsEndImageContext();</div><div class="line">	return outImage;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们使用白色0xFFFFFFFF RGBA表示，生成的图片很小，我们先把UIImage-&gt;PNG，然后我们再读PNG到UIImage对象中，我们来看它的RGBA数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">NSData* data =  UIImagePNGRepresentation([self image]);</div><div class="line">UIImage* image = [UIImage imageWithData:data];</div><div class="line"></div><div class="line">CGDataProviderRef providerRef = CGImageGetDataProvider(image.CGImage);</div><div class="line">CFDataRef dataRef = CGDataProviderCopyData(providerRef);</div><div class="line">const UInt8*  bytes = CFDataGetBytePtr(dataRef);</div><div class="line">size_t length = CFDataGetLength(dataRef);</div><div class="line"></div><div class="line">for (int i = 0; i&lt; length; ++i) &#123;</div><div class="line">	printf(&quot;%02X&quot;, bytes[i]);</div><div class="line">&#125;</div><div class="line">printf(&quot;\n&quot;);</div><div class="line"></div><div class="line">CFRelease(dataRef);</div></pre></td></tr></table></figure>
+<p>输入结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FFFFFFFF</div></pre></td></tr></table></figure>
+<p>刚好是RGBA一个点，没错。<br>我们改变图片的大小，改成2 * 1的大小。输出结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FFFFFFFFFFFFFFFF</div></pre></td></tr></table></figure>
+<p>是连续的，没错。</p>
+<p>我们不经过转换成PNG这个多余的过程，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">CGDataProviderRef providerRef = CGImageGetDataProvider([self image].CGImage);</div><div class="line">CFDataRef dataRef = CGDataProviderCopyData(providerRef);</div><div class="line">const UInt8*  bytes = CFDataGetBytePtr(dataRef);</div><div class="line">size_t length = CFDataGetLength(dataRef);</div><div class="line"></div><div class="line">for (int i = 0; i&lt; length; ++i) &#123;</div><div class="line">	printf(&quot;%02X&quot;, bytes[i]);</div><div class="line">&#125;</div><div class="line">printf(&quot;\n&quot;);</div><div class="line"></div><div class="line">CFRelease(dataRef);</div></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FFFFFFFF00000000000000000000000000000000000000000000000000000000</div></pre></td></tr></table></figure>
+<p>看到了吗，后面多了好多0啊，算起来正好是 4 <em> 8 = 32byte长度，这跟上面的不一样，怪不得转换webp的数据有问题，再改成 2</em>1的图片，结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FFFFFFFFFFFFFFFF000000000000000000000000000000000000000000000000</div></pre></td></tr></table></figure>
+<p>可以看出，它是8个RGBA位 32字节对齐的。<br>再来看一下，webp转码的调用代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">- (NSData *)webpData &#123;</div><div class="line">	CGImageRef imageRef = self.CGImage;</div><div class="line">	</div><div class="line">	CGDataProviderRef providerRef = CGImageGetDataProvider(imageRef);</div><div class="line">	CFDataRef dataRef =  CGDataProviderCopyData(providerRef);</div><div class="line">	//RGBA 距阵</div><div class="line">	const UInt8*  data = CFDataGetBytePtr(dataRef);</div><div class="line">	</div><div class="line">	size_t pixelsWide = CGImageGetWidth(imageRef);</div><div class="line">	size_t pixelsHigh = CGImageGetHeight(imageRef);</div><div class="line">	</div><div class="line">	//编码成WebP</div><div class="line">	UInt8* outData = nil;</div><div class="line">	size_t size =  WebPEncodeRGBA(data, (int32_t)pixelsWide, (int32_t)pixelsHigh, (int32_t)(pixelsWide * 4), 75.0f, &amp;outData);</div><div class="line">	</div><div class="line">	NSData* result =  [NSData dataWithBytes:outData length:size];</div><div class="line">	</div><div class="line">	//clean up</div><div class="line">	free(outData);</div><div class="line">	CFRelease(dataRef);</div><div class="line">	</div><div class="line">	return result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>显示把带有0补位的数据给它，去编码，会有错，如果图片的宽度正好是8的倍数，那么就正好是 32byte的倍数，刚好没有0被位，这样就从文件读取方式一样了。总算明白了。<br>解决方案如下：</p>
+<ul>
+<li>推荐提供的图片宽度正好是8的倍数，方便转码，少了计算。</li>
+<li>去掉每一行的多余的补位，然后装成新的RGBA缓充，再交于转码。</li>
+</ul>
+<p>说说第二种的思路就是：</p>
+<ul>
+<li>每行的bytes总数 CGImageGetBytesPerRow(imageRef); 宽度 * 4 就是数据位，直接逐行遍历将数据位填充到一个新的buffer中，做为webp的RGBA输入参数。</li>
+</ul>
+<p>###源码webp调用方法</p>
+<ul>
+<li>编码-主方法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">WebPConfig config;//这里可定制</div><div class="line">size_t code =  WebPConfigInit(&amp;config);</div><div class="line">printf(&quot;%ld\n&quot;, code);</div><div class="line"></div><div class="line">code = WebPValidateConfig( &amp;config );</div><div class="line">printf(&quot;%ld\n&quot;, code);</div><div class="line"></div><div class="line">//输出</div><div class="line">WebPMemoryWriter writer;</div><div class="line">WebPMemoryWriterInit(&amp;writer);</div><div class="line"></div><div class="line">//表现形式</div><div class="line">WebPPicture picture;</div><div class="line">code = WebPPictureInit(&amp;picture);</div><div class="line">printf(&quot;%ld\n&quot;, code);</div><div class="line"></div><div class="line">picture.width = width;</div><div class="line">picture.height = heigth;</div><div class="line">picture.writer = WebPMemoryWrite;</div><div class="line">picture.custom_ptr = &amp;writer;</div><div class="line"></div><div class="line">printf(&quot;%ld\n&quot;, code);</div><div class="line">code = WebPPictureAlloc(&amp;picture);</div><div class="line"></div><div class="line">printf(&quot;%ld\n&quot;, code);</div><div class="line"></div><div class="line">//导入RGBA数据据，根据图片源来指定调用</div><div class="line">code = WebPPictureImportRGBA(&amp;picture, bytes, bytesPerRow);</div><div class="line"></div><div class="line">printf(&quot;%ld\n&quot;, code);</div><div class="line"></div><div class="line">//这里可以定制缩放</div><div class="line">//	code = WebPPictureRescale(&amp;picture, 500, 500);</div><div class="line">//	printf(&quot;%ld\n&quot;, code);</div><div class="line"></div><div class="line">//主编码方法</div><div class="line">code = WebPEncode(&amp;config, &amp;picture);</div><div class="line">printf(&quot;%ld\n&quot;, code);</div><div class="line"></div><div class="line">//输出到内存 大小 及 指定</div><div class="line">size_t size = writer.size;</div><div class="line">UInt8 *output = writer.mem;</div><div class="line"></div><div class="line">//这里添加你的代码处理数据</div><div class="line"></div><div class="line">//回收</div><div class="line">WebPPictureFree(&amp;picture);</div></pre></td></tr></table></figure>
+<p>每个方法都有反回值，要每次判断，跳出，为了展示，就先省了。个人在用的时候，还是要严谨一些。</p>
+<ul>
+<li>解码-主方法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">//创建初始化解码配置-也可以定制</div><div class="line">WebPDecoderConfig config;</div><div class="line">int code2 = WebPInitDecoderConfig(&amp;config);</div><div class="line">printf(&quot;%d&quot;, code2);</div><div class="line"></div><div class="line">//解码，输入源为webp文件内容</div><div class="line">	VP8StatusCode code =  WebPDecode(imgData.bytes, imgData.length, &amp;config);</div><div class="line">printf(&quot;%d&quot;, code);</div><div class="line"></div><div class="line">//得到输出后数据</div><div class="line">UInt8* data = config.output.u.RGBA.rgba; //数据指针</div><div class="line">size_t size = config.output.u.RGBA.size;//大小</div><div class="line">size_t stride = config.output.u.RGBA.stride;//每行宽度</div><div class="line">WEBP_CSP_MODE colorspace = config.output.colorspace; //模式eg.RGB RGA等等</div><div class="line"></div><div class="line">//根据上面数据-这里以RGB为例创建CGImageRef</div><div class="line"></div><div class="line">CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, data, size, free_image_data);</div><div class="line"></div><div class="line">CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();</div><div class="line">CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;</div><div class="line">CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;</div><div class="line"></div><div class="line">//根据colorspace模式 下面参数有所不同。。注意！！！</div><div class="line">width = stride / 3 RGB</div><div class="line">height = size / stride //总长度/每行长度=高度</div><div class="line">RGB 所以是 24</div><div class="line"></div><div class="line">CGImageRef imageRef = CGImageCreate(stride / 3, size / stride, 8, 24, stride, colorSpaceRef, bitmapInfo, provider, NULL, YES, renderingIntent);</div><div class="line">UIImage *result = [UIImage imageWithCGImage:imageRef];</div></pre></td></tr></table></figure>
+<p>###编解码集成方法</p>
+<ul>
+<li>编码-推荐使用</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">//有损-常用</div><div class="line">WEBP_EXTERN(size_t) WebPEncodeRGB(const uint8_t* rgb,</div><div class="line">                                  int width, int height, int stride,</div><div class="line">                                  float quality_factor, uint8_t** output);</div><div class="line">WEBP_EXTERN(size_t) WebPEncodeBGR(const uint8_t* bgr,</div><div class="line">                                  int width, int height, int stride,</div><div class="line">                                  float quality_factor, uint8_t** output);</div><div class="line">WEBP_EXTERN(size_t) WebPEncodeRGBA(const uint8_t* rgba,</div><div class="line">                                   int width, int height, int stride,</div><div class="line">                                   float quality_factor, uint8_t** output);</div><div class="line">WEBP_EXTERN(size_t) WebPEncodeBGRA(const uint8_t* bgra,</div><div class="line">                                   int width, int height, int stride,</div><div class="line">                                   float quality_factor, uint8_t** output);</div><div class="line">//无损-不推荐</div><div class="line">WEBP_EXTERN(size_t) WebPEncodeLosslessRGB(const uint8_t* rgb,</div><div class="line">                                          int width, int height, int stride,</div><div class="line">                                          uint8_t** output);</div><div class="line">WEBP_EXTERN(size_t) WebPEncodeLosslessBGR(const uint8_t* bgr,</div><div class="line">                                          int width, int height, int stride,</div><div class="line">                                          uint8_t** output);</div><div class="line">WEBP_EXTERN(size_t) WebPEncodeLosslessRGBA(const uint8_t* rgba,</div><div class="line">                                           int width, int height, int stride,</div><div class="line">                                           uint8_t** output);</div><div class="line">WEBP_EXTERN(size_t) WebPEncodeLosslessBGRA(const uint8_t* bgra,</div><div class="line">                                           int width, int height, int stride,</div><div class="line">                                           uint8_t** output);</div></pre></td></tr></table></figure>
+<ul>
+<li>解码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">WEBP_EXTERN(int) WebPGetInfo(const uint8_t* data, size_t data_size,</div><div class="line">                             int* width, int* height);</div><div class="line"></div><div class="line">// Decodes WebP images pointed to by &apos;data&apos; and returns RGBA samples, along</div><div class="line">// with the dimensions in *width and *height. The ordering of samples in</div><div class="line">// memory is R, G, B, A, R, G, B, A... in scan order (endian-independent).</div><div class="line">// The returned pointer should be deleted calling free().</div><div class="line">// Returns NULL in case of error.</div><div class="line">WEBP_EXTERN(uint8_t*) WebPDecodeRGBA(const uint8_t* data, size_t data_size,</div><div class="line">                                     int* width, int* height);</div><div class="line"></div><div class="line">// Same as WebPDecodeRGBA, but returning A, R, G, B, A, R, G, B... ordered data.</div><div class="line">WEBP_EXTERN(uint8_t*) WebPDecodeARGB(const uint8_t* data, size_t data_size,</div><div class="line">                                     int* width, int* height);</div><div class="line"></div><div class="line">// Same as WebPDecodeRGBA, but returning B, G, R, A, B, G, R, A... ordered data.</div><div class="line">WEBP_EXTERN(uint8_t*) WebPDecodeBGRA(const uint8_t* data, size_t data_size,</div><div class="line">                                     int* width, int* height);</div><div class="line"></div><div class="line">// Same as WebPDecodeRGBA, but returning R, G, B, R, G, B... ordered data.</div><div class="line">// If the bitstream contains transparency, it is ignored.</div><div class="line">WEBP_EXTERN(uint8_t*) WebPDecodeRGB(const uint8_t* data, size_t data_size,</div><div class="line">                                    int* width, int* height);</div><div class="line"></div><div class="line">// Same as WebPDecodeRGB, but returning B, G, R, B, G, R... ordered data.</div><div class="line">WEBP_EXTERN(uint8_t*) WebPDecodeBGR(const uint8_t* data, size_t data_size,</div><div class="line">                                    int* width, int* height);</div></pre></td></tr></table></figure>
+<p>用集成方法，易用，如果想使用缩放等别的功能，还是要一步一步的来调用，总体来说，编码就是色彩原始数据eg. RGB数据-&gt;encode-&gt;webp文件，解码是webp文件-&gt;decode-&gt;RGB数据, 缩放webp可以是webp-&gt;decode-&gt;RGB数据-&gt;encode+rescale-&gt;webp。</p>
+<p>至于哪样方便，还是根据项目啊，关于gif到webp的编解码，文章后面再续吧^_^</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/02/2015-12-02-ios-imagepicker-plus/" rel="next" title="集成iOS照片选择器-MISImagePicker">
+                <i class="fa fa-chevron-left"></i> 集成iOS照片选择器-MISImagePicker
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/09/2015-12-09-ios-make-framework copy/" rel="prev" title="谈谈iOS静态库制作过程">
+                谈谈iOS静态库制作过程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/12/06/2015-12-06-ios-use-webp/"
+           data-title="说说webp图片在iOS上的使用" data-url="http://devm.cn/2015/12/06/2015-12-06-ios-use-webp/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

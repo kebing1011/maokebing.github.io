@@ -1,0 +1,795 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="平时，每当我看到好的文章时，都会收藏作者的博客主页，一有闲暇时间就会去逛逛。一路走来，已经收藏了好多网址，其中包括iOS技术开发，OSX使用等等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分享是一种美德">
+<meta property="og:url" content="http://devm.cn/2015/08/01/2015-08-01-share-blogs-for-ios/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="平时，每当我看到好的文章时，都会收藏作者的博客主页，一有闲暇时间就会去逛逛。一路走来，已经收藏了好多网址，其中包括iOS技术开发，OSX使用等等。">
+<meta property="og:updated_time" content="2015-08-01T15:38:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分享是一种美德">
+<meta name="twitter:description" content="平时，每当我看到好的文章时，都会收藏作者的博客主页，一有闲暇时间就会去逛逛。一路走来，已经收藏了好多网址，其中包括iOS技术开发，OSX使用等等。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> 分享是一种美德 | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                分享是一种美德
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-01T22:42:42+08:00" content="2015-08-01">
+              2015-08-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/08/01/2015-08-01-share-blogs-for-ios/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/01/2015-08-01-share-blogs-for-ios/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>平时，每当我看到好的文章时，都会收藏作者的博客主页，一有闲暇时间就会去逛逛。一路走来，已经收藏了好多网址，其中包括iOS技术开发，OSX使用等等。</p>
+<a id="more"></a>
+<p>###iOS中文博客:<br>列表主要来自<a href="http://blog.devtang.com" target="_blank" rel="external">唐巧的技术博客</a> 后面有我增加的.</p>
+<table>
+<thead>
+<tr>
+<th>博客地址</th>
+<th>RSS地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="http://onevcat.com" target="_blank" rel="external">OneV’s Den</a></td>
+<td><a href="http://onevcat.com/atom.xml" target="_blank" rel="external">http://onevcat.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://beyondvincent.com" target="_blank" rel="external">破船之家</a></td>
+<td><a href="http://beyondvincent.com/atom.xml" target="_blank" rel="external">http://beyondvincent.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://nshipster.cn" target="_blank" rel="external">NSHipster</a></td>
+<td><a href="http://nshipster.cn/feed.xml" target="_blank" rel="external">http://nshipster.cn/feed.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://blog.leezhong.com/" target="_blank" rel="external">Limboy 无网不剩</a></td>
+<td><a href="http://feeds.feedburner.com/lzyy" target="_blank" rel="external">http://feeds.feedburner.com/lzyy</a></td>
+</tr>
+<tr>
+<td><a href="http://blog.devtang.com" target="_blank" rel="external">唐巧的技术博客</a></td>
+<td><a href="http://blog.devtang.com/atom.xml" target="_blank" rel="external">http://blog.devtang.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://lexrus.com/" target="_blank" rel="external">Lex Tang</a></td>
+<td><a href="http://lexrus.com/feed.xml" target="_blank" rel="external">http://lexrus.com/feed.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://nianxi.net" target="_blank" rel="external">念茜的博客</a></td>
+<td><a href="http://nianxi.net/feed.xml" target="_blank" rel="external">http://nianxi.net/feed.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://blog.xcodev.com" target="_blank" rel="external">Xcode Dev</a></td>
+<td><a href="http://blog.xcodev.com/atom.xml" target="_blank" rel="external">http://blog.xcodev.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://wufawei.com/" target="_blank" rel="external">Ted’s Homepage</a></td>
+<td><a href="http://wufawei.com/feed" target="_blank" rel="external">http://wufawei.com/feed</a></td>
+</tr>
+<tr>
+<td><a href="http://blog.t-xx.me" target="_blank" rel="external">txx’s blog</a></td>
+<td><a href="http://blog.t-xx.me/atom.xml" target="_blank" rel="external">http://blog.t-xx.me/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://zhowkev.in" target="_blank" rel="external">Kevin Blog</a></td>
+<td><a href="http://zhowkev.in/rss" target="_blank" rel="external">http://zhowkev.in/rss</a></td>
+</tr>
+<tr>
+<td><a href="http://www.xiangwangfeng.com" target="_blank" rel="external">阿毛的蛋疼地</a></td>
+<td><a href="http://www.xiangwangfeng.com/atom.xml" target="_blank" rel="external">http://www.xiangwangfeng.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://billwang1990.github.io" target="_blank" rel="external">亚庆的 Blog</a></td>
+<td><a href="http://billwang1990.github.io/atom.xml" target="_blank" rel="external">http://billwang1990.github.io/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://nonomori.farbox.com" target="_blank" rel="external">Nonomori</a></td>
+<td><a href="http://nonomori.farbox.com/feed" target="_blank" rel="external">http://nonomori.farbox.com/feed</a></td>
+</tr>
+<tr>
+<td><a href="http://tang3w.com" target="_blank" rel="external">言无不尽</a></td>
+<td><a href="http://tang3w.com/atom.xml" target="_blank" rel="external">http://tang3w.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://wonderffee.github.io" target="_blank" rel="external">Wonderffee’s Blog</a></td>
+<td><a href="http://wonderffee.github.io/atom.xml" target="_blank" rel="external">http://wonderffee.github.io/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://imtx.me" target="_blank" rel="external">I’m TualatriX</a></td>
+<td><a href="http://imtx.me/feed/latest/" target="_blank" rel="external">http://imtx.me/feed/latest/</a></td>
+</tr>
+<tr>
+<td><a href="http://blog.cocoabit.com" target="_blank" rel="external">Cocoabit</a></td>
+<td><a href="http://blog.cocoabit.com/atom.xml" target="_blank" rel="external">http://blog.cocoabit.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://nixzhu.me" target="_blank" rel="external">nixzhu on scriptogr.am</a></td>
+<td><a href="http://nixzhu.me/feed" target="_blank" rel="external">http://nixzhu.me/feed</a></td>
+</tr>
+<tr>
+<td><a href="http://studentdeng.github.io" target="_blank" rel="external">不会开机的男孩</a></td>
+<td><a href="http://studentdeng.github.io/atom.xml" target="_blank" rel="external">http://studentdeng.github.io/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://blog.inico.me" target="_blank" rel="external">Nico</a></td>
+<td><a href="http://blog.inico.me/atom.xml" target="_blank" rel="external">http://blog.inico.me/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://hufeng825.github.io" target="_blank" rel="external">阿峰的技术窝窝</a></td>
+<td><a href="http://hufeng825.github.io/atom.xml" target="_blank" rel="external">http://hufeng825.github.io/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://answerhuang.duapp.com" target="_blank" rel="external">answer_huang</a></td>
+<td><a href="http://answerhuang.duapp.com/index.php/feed/" target="_blank" rel="external">http://answerhuang.duapp.com/index.php/feed/</a></td>
+</tr>
+<tr>
+<td><a href="http://blog.nswebfrog.com/" target="_blank" rel="external">webfrogs</a></td>
+<td><a href="http://blog.nswebfrog.com/feed/" target="_blank" rel="external">http://blog.nswebfrog.com/feed/</a></td>
+</tr>
+<tr>
+<td><a href="http://joeyio.com" target="_blank" rel="external">代码手工艺人</a></td>
+<td><a href="http://joeyio.com/atom.xml" target="_blank" rel="external">http://joeyio.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://gracelancy.com" target="_blank" rel="external">Lancy’s Blog</a></td>
+<td><a href="http://gracelancy.com/atom.xml" target="_blank" rel="external">http://gracelancy.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://www.imallen.com" target="_blank" rel="external">I’m Allen</a></td>
+<td><a href="http://www.imallen.com/atom.xml" target="_blank" rel="external">http://www.imallen.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://imi.im/" target="_blank" rel="external">Travis’ Blog</a></td>
+<td><a href="http://imi.im/feed" target="_blank" rel="external">http://imi.im/feed</a></td>
+</tr>
+<tr>
+<td><a href="http://wangzz.github.io/" target="_blank" rel="external">王中周的技术博客</a></td>
+<td><a href="http://wangzz.github.io/atom.xml" target="_blank" rel="external">http://wangzz.github.io/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://jiajun.org/" target="_blank" rel="external">会写代码的猪</a></td>
+<td><a href="http://gaosboy.com/feed/atom/" target="_blank" rel="external">http://gaosboy.com/feed/atom/</a></td>
+</tr>
+<tr>
+<td><a href="http://wangkewei.cnblogs.com/" target="_blank" rel="external">克伟的博客</a></td>
+<td><a href="http://feed.cnblogs.com/blog/u/23857/rss" target="_blank" rel="external">http://feed.cnblogs.com/blog/u/23857/rss</a></td>
+</tr>
+<tr>
+<td><a href="http://cnblogs.com/biosli" target="_blank" rel="external">摇滚诗人</a></td>
+<td><a href="http://feed.cnblogs.com/blog/u/35410/rss" target="_blank" rel="external">http://feed.cnblogs.com/blog/u/35410/rss</a></td>
+</tr>
+<tr>
+<td><a href="http://geeklu.com/" target="_blank" rel="external">Luke’s Homepage</a></td>
+<td><a href="http://geeklu.com/feed/" target="_blank" rel="external">http://geeklu.com/feed/</a></td>
+</tr>
+<tr>
+<td><a href="http://iiiyu.com/" target="_blank" rel="external">萧宸宇</a></td>
+<td><a href="http://iiiyu.com/atom.xml" target="_blank" rel="external">http://iiiyu.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://www.heyuan110.com/" target="_blank" rel="external">Yuan博客</a></td>
+<td><a href="http://www.heyuan110.com/?feed=rss2" target="_blank" rel="external">http://www.heyuan110.com/?feed=rss2</a></td>
+</tr>
+<tr>
+<td><a href="http://shiningio.com/" target="_blank" rel="external">Shining IO</a></td>
+<td><a href="http://shiningio.com/atom.xml" target="_blank" rel="external">http://shiningio.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://www.yifeiyang.net/" target="_blank" rel="external">YIFEIYANG–易飞扬的博客</a></td>
+<td><a href="http://www.yifeiyang.net/feed" target="_blank" rel="external">http://www.yifeiyang.net/feed</a></td>
+</tr>
+<tr>
+<td><a href="http://koofrank.com/" target="_blank" rel="external">KooFrank’s Blog</a></td>
+<td><a href="http://koofrank.com/rss" target="_blank" rel="external">http://koofrank.com/rss</a></td>
+</tr>
+<tr>
+<td><a href="http://helloitworks.com" target="_blank" rel="external">hello it works</a></td>
+<td><a href="http://helloitworks.com/feed" target="_blank" rel="external">http://helloitworks.com/feed</a></td>
+</tr>
+<tr>
+<td><a href="http://msching.github.io/" target="_blank" rel="external">码农人生</a></td>
+<td><a href="http://msching.github.io/atom.xml" target="_blank" rel="external">http://msching.github.io/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://yulingtianxia.com" target="_blank" rel="external">玉令天下的Blog</a></td>
+<td><a href="http://yulingtianxia.com/atom.xml" target="_blank" rel="external">http://yulingtianxia.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://www.hotobear.com/" target="_blank" rel="external">不掏蜂窝的熊</a></td>
+<td><a href="http://www.hotobear.com/?feed=rss2" target="_blank" rel="external">http://www.hotobear.com/?feed=rss2</a></td>
+</tr>
+<tr>
+<td><a href="https://andelf.github.io/" target="_blank" rel="external">猫·仁波切</a></td>
+<td><a href="https://andelf.github.io/atom.xml" target="_blank" rel="external">https://andelf.github.io/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://ivoryxiong.org/" target="_blank" rel="external">煲仔饭</a></td>
+<td><a href="http://ivoryxiong.org/feed.xml" target="_blank" rel="external">http://ivoryxiong.org/feed.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://adad184.com" target="_blank" rel="external">里脊串的开发随笔</a></td>
+<td><a href="http://adad184.com/atom.xml" target="_blank" rel="external">http://adad184.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://chun.tips/" target="_blank" rel="external">Chun Tips</a></td>
+<td><a href="http://chun.tips/atom.xml" target="_blank" rel="external">http://chun.tips/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://blog.callmewhy.com/" target="_blank" rel="external">Why’s blog - 汪海的实验室</a></td>
+<td><a href="http://blog.callmewhy.com/atom.xml" target="_blank" rel="external">http://blog.callmewhy.com/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://tutuge.me/" target="_blank" rel="external">土土哥的技术Blog</a></td>
+<td><a href="http://tutuge.me/atom.xml" target="_blank" rel="external">http://tutuge.me/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://www.olinone.com/" target="_blank" rel="external">庞海礁的个人空间 </a></td>
+<td><a href="http://www.olinone.com/?feed=rss2" target="_blank" rel="external">http://www.olinone.com/?feed=rss2</a></td>
+</tr>
+<tr>
+<td><a href="http://casatwy.com/" target="_blank" rel="external">Casa Taloyum</a></td>
+<td><a href="http://casatwy.com/feeds/all.atom.xml" target="_blank" rel="external">http://casatwy.com/feeds/all.atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://www.cnblogs.com/kenshincui/" target="_blank" rel="external">Kenshin Cui’s Blog</a></td>
+<td><a href="http://www.cnblogs.com/kenshincui/rss" target="_blank" rel="external">http://www.cnblogs.com/kenshincui/rss</a></td>
+</tr>
+<tr>
+<td><a href="http://suenblog.duapp.com/" target="_blank" rel="external">技术哥的博客</a></td>
+<td><a href="http://suenblog.duapp.com/rss/" target="_blank" rel="external">http://suenblog.duapp.com/rss/</a></td>
+</tr>
+<tr>
+<td><a href="http://southpeak.github.io" target="_blank" rel="external">南峰子的技术博客</a></td>
+<td><a href="http://southpeak.github.io/atom.xml" target="_blank" rel="external">http://southpeak.github.io/atom.xml</a></td>
+</tr>
+<tr>
+<td><a href="http://blog.sunnyxx.com" target="_blank" rel="external">sunnyxx的技术博客</a></td>
+<td><a href="http://blog.sunnyxx.com/atom.xml" target="_blank" rel="external">http://blog.sunnyxx.com/atom.xml</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>###iOS技术网站:<br>列表来自我的收藏!</p>
+<table>
+<thead>
+<tr>
+<th>网址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com" target="_blank" rel="external">https://github.com</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://stackoverflow.com" target="_blank" rel="external">http://stackoverflow.com</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://www.objc.io" target="_blank" rel="external">http://www.objc.io</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://subjc.com" target="_blank" rel="external">http://subjc.com</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://iosdevweekly.com" target="_blank" rel="external">http://iosdevweekly.com</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://nshipster.com" target="_blank" rel="external">http://nshipster.com</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://blog.appliedis.com" target="_blank" rel="external">http://blog.appliedis.com</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://blog.wilshipley.com" target="_blank" rel="external">http://blog.wilshipley.com</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://rentzsch.tumblr.com" target="_blank" rel="external">http://rentzsch.tumblr.com</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://iosdevelopertips.com" target="_blank" rel="external">http://iosdevelopertips.com</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://www.cimgf.com" target="_blank" rel="external">http://www.cimgf.com</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://iosfonts.com" target="_blank" rel="external">http://iosfonts.com</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://www.cocoanetics.com" target="_blank" rel="external">http://www.cocoanetics.com</a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href="http://www.raywenderlich.com" target="_blank" rel="external">http://www.raywenderlich.com</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/28/2015-07-28-share-time-refresh-lable/" rel="next" title="写一个易用的DateTimeLabel">
+                <i class="fa fa-chevron-left"></i> 写一个易用的DateTimeLabel
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/01/2015-08-01-talk-about-use-cache-for-ios/" rel="prev" title="谈谈NSCache这个类">
+                谈谈NSCache这个类 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/08/01/2015-08-01-share-blogs-for-ios/"
+           data-title="分享是一种美德" data-url="http://devm.cn/2015/08/01/2015-08-01-share-blogs-for-ios/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

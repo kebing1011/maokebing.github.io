@@ -1,0 +1,565 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="前言有时候为了提高性能，有些代码要用C/C++来实现，在iOS开发中可以直接使用C的源码，但方便最好还是做成模块或静态库，这些代码通过jni的native方法跟上层的java代码调用，从而可以完成跨平台使用。根据平台不同生成的库也不同：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JNI编程初探">
+<meta property="og:url" content="http://devm.cn/2015/12/29/2015-12-29-jni-coding copy/index.html">
+<meta property="og:site_name" content="Dev Tips">
+<meta property="og:description" content="前言有时候为了提高性能，有些代码要用C/C++来实现，在iOS开发中可以直接使用C的源码，但方便最好还是做成模块或静态库，这些代码通过jni的native方法跟上层的java代码调用，从而可以完成跨平台使用。根据平台不同生成的库也不同：">
+<meta property="og:updated_time" content="2016-10-08T14:54:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JNI编程初探">
+<meta name="twitter:description" content="前言有时候为了提高性能，有些代码要用C/C++来实现，在iOS开发中可以直接使用C的源码，但方便最好还是做成模块或静态库，这些代码通过jni的native方法跟上层的java代码调用，从而可以完成跨平台使用。根据平台不同生成的库也不同：">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"remove"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+
+  <title> JNI编程初探 | Dev Tips </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Dev Tips</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JNI编程初探
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-12-29T20:07:19+08:00" content="2015-12-29">
+              2015-12-29
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/12/29/2015-12-29-jni-coding copy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/29/2015-12-29-jni-coding copy/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>有时候为了提高性能，有些代码要用C/C++来实现，在iOS开发中可以直接使用C的源码，但方便最好还是做成模块或静态库，这些代码通过jni的native方法跟上层的java代码调用，从而可以完成跨平台使用。根据平台不同生成的库也不同：</p>
+<a id="more"></a>
+<ul>
+<li>Linux/Unix平台下，生成.so文件动态库。</li>
+<li>Mac OSX下生成.jnilib动态库。</li>
+<li>Windows下生成.DLL动态库。</li>
+</ul>
+<p>经过几天摸索，个人总结的jni的制作过程分为以下几步:</p>
+<ul>
+<li>开发C/C++代码，并调试完成。</li>
+<li>创建包及java公用native方法，生成标准接口的C的头文件。</li>
+<li>复制标准头文件的jni接口方法，到C的源文件，利用jni的提供的方法，进行java与c的数据转化。</li>
+<li>编程当前平的动态库。</li>
+<li>将动态库导入java工程，测试代码。</li>
+</ul>
+<p>###编写C/C++代码</p>
+<p>这个过程开发可以用Xcode来完成（建议），当然也可以用一般的文本工具。<br>Hello.c</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  Hello.c</div><div class="line">//  hello</div><div class="line">//</div><div class="line">//  Created by mao on 12/29/15.</div><div class="line">//  Copyright © 2015 mao. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#include "Hello.h"</div><div class="line"></div><div class="line"></div><div class="line">void show()</div><div class="line">&#123;</div><div class="line">	printf("Show Hello\n");</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Hello.h</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  Hello.h</div><div class="line">//  Hello</div><div class="line">//</div><div class="line">//  Created by mao on 12/29/15.</div><div class="line">//  Copyright © 2015 mao. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#ifndef Hello_h</div><div class="line">#define Hello_h</div><div class="line"></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line"></div><div class="line">void show();</div><div class="line"></div><div class="line">#endif /* Hello_h */</div></pre></td></tr></table></figure>
+<p>再写一个main.c来测试它。<br>main.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">//</div><div class="line">//  main.c</div><div class="line">//  hello</div><div class="line">//</div><div class="line">//  Created by Mao on 12/28/15.</div><div class="line">//  Copyright © 2015 mao. All rights reserved.</div><div class="line">//</div><div class="line"></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &quot;Hello.h&quot;</div><div class="line"></div><div class="line">int main(int argc, const char * argv[]) &#123;</div><div class="line">	</div><div class="line">	show();</div><div class="line">	</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>控制台输出:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Show Hello</div><div class="line">Program ended with exit code: 0</div></pre></td></tr></table></figure>
+<p>好，这个过程完成。</p>
+<p>###创建调用java的jni公用类<br>这个类只有一个show()方法，咱们完成它的java共用类.可以用eclips来完成，当然也可以用文本工具来完成，来建一个package，并新建一个Hello.java文件.</p>
+<p>Hello.java</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">package com.mao.hello;</div><div class="line"></div><div class="line">public class Hello &#123;</div><div class="line"></div><div class="line">	public static native void show();</div><div class="line">	</div><div class="line">	static &#123;</div><div class="line">		System.loadLibrary(&quot;hello&quot;);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>System.loadLibrary(&quot;hello&quot;);</code>这里加载的是库名，后面生成的跟这个有关,前后要一样。</p>
+<p>###生成调用jni的头文件<br>这个过程，咱们先命令完成，切到在java源文件src目录下用<code>javac</code>命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$src  javac com/mao/hello/Hello.java</div></pre></td></tr></table></figure>
+<p>生成Hello.class文件,用javah 命令生成.h头文件.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$javah com.mao.hello.Hello</div></pre></td></tr></table></figure>
+<p>ls一下，可见生成一个com_mao_hello_Hello.h头文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$src  ls</div><div class="line">com                   com_mao_hello_Hello.h</div></pre></td></tr></table></figure>
+<p>打开com_mao_hello_Hello.h:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">/* DO NOT EDIT THIS FILE - it is machine generated */</div><div class="line">#include &lt;jni.h&gt;</div><div class="line">/* Header for class com_mao_hello_Hello */</div><div class="line"></div><div class="line">#ifndef _Included_com_mao_hello_Hello</div><div class="line">#define _Included_com_mao_hello_Hello</div><div class="line">#ifdef __cplusplus</div><div class="line">extern &quot;C&quot; &#123;</div><div class="line">#endif</div><div class="line">/*</div><div class="line"> * Class:     com_mao_hello_Hello</div><div class="line"> * Method:    show</div><div class="line"> * Signature: ()V</div><div class="line"> */</div><div class="line">JNIEXPORT void JNICALL Java_com_mao_hello_Hello_show</div><div class="line">  (JNIEnv *, jclass);</div><div class="line"></div><div class="line">#ifdef __cplusplus</div><div class="line">&#125;</div><div class="line">#endif</div><div class="line">#endif</div></pre></td></tr></table></figure>
+<p>###使用jni方法实现交互</p>
+<p>我们将上面那个com_mao_hello_Hello.h 看着不顺眼，名子太长，改成hello.h，然后复制这个交互方法到Hello.c中，并实现。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line"> * Class:     com_mao_hello_Hello</div><div class="line"> * Method:    show</div><div class="line"> * Signature: ()V</div><div class="line"> */</div><div class="line">JNIEXPORT void JNICALL Java_com_mao_hello_Hello_show</div><div class="line">  (JNIEnv *env, jclass cls)</div><div class="line">  &#123;</div><div class="line">	  	show();</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>现在看一下生成规则，可以手动创建这个方法，<code>JNIEXPORT void JNICALL Java_com_mao_hello_Hello_show</code>, 前面的是固定的，而后面那个名子由包+类名+方法名组合的，参数必要包含<code>(JNIEnv *env, jclass cls)</code>这两个，你定义的参数，会在后面出现，int 会生成jint等等，这块类型转换请查看jni相应的api。<br>所以也可以手写完成。<br>如果用Xcode完成这块，jni.h这个头文件在JavaVM.framework这个里面，不能像加一般的动态库一样链接进去。这是用的C项目，在<code>Build Settings</code>-<code>Header Search Paths</code>里面增加对它的引用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/JavaVM.framework/Headers</div></pre></td></tr></table></figure>
+<p>这样，在Xcode里面可以调用jni的方法，去完成编写了。</p>
+<p>####编译成动态库</p>
+<ul>
+<li>在Xcode新建动态库，将Hello.c放入，生成为Hello.dylib的动态库。</li>
+<li>命令行完成,用gcc完成,cd到c目录:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ gcc -shared -fPIC -o Hello.dylib -I /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/System/Library/Frameworks/JavaVM.framework/Headers Hello.c</div></pre></td></tr></table></figure>
+<p>ls一下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ ls</div><div class="line">Hello.c     Hello.dylib Hello.h     main.c</div></pre></td></tr></table></figure>
+<p>好了，生成完毕。</p>
+<p>在linux上生成方法是一样的，也是用gcc来完成。</p>
+<p>####Android-NDK编译动态库<br>在Hello项目止录下，新建jni目录，把Hello.h, Hello.c放入，那个包Hello.java放入src中，在jni中新建Android.mk文件，主要是靠这个。<br>Android.mk:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">LOCAL_PATH := $(call my-dir)  </div><div class="line">include $(CLEAR_VARS) </div><div class="line">LOCAL_SRC_FILES := Hello.c</div><div class="line">LOCAL_MODULE := hello</div><div class="line">LOCAL_CFLAGS += -std=c99  </div><div class="line">include $(BUILD_SHARED_LIBRARY)</div></pre></td></tr></table></figure>
+<p>然后在命令行中切到这个工程目录下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ndk-build APP_ABI=&quot;all&quot;</div></pre></td></tr></table></figure>
+<p>完成后，会生成libs下多个架构的文件夹，里面有hello.so文件。<br>没有安装ndk环境的，请到官网下载，并设定好环境变量。</p>
+<p>刚开始操刀，好多没弄明白，感觉有以下难点：</p>
+<ul>
+<li>JNI接口中的C与java类型转变交互和内存管理.</li>
+<li>Android.mk的编写.</li>
+<li>有多个依赖库的情况.</li>
+<li>在windows下生成DLL方式未尝试.</li>
+<li>make文件编写未尝试.</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/12/23/2015-12-23-ntfs-for-mac/" rel="next" title="Mac读取NTFS分区方式">
+                <i class="fa fa-chevron-left"></i> Mac读取NTFS分区方式
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/12/31/2015-12-31-protocolbuffer/" rel="prev" title="protocol-buffers用于iOS">
+                protocol-buffers用于iOS <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/12/29/2015-12-29-jni-coding copy/"
+           data-title="JNI编程初探" data-url="http://devm.cn/2015/12/29/2015-12-29-jni-coding copy/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kebing1011</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"maokebing"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
